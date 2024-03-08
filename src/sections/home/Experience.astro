@@ -1,0 +1,23 @@
+---
+import Waves from "@/images/home/experience/waves.astro";
+---
+
+<section class="experience">
+	<h2 class="section__title">Experience and skills</h2>
+	<Waves
+		className="waves"
+		colorTop="oklch(var(--clr-background))"
+		colorMid="oklch(var(--clr-background))"
+		colorBottom="oklch(var(--clr-background))"
+	/>
+</section>
+
+<style>
+	.experience {
+		padding-block-start: var(--navbar-height);
+		scroll-padding-top: 0;
+		min-height: 100dvh;
+		background: oklch(var(--clr-primary));
+		position: relative;
+	}
+</style>

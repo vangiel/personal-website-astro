@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 
+import Education from "@/sections/home/Education.astro";
+import Experience from "@/sections/home/Experience.astro";
 import Header from "@/sections/home/Header.astro";
 import Projects from "@/sections/home/Projects.astro";
 ---
@@ -9,7 +11,24 @@ import Projects from "@/sections/home/Projects.astro";
 	<Header />
 	<main>
 		<Projects />
+		<Experience />
+		<Education />
 	</main>
 </Layout>
 
-<style></style>
+<style>
+	:global(h2.section__title) {
+		font-size: var(--fs-700);
+		font-weight: var(--fw-bold);
+		text-align: center;
+	}
+
+	:global(.waves) {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		max-height: 50%;
+		z-index: -1;
+	}
+</style>
