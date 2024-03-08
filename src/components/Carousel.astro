@@ -1,380 +1,126 @@
-<div class="carousel">
-	<div class="carousel__control"></div>
-	<div class="carousel__stage">
-		<div class="spinner spinner--left">
-			<div class="spinner__face js-active" data-bg="#27323c">
-				<div class="content" data-type="iceland">
-					<div class="content__left">
-						<h1>ICELAND<br /><span>EUROPE</span></h1>
-					</div>
-					<div class="content__right">
-						<div class="content__main">
-							<p>
-								“As I flew north to begin my third circuit of Iceland in four years, I was slightly
-								anxious. The number of visitors to Iceland has doubled in that period, and I feared
-								this might mean a little less magic to go around. At the end of this trip, 6000km
-								later, I'm thrilled to report that the magic levels remain high. It's found in
-								glorious football victories and Viking chants, kayaking among icebergs, sitting with
-								puffins under the midnight sun and crunching across brand-new lava fields.”
-							</p>
-							<p>– Carolyn Bain</p>
-						</div>
-						<h3 class="content__index">01</h3>
-					</div>
-				</div>
+---
+import traffic3DImage from "@/images/projects/traffic3D.png";
+import { Image } from "astro:assets";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+---
+
+<section class="carousel_section">
+	<!-- Slider main container -->
+	<div class="swiper">
+		<!-- Additional required wrapper -->
+		<div class="swiper-wrapper">
+			<!-- Slides -->
+			<div class="swiper-slide">
+				<h3 class="slide__title">Image Generation</h3>
+				<Image class="slide__img" src={traffic3DImage} alt="" />
+				<p class="slide__text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
+					neque quidem quibusdam.
+				</p>
 			</div>
-			<div class="spinner__face" data-bg="#19304a">
-				<div class="content" data-type="china">
-					<div class="content__left">
-						<h1>CHINA<br /><span>ASIA</span></h1>
-					</div>
-					<div class="content__right">
-						<div class="content__main">
-							<p>
-								“Its modern face is dazzling, but China is no one-trick pony. The world's oldest
-								continuous civilisation isn't all smoked glass and brushed aluminium and while you
-								won't be tripping over artefacts – three decades of round-the-clock development and
-								rash town-planning have taken their toll – rich seams of antiquity await.”
-							</p>
-							<p>– Damian Harper</p>
-						</div>
-						<h3 class="content__index">02</h3>
-					</div>
-				</div>
+			<div class="swiper-slide">
+				<h3 class="slide__title">Human-Aware Navigation</h3>
+				<Image class="slide__img" src={traffic3DImage} alt="" />
+				<p class="slide__text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
+					neque quidem quibusdam.
+				</p>
 			</div>
-			<div class="spinner__face" data-bg="#2b2533">
-				<div class="content" data-type="usa">
-					<div class="content__left">
-						<h1>USA<br /><span>NORTH AMERICA</span></h1>
-					</div>
-					<div class="content__right">
-						<div class="content__main">
-							<p>
-								“When it comes to travel, America has always floored me with its staggering range of
-								possibilities. Not many other countries have so much natural beauty – mountains,
-								beaches, rainforest, deserts, canyons, glaciers – coupled with fascinating cities to
-								explore, an unrivaled music scene and all the things that make travel so rewarding
-								(friendly locals, great restaurants and farmers markets, and plenty of quirky
-								surprises).”
-							</p>
-							<p>– Regis St Louis</p>
-						</div>
-						<h3 class="content__index">03</h3>
-					</div>
-				</div>
+			<div class="swiper-slide">
+				<h3 class="slide__title">Human Pose Estimation</h3>
+				<Image class="slide__img" src={traffic3DImage} alt="" />
+				<p class="slide__text">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
+					neque quidem quibusdam.
+				</p>
 			</div>
-			<div class="spinner__face" data-bg="#312f2d">
-				<div class="content" data-type="peru">
-					<div class="content__left">
-						<h1>PERU<br /><span>SOUTH AMERICA</span></h1>
-					</div>
-					<div class="content__right">
-						<div class="content__main">
-							<p>
-								“For me, Peru is the molten core of South America, a distillation of the oldest
-								traditions and the finest building, weaving and art made by the most sophisticated
-								cultures on the continent. In Peru the wildest landscapes – from frozen Andean peaks
-								to the deep Amazon – help us re-forge our connection to the natural world. It is
-								also a cultural stew, where diverse peoples live side by side, negotiating modern
-								life with humor and aplomb. Beyond that, the cuisine alone makes it worth the trip.
-								Every return is rich and surprising.”
-							</p>
-							<p>– Carolyn McCarthy</p>
-						</div>
-						<h3 class="content__index">04</h3>
-					</div>
-				</div>
-			</div>
+			<!-- Pagination -->
+			<div class="swiper-pagination"></div>
+
+			<!-- Navigation buttons -->
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
 		</div>
 	</div>
-</div>
 
-<style>
-	.carousel {
-		--_page-margin-y: 20px;
-		--_page-margin-x: 20px;
-
-		--_width: calc(50vw - var(--_page-margin-x));
-		--_half-width: calc(50vw - var(--_page-margin-x) / 2);
-		--_neg-half-width: calc(-25vw + var(--_page-margin-x) / 2);
-
-		--_height: calc(100vh - var(--_page-margin-y) * 2);
-		--_half-height: calc(50vh - var(--_page-margin-y));
-		--_neg-half-height: calc(-50vh + var(--_page-margin-y));
-
-		--_transition-dur: 1s;
-
-		position: relative;
-		height: 70%;
-		overflow: hidden;
-		perspective: 50vw;
-		perspective-origin: 50% 50%;
-	}
-
-	.carousel__control {
-		position: absolute;
-		height: 160px;
-		width: 40px;
-		background: #fff;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		margin: auto;
-		z-index: 1;
-
-		a {
+	<style>
+		.carousel_section {
+			padding-block-start: var(--navbar-height);
+			height: 50%;
 			position: relative;
-			display: block;
-			width: 100%;
-			padding-top: 75%;
-			box-sizing: border-box;
-		}
 
-		&:hover:before {
-			background-color: rgba(0, 0, 0, 0.4);
-		}
-
-		&.active:before &.active:hover:before {
-			background-color: rgba(0, 0, 0, 0.6);
-		}
-
-		&:first-child {
-			margin-top: 15px;
-		}
-
-		&:before {
-			content: "";
-			display: block;
-			position: absolute;
-			top: 50%;
-			left: 0;
-			right: 0;
-
-			margin: auto;
-			margin-top: -12.5%;
-			padding-top: 25%;
-			width: 25%;
-
-			border-radius: 50%;
-			background: rgba(0, 0, 0, 0.2);
-		}
-	}
-
-	.carousel__stage {
-		position: absolute;
-		top: var(--_page-margin-y);
-		bottom: var(--_page-margin-y);
-		left: var(--_page-margin-x);
-		right: var(--_page-margin-x);
-		margin: auto;
-		transform-style: preserve-3d;
-		transform: translateZ(var(--_neg-half-height));
-	}
-
-	.spinner {
-		position: absolute;
-		width: var(--_width);
-		height: var(--_height);
-		top: 0;
-		left: 0;
-		right: auto;
-		bottom: 0;
-		margin: auto;
-		transform-style: preserve-3d;
-		transition: transform var(--_transition-dur);
-		backface-visibility: hidden;
-		transform-origin: 50% 50%;
-		transform: rotateX(0);
-
-		.js-spin-fwd & {
-			transform: rotateX(-90deg);
-		}
-
-		.js-spin-bwd & {
-			transform: rotateX(90deg);
-		}
-	}
-
-	.spinner-right {
-		right: 0;
-		left: auto;
-
-		.js-spin-fwd {
-			transform: rotateX(90deg);
-		}
-		.js-spin-bwd {
-			transform: rotateX(-90deg);
-		}
-	}
-
-	.spinner__face {
-		display: none;
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-
-		&.js-next {
-			display: block;
-			transform: rotateX(90deg) translateZ(var(--_half-height));
-		}
-
-		.spinner--right & {
-			transform: rotateX(270deg) translateZ(var(--_half-height));
-		}
-
-		.js-spin-bwd & {
-			&.js-next {
-				transform: rotateX(-90deg) translateZ(var(--_half-height));
+			.swiper-pagination {
+				.swiper-pagination-bullet {
+					opacity: 0.5;
+					background: orange;
+				}
+				.swiper-pagination-bullet-active {
+					opacity: 1;
+					background: orange;
+				}
 			}
 		}
-	}
 
-	.js-spin-bwd {
-		.spinner--right {
-			.spinner__face.js-next {
-				transform: rotateX(-270deg) translateZ(var(--_half-height));
-			}
-		}
-	}
-
-	.js-active {
-		display: block;
-		transform: translateZ(var(--_half-height));
-	}
-
-	/* Content */
-	.content {
-		position: absolute;
-		width: 200%;
-		height: 100%;
-		left: 0;
-
-		.spinner--right & {
-			left: -100%;
-		}
-	}
-
-	.content__left,
-	.content__right {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 50%;
-		height: 100%;
-	}
-
-	.content__right {
-		right: 0;
-		left: auto;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		.content__main {
-			position: absolute;
-			font-family: var(--ff-base), serif;
-			text-align: left;
-			color: #fff;
-			font-size: 1.3vw;
-			padding: 0 8vw;
-			line-height: 1.65;
-			font-weight: 300;
-			margin: 0;
-			opacity: 0.8;
-		}
-
-		p:last-child {
-			text-transform: uppercase;
-			letter-spacing: 0.15em;
-			font-size: 0.85em;
-		}
-
-		.content__index {
-			font-size: 30vh;
-			position: absolute;
-			right: -1vh;
-			top: 35vh;
-			opacity: 0.04;
-			font-family: var(--ff-accent);
-			color: #fff;
-		}
-	}
-
-	.content__left {
-		background-repeat: no-repeat;
-		background-size: cover;
-
-		&:after {
-			position: absolute;
-			display: block;
-			content: "";
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0, 0, 0, 0.1);
-		}
-
-		h1 {
-			position: absolute;
-			top: 50%;
-			margin-top: -3vw;
+		.swiper-slide {
 			text-align: center;
-			font-family: var(--ff-accent);
-			font-size: 5vw;
-			height: 10vw;
-			opacity: 1;
-			color: #fff;
-			width: 100%;
-			letter-spacing: 0.15em;
-			line-height: 0.6;
-		}
+			color: oklch(var(--clr-text-invert));
+			background: oklch(var(--clr-text));
+			position: relative;
 
-		span {
-			font-size: 1vw;
-			font-weight: 300;
-			letter-spacing: 0.2em;
-			opacity: 0.9;
-			font-family: var(--ff-base);
-		}
-	}
+			.slide__title {
+				display: block;
+				text-align: center;
+				line-height: 5rem;
+				padding-inline: 1.5rem;
+				border-radius: 10px;
+				box-shadow: 0px 0px 10px 1px oklch(var(--clr-neutral-900));
 
-	[data-type="iceland"] {
-		.content__left {
-			background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/215059/iceland.jpg");
+				position: absolute;
+				top: 1.5rem;
+				right: 50%;
+				transform: translateX(50%);
 
-			.spinner--right & {
-				background-image: none;
+				font-size: var(--fs-600);
+				font-weight: var(--fw-bold);
+
+				color: oklch(var(--clr-accent));
+				background: oklch(var(--clr-text-invert));
+			}
+
+			.slide__img {
+				display: block;
+				width: 100%;
+				height: auto;
+				object-fit: contain;
 			}
 		}
-	}
+	</style>
 
-	[data-type="china"] {
-		.content__left {
-			background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/215059/china.jpg");
-		}
+	<script type="module">
+		import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
 
-		.spinner--right & {
-			background-image: none;
-		}
-	}
-
-	[data-type="usa"] {
-		.content__left {
-			background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/215059/usa.jpg");
-		}
-
-		.spinner--right & {
-			background-image: none;
-		}
-	}
-
-	[data-type="peru"] {
-		.content__left {
-			background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/215059/peru.jpg");
-		}
-
-		.spinner--right & {
-			background-image: none;
-		}
-	}
-</style>
+		var swiper = new Swiper(".swiper", {
+			loop: true,
+			effect: "coverflow",
+			grabCursor: true,
+			centeredSlides: true,
+			slidesPerView: 3,
+			coverflowEffect: {
+				rotate: 0,
+				stretch: 0,
+				depth: 350,
+				modifier: 1,
+				slideShadows: true,
+			},
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
+			pagination: {
+				el: ".swiper-pagination",
+			},
+		});
+	</script>
+</section>
