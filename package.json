@@ -1,0 +1,41 @@
+{
+  "name": "personal-website",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lint": "eslint --ext .astro,.ts,.js,.tsx .",
+    "lint:fix": "eslint --ext .astro,.ts,.js,.tsx . --fix",
+    "format": "prettier --write src",
+    "format:check": "prettier --check src"
+  },
+  "dependencies": {
+    "@astrojs/check": "0.5.6",
+    "@fontsource-variable/roboto-flex": "5.0.12",
+    "@fontsource/oleo-script": "5.0.8",
+    "astro": "4.4.9",
+    "astro-icon": "1.1.0"
+  },
+  "devDependencies": {
+    "@csstools/postcss-global-data": "2.1.1",
+    "@typescript-eslint/eslint-plugin": "7.1.0",
+    "@typescript-eslint/parser": "7.1.0",
+    "autoprefixer": "10.4.18",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-astro": "0.31.4",
+    "eslint-plugin-jsx-a11y": "6.8.0",
+    "lightningcss": "1.24.0",
+    "postcss": "8.4.35",
+    "postcss-csso": "6.0.1",
+    "postcss-custom-media": "10.0.3",
+    "postcss-preset-env": "9.4.0",
+    "prettier": "3.2.5",
+    "prettier-plugin-astro": "0.13.0",
+    "typescript": "5.4.2"
+  }
+}

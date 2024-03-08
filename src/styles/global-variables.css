@@ -1,0 +1,56 @@
+:root {
+	/* Base colours definition */
+	--clr-light: 90.42% 0.003 246.86;
+
+	--clr-purple-100: 97% 0.021 313.23;
+	--clr-purple-200: 89% 0.051 313.23;
+	--clr-purple-300: 80% 0.123 313.23;
+	--clr-purple-400: 71% 0.182 313.23;
+	--clr-purple-500: 60% 0.257 313.23;
+	--clr-purple-600: 49% 0.182 313.23;
+	--clr-purple-700: 38% 0.123 313.23;
+	--clr-purple-800: 25% 0.051 313.23;
+	--clr-purple-900: 12% 0.021 313.23;
+
+	--clr-yellow-100: 97% 0.021 70.86;
+	--clr-yellow-200: 89% 0.051 70.86;
+	--clr-yellow-300: 80% 0.123 70.86;
+	--clr-yellow-400: 71% 0.182 70.86;
+	--clr-yellow-500: 60% 0.257 70.86;
+	--clr-yellow-600: 49% 0.182 70.86;
+	--clr-yellow-700: 38% 0.123 70.86;
+	--clr-yellow-800: 25% 0.051 70.86;
+	--clr-yellow-900: 12% 0.021 70.86;
+
+	--clr-neutral-100: 97% 0.021 253.72;
+	--clr-neutral-200: 89% 0.051 253.72;
+	--clr-neutral-300: 80% 0.123 253.72;
+	--clr-neutral-400: 71% 0.182 253.72;
+	--clr-neutral-500: 60% 0.257 253.72;
+	--clr-neutral-600: 49% 0.182 253.72;
+	--clr-neutral-700: 38% 0.123 253.72;
+	--clr-neutral-800: 25% 0.051 253.72;
+	--clr-neutral-900: 18% 0.021 253.72;
+
+	/* font weights */
+	--fw-regular: 500;
+	--fw-bold: 600;
+	--fw-black: 700;
+	--fw-extra-bold: 900;
+
+	/* font sizes */
+	--fs-300: 1rem;
+	--fs-400: 1.5rem;
+	--fs-500: 1.75rem;
+	--fs-600: 2.25rem;
+	--fs-700: 2.75rem;
+	--fs-800: 3.25rem;
+	--fs-900: 4.15rem;
+
+	/* Global sizes  and breakpoints */
+	--max-main-width: 60ch;
+	--navbar-height: 8rem;
+
+	@custom-media --bp-mobile only screen and (width <= 650px);
+	@custom-media --bp-tablet only screen and (width <= 900px);
+}

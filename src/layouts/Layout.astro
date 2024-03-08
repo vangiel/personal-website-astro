@@ -1,0 +1,99 @@
+---
+import NavHeader from "@/components/NavHeader.astro";
+import "@/styles/global-variables.css";
+import "@/styles/reset.css";
+import "@fontsource-variable/roboto-flex";
+import "@fontsource/oleo-script";
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="description"
+			content="This is the Daniel Rodriguez Criado's personal website and protfolio"
+		/>
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=4" />
+		<meta name="color-schmeme" content="light dark" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Dr Daniel | {title}</title>
+	</head>
+	<body>
+		<NavHeader pageActive={title} />
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		/* Light mode */
+		&[data-theme="☀️"] {
+			color-scheme: light;
+			--clr-background: var(--clr-light);
+
+			--clr-text: var(--clr-neutral-800);
+			--clr-text-invert: var(--clr-light);
+
+			--clr-primary: var(--clr-yellow-300);
+			--clr-secondary: var(--clr-neutral-500);
+			--clr-accent: var(--clr-purple-400);
+
+			--bg-img-home: url(../images/home/light-bg.png);
+		}
+
+		/* Dark mode */
+		&[data-theme="🌑"] {
+			color-scheme: dark;
+			--clr-background: var(--clr-neutral-800);
+
+			--clr-text: var(--clr-light);
+			--clr-text-invert: var(--clr-neutral-800);
+
+			--clr-primary: var(--clr-yellow-300);
+			--clr-secondary: var(--clr-neutral-500);
+			--clr-accent: var(--clr-purple-400);
+
+			--bg-img-home: url(../images/home/dark-bg.png);
+		}
+
+		/* Font families */
+		--ff-base: "Roboto Flex Variable", system-ui, sans-serif;
+		--ff-accent: "oleo-script", cursive, serif;
+	}
+
+	html {
+		color-scheme: dark light;
+		color: oklch(var(--clr-text));
+		font-family: var(--ff-base);
+		background-color: oklch(var(--clr-background));
+
+		@media screen and (prefers-reduced-motion: no-preference) {
+			scroll-behavior: smooth;
+		}
+	}
+
+	/* Utility classes: */
+	.visually-hidden:not(:focus):not(:active) {
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		height: 1px;
+		overflow: hidden;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+
+	.wrapper {
+		/* width: min(100% - 2rem, var(--max-width, 70ch)); */
+		max-width: var(--max-main-width, 70ch);
+		margin-inline: auto;
+	}
+</style>

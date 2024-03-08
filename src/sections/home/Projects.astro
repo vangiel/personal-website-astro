@@ -1,0 +1,24 @@
+---
+import Carousel from "@/components/Carousel.astro";
+---
+
+<section id="projects">
+	<h2 class="section__title">A glimpse my work</h2>
+	<Carousel />
+</section>
+
+<style>
+	#projects {
+		display: grid;
+		place-items: center;
+		padding-block-start: var(--navbar-height);
+		scroll-padding-top: 0;
+		height: 100dvh;
+	}
+
+	.section__title {
+		font-size: var(--fs-700);
+		font-weight: var(--fw-bold);
+		text-align: center;
+	}
+</style>

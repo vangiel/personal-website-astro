@@ -1,0 +1,83 @@
+---
+import { Icon } from "astro-icon/components";
+import { DARK_THEME, LIGHT_THEME } from "@/consts/themes";
+---
+
+<button id="themeToggle">
+	<Icon name="themes/republic" class="dark-icon" />
+	<Icon name="themes/rebel" class="light-icon" />
+	<span class="visually-hidden"></span>
+</button>
+
+<style>
+	#themeToggle {
+		width: 2.8rem;
+		aspect-ratio: 1;
+	}
+
+	.dark-icon {
+		height: 100%;
+		width: 100%;
+		display: none;
+		color: var(--clr-text);
+	}
+
+	.light-icon {
+		height: 100%;
+		width: 100%;
+		color: var(--clr-text);
+	}
+
+	:global([data-theme="🌑"]) .light-icon {
+		display: none;
+	}
+
+	:global([data-theme="🌑"]) .dark-icon {
+		display: inline;
+	}
+</style>
+
+<script is:inline define:vars={{ DARK_THEME, LIGHT_THEME }}>
+	function handleToggleClick() {
+		const element = document.documentElement;
+
+		element.getAttribute("data-theme") === "☀️"
+			? element.setAttribute("data-theme", "🌑")
+			: element.setAttribute("data-theme", "☀️");
+
+		const isDark = element.getAttribute("data-theme") === "🌑";
+		localStorage.setItem("theme", isDark ? DARK_THEME : LIGHT_THEME);
+
+		const theme = getTheme();
+		updateThemeMessage(theme);
+	}
+
+	function getTheme() {
+		if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+			return localStorage.getItem("theme");
+		}
+		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+			return DARK_THEME;
+		}
+		return LIGHT_THEME;
+	}
+
+	function updateThemeMessage(theme) {
+		const translation = theme === DARK_THEME ? "dark" : "light";
+		const actualThemeMsg = `Toggle theme, the current theme is ${translation}`;
+		const span = document.querySelector("span.visually-hidden");
+		span.innerHTML = actualThemeMsg;
+	}
+
+	const theme = getTheme();
+	updateThemeMessage(theme);
+
+	if (theme === LIGHT_THEME) {
+		document.documentElement.setAttribute("data-theme", "☀️");
+	} else {
+		document.documentElement.setAttribute("data-theme", "🌑");
+	}
+
+	window.localStorage.setItem("theme", theme);
+	document.getElementById("themeToggle").addEventListener("click", handleToggleClick);
+</script>

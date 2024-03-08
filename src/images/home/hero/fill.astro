@@ -1,0 +1,30 @@
+---
+interface Props {
+	className: string;
+	gradFrom: string;
+	gradStop: string;
+	gradTo: string;
+}
+
+const { className, gradFrom, gradStop, gradTo } = Astro.props;
+---
+
+<svg class={className} viewBox="0 0 663 392" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<path
+		d="M0.266032 159.262C23.7839 239.054 80.5987 307.233 158.212 348.799C235.825 390.366 327.879 401.915 414.123 380.907C500.366 359.898 573.735 308.053 618.089 236.776C662.443 165.499 674.148 80.6296 650.63 0.837338L325.448 80.0497L0.266032 159.262Z"
+		fill="url(#paint0_linear_8_10)"></path>
+	<defs>
+		<linearGradient
+			id="paint0_linear_8_10"
+			x1="1.04957"
+			y1="27.7071"
+			x2="556.616"
+			y2="-134.296"
+			gradientUnits="userSpaceOnUse"
+		>
+			<stop stop-color={gradFrom}></stop>
+			<stop offset="0.520264" stop-color={gradStop}></stop>
+			<stop offset="1" stop-color={gradTo}></stop>
+		</linearGradient>
+	</defs>
+</svg>

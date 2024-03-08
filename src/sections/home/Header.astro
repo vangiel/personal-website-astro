@@ -1,0 +1,191 @@
+---
+import PrimaryButton from "@/components/PrimaryButton.astro";
+import yoImage from "@/images/home/hero/you-y-robot.png";
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+---
+
+<header>
+	<article class="hero-section">
+		<div class="hero__text">
+			<h1>Hey I am Daniel!</h1>
+			<p>
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos architecto alias cupiditate
+				autem ipsum, eveniet ipsa a! Aperiam culpa sunt unde dignissimos, veritatis delectus error
+				similique nemo velit. Iusto, excepturi?
+			</p>
+			<PrimaryButton reference="../documents/Daniel_Rodriguez_CV_EN.pdf" target={true}>
+				Download CV
+			</PrimaryButton>
+			<PrimaryButton reference="/contact-me/"> Contact me </PrimaryButton>
+			<div class="social-media">
+				<a target="_blank" href="https://github.com/vangiel"> <Icon name="social/github" /> </a>
+				<a
+					target="_blank"
+					href="https://www.linkedin.com/in/daniel-rodr%C3%ADguez-criado-phd-6967626a/"
+				>
+					<Icon name="social/linkedin" />
+				</a>
+				<a target="_blank" href="https://orcid.org/0000-0003-0562-531X">
+					<Icon name="social/orcid" />
+				</a>
+				<a target="_blank" href="https://www.researchgate.net/profile/Daniel-Rodriguez-Criado">
+					<Icon name="social/researchgate" />
+				</a>
+				<a target="_blank" href="https://twitter.com/danirocri">
+					<Icon name="social/square-x-twitter" />
+				</a>
+			</div>
+		</div>
+		<Image
+			class="hero__image"
+			src={yoImage}
+			width={yoImage.width / 1.5}
+			densities={[1.5, 2]}
+			alt="Daniel Rodriguez with a robot"
+		/>
+	</article>
+	<div class="continue_arrow">
+		<h4>More about me</h4>
+		<a href="#projects">
+			<Icon name="home/arrow-down" />
+		</a>
+	</div>
+</header>
+
+<style>
+	header {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-height: 100dvh;
+
+		background-image: linear-gradient(
+				to bottom,
+				oklch(var(--clr-background) / 0.9),
+				oklch(var(--clr-background) / 0.3)
+			),
+			radial-gradient(ellipse at top, transparent 30%, oklch(var(--clr-background)) 80%),
+			var(--bg-img-home);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		background-attachment: fixed;
+
+		clip-path: polygon(100% 0, 100% 90%, 50% 100%, 0 90%, 0 0);
+	}
+
+	.hero-section {
+		display: flex;
+		align-items: center;
+		gap: 6rem;
+
+		width: fit-content;
+		margin: auto;
+		padding-block-start: 10rem;
+
+		.hero__text {
+			width: clamp(2rem, 30vw, 50rem);
+			h1 {
+				font-family: var(--ff-accent);
+				font-size: var(--fs-900);
+				font-weight: var(--fw-bold);
+			}
+			p {
+				font-size: var(--fs-500);
+				padding-block-end: 2rem;
+			}
+
+			.social-media {
+				display: flex;
+				justify-content: space-between;
+				padding-block-start: 1.2rem;
+				max-width: 40%;
+				font-size: 3rem;
+
+				& > * {
+					transition: all 0.2s ease-in-out;
+				}
+
+				& > *:hover {
+					transform: scale(1.2);
+				}
+			}
+		}
+
+		.hero__image {
+			display: block;
+			max-height: clamp(30rem, 50vh, 90rem);
+			width: auto;
+			object-fit: contain;
+			padding-inline-end: 5rem;
+			padding-inline-start: 3rem;
+
+			background: no-repeat url("../../images/home/hero/fill.svg");
+			background-origin: padding-box;
+			background-position: bottom 0.15rem right;
+			background-size: 100% 50%;
+		}
+
+		@media (--bp-mobile) {
+			flex-direction: column;
+			justify-content: center;
+			gap: 2rem;
+			padding-block-start: 2rem;
+			padding-block-end: 5rem;
+
+			.hero__text {
+				order: 2;
+				width: 90%;
+				text-align: center;
+			}
+
+			.hero__image {
+				margin-block: 2rem;
+			}
+		}
+	}
+
+	.continue_arrow {
+		margin-top: auto;
+		text-align: center;
+
+		h4 {
+			font-family: var(--ff-accent);
+			font-size: var(--fs-700);
+			font-weight: var(--fw-bold);
+			padding-inline-end: 0.5em;
+			padding-block-end: 0.2em;
+		}
+
+		[data-icon="home/arrow-down"] {
+			padding-block-start: 1rem;
+			padding-block-end: 2rem;
+			font-size: 5.5rem;
+			transform: scaleX(3);
+
+			cursor: pointer;
+			animation: bounce 2s ease infinite;
+		}
+
+		@media (--bp-mobile) {
+			display: none;
+		}
+	}
+
+	@keyframes bounce {
+		0%,
+		20%,
+		50%,
+		80%,
+		100% {
+			transform: translateY(0) scaleX(3);
+		}
+		40% {
+			transform: translateY(-20px) scaleX(2);
+		}
+		60% {
+			transform: translateY(-10px) scaleX(2);
+		}
+	}
+</style>

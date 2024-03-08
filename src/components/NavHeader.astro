@@ -1,0 +1,219 @@
+---
+import { Icon } from "astro-icon/components";
+import ThemeToggle from "./ThemeToggle.astro";
+import Hamburger from "@/icons/nav-icons/hamburger.astro";
+import Logo from "@/icons/logo.astro";
+
+interface Props {
+	pageActive: string;
+}
+
+const { pageActive } = Astro.props;
+
+let primaryColor = "oklch(var(--clr-primary))";
+let accentColor = "oklch(var(--clr-accent))";
+---
+
+<Hamburger />
+
+<div class="nav-container">
+	<div class="logo-theme">
+		<a href="/">
+			<Logo className="logo__img" gradFrom={primaryColor} gradTo={accentColor} />
+		</a>
+		<ThemeToggle />
+	</div>
+	<nav id="main-nav">
+		<ul role="menubar">
+			<li role="none">
+				<a class:list={["menu-item", { active: pageActive === "Home" }]} href="/"
+					><Icon name="nav-icons/home" />
+					Home
+				</a>
+			</li>
+			<li role="none">
+				<a class:list={["menu-item", { active: pageActive === "Projects" }]} href="/projects/"
+					><Icon name="nav-icons/projects" />
+					Projects
+				</a>
+			</li>
+			<li role="none">
+				<a
+					class:list={["menu-item", { active: pageActive === "Publications" }]}
+					href="/publications/"
+				>
+					<Icon name="nav-icons/publications" />
+					Publications
+				</a>
+			</li>
+			<li role="none">
+				<a class:list={["menu-item", { active: pageActive === "Blog" }]} href="/blog/">
+					<Icon name="nav-icons/blog" />
+					Blog
+				</a>
+			</li>
+			<li role="none">
+				<a class:list={["menu-item", { active: pageActive === "Contact me" }]} href="/contact-me/">
+					<Icon name="nav-icons/contact" />
+					Contact me
+				</a>
+			</li>
+		</ul>
+
+		<style>
+			.nav-container {
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+
+				height: var(--navbar-height);
+				padding-inline: min(1rem, 2vw);
+
+				position: fixed;
+				top: 0;
+				inset: 0;
+				z-index: 10;
+
+				animation: blur linear both;
+				animation-timeline: scroll();
+				animation-range: 0 500px;
+
+				.logo-theme {
+					display: flex;
+					align-items: center;
+					flex-shrink: 0;
+					gap: 2rem;
+
+					a {
+						display: flex;
+						align-items: center;
+					}
+
+					:global(.logo__img) {
+						height: 5rem;
+						width: 5rem;
+					}
+				}
+			}
+
+			@keyframes blur {
+				to {
+					box-shadow:
+						0px 5px 50px -5px oklch(var(--clr-background) / 0.1),
+						0px 0px 0px 1px oklch(var(--clr-neutral-800) / 0.3);
+					background-color: oklch(var(--clr-background) / 0.6);
+					backdrop-filter: blur(10px);
+				}
+			}
+
+			#main-nav > ul {
+				display: flex;
+				gap: 1.5rem;
+				align-items: center;
+				justify-content: center;
+
+				a {
+					display: flex;
+					align-items: center;
+					gap: 0.5rem;
+
+					line-height: 3rem;
+					padding-inline: 1rem;
+					border-radius: 0.5rem;
+					font-weight: var(--fw-bold);
+				}
+
+				.active,
+				a:hover,
+				a:focus {
+					background: oklch(var(--clr-accent));
+					color: oklch(var(--clr-text-invert));
+				}
+			}
+
+			@media (--bp-mobile) {
+				.nav-container {
+					visibility: hidden;
+				}
+
+				:global(#themeToggle) {
+					visibility: visible;
+					position: absolute;
+					top: 4rem;
+					right: 4rem;
+					z-index: 10;
+				}
+
+				:global(#menu-toggle:checked) ~ .nav-container {
+					visibility: visible;
+					display: flex;
+					flex-direction: column;
+					justify-content: flex-start;
+					align-items: center;
+					padding-block-start: 10rem;
+
+					position: fixed;
+					height: 100vh;
+					inset: 0;
+					background-color: oklch(var(--clr-text) / 0.5);
+					backdrop-filter: blur(8px);
+					color: oklch(var(--clr-text-invert));
+
+					#main-nav > ul {
+						flex-direction: column;
+						gap: 2rem;
+						align-items: center;
+						font-size: var(--fs-800);
+
+						a {
+							line-height: 4.4rem;
+						}
+					}
+
+					.logo-theme {
+						padding-block-end: 9rem;
+
+						:global(.logo__img) {
+							width: 12rem;
+							height: 12rem;
+						}
+					}
+				}
+			}
+
+			@media (--bp-tablet) {
+				#main-nav > ul {
+					gap: 0.7rem;
+					flex-shrink: 0;
+				}
+				.nav-container .logo-theme {
+					gap: 0.5rem !important;
+				}
+			}
+		</style>
+
+		<script>
+			const menuItems = document.querySelectorAll(".menu-item");
+			const activeElement = document.querySelector(".active");
+			const mainNav = document.querySelector("#main-nav");
+
+			menuItems.forEach((element) => {
+				element.addEventListener("mouseover", () => {
+					menuItems.forEach((item) => {
+						if (item.classList.contains("active")) {
+							item.classList.remove("active");
+						}
+					});
+				});
+			});
+
+			if (mainNav != null) {
+				mainNav.addEventListener("mouseleave", () => {
+					if (activeElement != null) {
+						activeElement.classList.add("active");
+					}
+				});
+			}
+		</script>
+	</nav>
+</div>
