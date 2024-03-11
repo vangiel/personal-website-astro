@@ -1,11 +1,226 @@
 <section class="education">
 	<h2 class="section__title">Education</h2>
+
+	<section class="education-timeline timeline">
+		<div class="timeline__row">
+			<div class="timeline__element">
+				<h2 class="title">PhD in Deep Learning in Graph Domains for Sensorised Environments</h2>
+				<h3 class="university">Aston University</h3>
+				<p class="copy">
+					My doctoral thesis at Aston University explored the intersection of deep learning and
+					graph neural networks (GNNs) in sensorized environments. I focused on three key
+					application areas: Human-Aware Navigation for robots, Human Pose Estimation, and Traffic
+					Image Generation.
+				</p>
+				<h3 class="date">Oct 2019 - Dec 2023</h3>
+			</div>
+		</div>
+		<div class="timeline__row">
+			<div class="timeline__element">
+				<h2 class="title">Internship in Hong Kong</h2>
+				<h3 class="university">Hong Kong University of Science and Technology (HKUST)</h3>
+				<p class="copy">
+					During my internship, I spearheaded the design and development of a compact robot for
+					disinfecting tables using a synergistic approach of blue and UV light. This innovative
+					solution leverages the Hi-NW technology, a groundbreaking advancement developed by the CBE
+					department of HKUST.
+				</p>
+				<h3 class="date">Aug 2017 - Jul 2018</h3>
+			</div>
+		</div>
+		<div class="timeline__row">
+			<div class="timeline__element">
+				<h2 class="title">Master's Degree in Electronics Systems for Smart Environments</h2>
+				<h3 class="university">University of Málaga (UMA)</h3>
+				<p class="copy">
+					During my Master's studies, I gained comprehensive knowledge of the methods and
+					technologies employed in smart and sensorized environments. This enriched my understanding
+					of the intricate relationship between hardware and software, enabling me to devise
+					tailored solutions to specific challenges.
+				</p>
+				<h3 class="date">Sep 2017 - Jul 2019</h3>
+			</div>
+		</div>
+		<div class="timeline__row">
+			<div class="timeline__element">
+				<h2 class="title">Erasmus Exchange in Vilnius (Lithuania)</h2>
+				<h3 class="university">Vilnius Gediminas Technical University (VGTU)</h3>
+				<p class="copy">
+					During my Erasmus exchange program, I delved into a range of electronic-related subjects,
+					including wind and photovoltaic energy systems, electronic converters, and modern
+					electrical engineering. This transformative experience not only expanded my technical
+					knowledge but also significantly enhanced my English proficiency through immersive
+					language exposure.
+				</p>
+				<h3 class="date">Sep 2016 - Dec 2016</h3>
+			</div>
+		</div>
+		<div class="timeline__row">
+			<div class="timeline__element">
+				<h2 class="title">Master's Degree in Industrial Engineering</h2>
+				<h3 class="university">University of Málaga (UMA)</h3>
+				<p class="copy">
+					This Master's Degree served as a continuation of my Bachelor's studies, providing me with
+					the extensive skillset of an industrial engineer. For my Master's thesis, I conceptualized
+					and implemented a processor architecture for detecting objects slipping over a tactile
+					sensor array using an FPGA.
+				</p>
+				<h3 class="date">Sep 2015 - Jul 2019</h3>
+			</div>
+		</div>
+		<div class="timeline__row">
+			<div class="timeline__element">
+				<h2 class="title">Bachelor of Science in Engineering in Industrial Technologies</h2>
+				<h3 class="university">University of Málaga (UMA)</h3>
+				<p class="copy">
+					Specialized in automatic and electronic control: Achieved honors in "Integrated Circuits"
+					and earned an A* grade in "Computer Architecture", "Power Electronic", and "Transducers
+					and interface". Bachelor's final thesis titled: "Basic Quadcopter Design with
+					Stabilization Control" was awarded with honors.
+				</p>
+				<h3 class="date">Sep 2010 - Jun 2015</h3>
+			</div>
+		</div>
+	</section>
 </section>
 
 <style>
 	.education {
 		padding-block-start: var(--navbar-height);
 		scroll-padding-top: 0;
-		height: 100dvh;
+		min-height: 100dvh;
+
+		.education-timeline {
+			max-width: 70%;
+			margin: auto;
+		}
+	}
+
+	/* Global timeline container */
+	.timeline {
+		margin-block: 2rem;
+		padding: 0 0.5em;
+		position: relative;
+		width: 100%;
+
+		display: flex;
+		flex-direction: column;
+
+		/* Line in the middle*/
+		&::after {
+			content: "";
+			position: absolute;
+			top: 5px;
+			right: 50%;
+			transform: translateX(50%);
+			width: 5px;
+			height: 83%;
+			background-color: oklch(var(--clr-yellow-400));
+		}
+		.timeline__row {
+			width: 100%;
+			position: relative;
+			margin-bottom: 3rem;
+			display: flex;
+
+			/* Dot in the line */
+			&::after {
+				content: "";
+				display: inline-block;
+				position: absolute;
+				top: 6px;
+				right: 50%;
+				transform: translate(50%);
+				z-index: 1;
+				height: 1.3rem;
+				width: 1.3rem;
+				border-radius: 50%;
+				background-color: oklch(var(--clr-yellow-200));
+				box-shadow: 0 0 0 3px oklch(var(--clr-yellow-400));
+			}
+
+			/* Even elements to the right */
+			&:nth-child(even) {
+				justify-content: flex-end;
+				animation: slide-left 1s linear;
+				.date {
+					right: auto;
+					left: -30rem;
+				}
+			}
+			&:nth-child(odd) {
+				animation: slide-right 1s linear;
+				.date {
+					right: -30rem;
+					left: auto;
+				}
+			}
+		}
+	}
+
+	/* Individual element of the timeline */
+	.timeline__element {
+		width: 45%;
+		align-self: start;
+		margin-bottom: 3rem;
+		position: relative;
+
+		padding: 1rem 2em;
+
+		box-shadow:
+			0 0 4px 2px #333,
+			5px 0 0 0 oklch(var(--clr-yellow-400)) inset;
+		background-color: oklch(var(--clr-yellow-200));
+
+		.title {
+			color: oklch(var(--clr-yellow-400));
+			font-weight: var(--fw-black);
+			font-size: var(--fs-600);
+		}
+
+		.university {
+			margin-bottom: 1.5em;
+			color: oklch(var(--clr-yellow-700));
+			font-style: italic;
+			font-size: var(--fs-400);
+		}
+
+		.date {
+			position: absolute;
+			width: auto;
+			padding: 0.5em 0.9em;
+			border-radius: 10px;
+			top: -2px;
+			color: oklch(var(--clr-text));
+			font-weight: var(--fw-bold);
+
+			background-color: oklch(var(--clr-yellow-400));
+		}
+
+		.copy {
+			color: oklch(var(--clr-neutral-800));
+		}
+	}
+
+	@keyframes slide-right {
+		from {
+			transform: translateX(-300px);
+			opacity: 0;
+		}
+		to {
+			transform: translateX(0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes slide-left {
+		from {
+			transform: translateX(200px);
+			opacity: 0;
+		}
+		to {
+			transform: translateX(0);
+			opacity: 1;
+		}
 	}
 </style>

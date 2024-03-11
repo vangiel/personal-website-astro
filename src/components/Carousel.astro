@@ -1,126 +1,136 @@
 ---
 import traffic3DImage from "@/images/projects/traffic3D.png";
+import HPEImage from "@/images/projects/HPE.png";
+import HANImage from "@/images/projects/HAN.png";
 import { Image } from "astro:assets";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 ---
 
-<section class="carousel_section">
-	<!-- Slider main container -->
-	<div class="swiper">
-		<!-- Additional required wrapper -->
-		<div class="swiper-wrapper">
-			<!-- Slides -->
-			<div class="swiper-slide">
-				<h3 class="slide__title">Image Generation</h3>
-				<Image class="slide__img" src={traffic3DImage} alt="" />
-				<p class="slide__text">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
-					neque quidem quibusdam.
-				</p>
-			</div>
-			<div class="swiper-slide">
-				<h3 class="slide__title">Human-Aware Navigation</h3>
-				<Image class="slide__img" src={traffic3DImage} alt="" />
-				<p class="slide__text">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
-					neque quidem quibusdam.
-				</p>
-			</div>
-			<div class="swiper-slide">
+<div class="swiper">
+	<!-- Additional required wrapper -->
+	<div class="swiper-wrapper">
+		<!-- Slides -->
+		<div class="swiper-slide">
+			<Image class="slide__img" src={HPEImage} alt="" />
+			<div class="slide__text">
 				<h3 class="slide__title">Human Pose Estimation</h3>
-				<Image class="slide__img" src={traffic3DImage} alt="" />
-				<p class="slide__text">
+				<p>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
 					neque quidem quibusdam.
 				</p>
 			</div>
-			<!-- Pagination -->
-			<div class="swiper-pagination"></div>
-
-			<!-- Navigation buttons -->
-			<div class="swiper-button-prev"></div>
-			<div class="swiper-button-next"></div>
 		</div>
+		<div class="swiper-slide">
+			<Image class="slide__img" src={traffic3DImage} alt="" />
+			<div class="slide__text">
+				<h3 class="slide__title">Image generation</h3>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
+					neque quidem quibusdam.
+				</p>
+			</div>
+		</div>
+		<div class="swiper-slide">
+			<Image class="slide__img" src={HANImage} alt="" />
+			<div class="slide__text">
+				<h3 class="slide__title">Human-aware navigation with robots</h3>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
+					neque quidem quibusdam.
+				</p>
+			</div>
+		</div>
+		<!-- Pagination -->
+		<div class="swiper-pagination"></div>
+
+		<!-- Navigation buttons -->
+		<div class="swiper-button-prev"></div>
+		<div class="swiper-button-next"></div>
 	</div>
+</div>
 
-	<style>
-		.carousel_section {
-			padding-block-start: var(--navbar-height);
-			height: 50%;
-			position: relative;
+<style>
+	.swiper {
+		margin-block-start: var(--navbar-height);
+		max-width: 70%;
+		overflow: visible;
+	}
+	.swiper-wrapper {
+		position: relative;
 
-			.swiper-pagination {
-				.swiper-pagination-bullet {
-					opacity: 0.5;
-					background: orange;
-				}
-				.swiper-pagination-bullet-active {
-					opacity: 1;
-					background: orange;
-				}
+		.swiper-pagination {
+			position: absolute;
+			bottom: -3rem;
+			:global(.swiper-pagination-bullet) {
+				opacity: 0.4;
+				width: 1.5rem;
+				height: 1.5rem;
+				background: oklch(var(--clr-accent));
+			}
+			:global(.swiper-pagination-bullet-active) {
+				opacity: 1;
+				background: oklch(var(--clr-accent));
 			}
 		}
-
-		.swiper-slide {
-			text-align: center;
-			color: oklch(var(--clr-text-invert));
-			background: oklch(var(--clr-text));
-			position: relative;
-
-			.slide__title {
-				display: block;
-				text-align: center;
-				line-height: 5rem;
-				padding-inline: 1.5rem;
-				border-radius: 10px;
-				box-shadow: 0px 0px 10px 1px oklch(var(--clr-neutral-900));
-
-				position: absolute;
-				top: 1.5rem;
-				right: 50%;
-				transform: translateX(50%);
-
-				font-size: var(--fs-600);
-				font-weight: var(--fw-bold);
-
-				color: oklch(var(--clr-accent));
-				background: oklch(var(--clr-text-invert));
-			}
-
-			.slide__img {
-				display: block;
-				width: 100%;
-				height: auto;
-				object-fit: contain;
-			}
+		.swiper-button-prev,
+		.swiper-button-next {
+			color: oklch(var(--clr-accent));
 		}
-	</style>
+	}
 
-	<script type="module">
-		import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
+	.swiper-slide {
+		text-align: center;
+		border-radius: 30px;
+		overflow: hidden;
+		color: oklch(var(--clr-text-invert));
+		background: oklch(var(--clr-text));
+		position: relative;
 
-		var swiper = new Swiper(".swiper", {
-			loop: true,
-			effect: "coverflow",
-			grabCursor: true,
-			centeredSlides: true,
-			slidesPerView: 3,
-			coverflowEffect: {
-				rotate: 0,
-				stretch: 0,
-				depth: 350,
-				modifier: 1,
-				slideShadows: true,
-			},
-			navigation: {
-				nextEl: ".swiper-button-next",
-				prevEl: ".swiper-button-prev",
-			},
-			pagination: {
-				el: ".swiper-pagination",
-			},
-		});
-	</script>
-</section>
+		.slide__text .slide__title {
+			font-size: var(--fs-400);
+			font-weight: var(--fw-bold);
+
+			color: oklch(var(--clr-accent));
+		}
+
+		.slide__img {
+			display: block;
+			width: 100%;
+			height: auto;
+			aspect-ratio: 16/9;
+			object-fit: cover;
+		}
+	}
+</style>
+
+<script type="module">
+	import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
+
+	var swiper = new Swiper(".swiper", {
+		slidesPerView: 3,
+		spaceBetween: 0,
+		centeredSlides: true,
+		grabCursor: true,
+		loop: "auto",
+		parallax: true,
+		effect: "coverflow",
+		coverflowEffect: {
+			rotate: 10,
+			stretch: -80,
+			depth: 250,
+			modifier: 2,
+			slideShadows: false,
+		},
+		navigation: {
+			nextEl: ".swiper-button-next",
+			prevEl: ".swiper-button-prev",
+		},
+		pagination: {
+			el: ".swiper-pagination",
+			clickable: true,
+		},
+	});
+</script>

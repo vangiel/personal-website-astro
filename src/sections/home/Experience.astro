@@ -1,13 +1,15 @@
 ---
-import Waves from "@/images/home/experience/waves.astro";
+import Bento from "@/components/Bento.astro";
+import Waves from "@/images/home/waves.astro";
 ---
 
 <section class="experience">
 	<h2 class="section__title">Experience and skills</h2>
+	<Bento />
 	<Waves
 		className="waves"
-		colorTop="oklch(var(--clr-background))"
-		colorMid="oklch(var(--clr-background))"
+		colorTop="oklch(var(--clr-background)/0.2)"
+		colorMid="oklch(var(--clr-background)/0.6)"
 		colorBottom="oklch(var(--clr-background))"
 	/>
 </section>
@@ -19,5 +21,9 @@ import Waves from "@/images/home/experience/waves.astro";
 		min-height: 100dvh;
 		background: oklch(var(--clr-primary));
 		position: relative;
+
+		:global(.waves) {
+			z-index: 2;
+		}
 	}
 </style>

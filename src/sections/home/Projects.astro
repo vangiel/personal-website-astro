@@ -1,6 +1,6 @@
 ---
 import Carousel from "@/components/Carousel.astro";
-import Waves from "@/images/home/experience/waves.astro";
+import Waves from "@/images/home/waves.astro";
 ---
 
 <section id="projects">
@@ -12,13 +12,31 @@ import Waves from "@/images/home/experience/waves.astro";
 		colorMid="oklch(var(--clr-yellow-200))"
 		colorBottom="oklch(var(--clr-primary))"
 	/>
+	<div class="side-note">
+		<p>
+			This is just a teaser of the main topics that I've been workin on. To see more about my
+			projects check out the <a href="/projects/">projects page</a>.
+		</p>
+	</div>
 </section>
 
 <style>
 	#projects {
-		padding-block-start: var(--navbar-height);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 		scroll-padding-top: 0;
 		height: 100dvh;
 		position: relative;
+	}
+	.side-note {
+		text-align: center;
+		padding-block-start: 10rem;
+
+		a {
+			cursor: pointer;
+			color: oklch(var(--clr-accent));
+		}
 	}
 </style>

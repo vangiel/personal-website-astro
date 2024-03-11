@@ -1,0 +1,73 @@
+<section class="bento">
+	<article class="bento__item work-experience">
+		<h3 class="bento__item__title">Work experience</h3>
+		<p class="bento__item__text">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
+			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
+			reiciendis voluptatum possimus tenetur dolorem laborum.
+		</p>
+	</article>
+	<article class="bento__item deep-learning">
+		<h3 class="bento__item__title">Deel Learning Knowledge</h3>
+		<p class="bento__item__text">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
+			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
+			reiciendis voluptatum possimus tenetur dolorem laborum.
+		</p>
+	</article>
+	<article class="bento__item programming-languages">
+		<h3 class="bento__item__title">Programming Languages</h3>
+		<p class="bento__item__text">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
+			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
+			reiciendis voluptatum possimus tenetur dolorem laborum.
+		</p>
+	</article>
+	<article class="bento__item frameworks">
+		<h3 class="bento__item__title">Frameworks</h3>
+		<p class="bento__item__text">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
+			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
+			reiciendis voluptatum possimus tenetur dolorem laborum.
+		</p>
+	</article>
+	<article class="bento__item learning">
+		<h3 class="bento__item__title">Learning</h3>
+		<p class="bento__item__text">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
+			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
+			reiciendis voluptatum possimus tenetur dolorem laborum.
+		</p>
+	</article>
+</section>
+
+<style>
+	.bento {
+		display: grid;
+		gap: 2rem;
+		grid-template-columns: repeat(4, 1fr);
+		grid-template-rows: repeat(3, 1fr);
+
+		max-width: 70%;
+		margin: auto;
+		margin-block-start: 10rem;
+	}
+
+	.bento__item {
+		z-index: 10;
+		padding: 1.5rem;
+		border-radius: 10px;
+		background-color: oklch(var(--clr-background) / 0.6);
+		box-shadow: 0 0 10px oklch(var(--clr-shadow));
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			transform: translateY(-10px);
+		}
+	}
+
+	.work-experience {
+		grid-column: 1 / span 3;
+		grid-row: 1 / span 1;
+	}
+</style>
