@@ -1,5 +1,6 @@
 ---
 import Bento from "@/components/Bento.astro";
+import Poligons from "@/components/Poligons.astro";
 import Waves from "@/images/home/waves.astro";
 ---
 
@@ -12,6 +13,7 @@ import Waves from "@/images/home/waves.astro";
 		colorMid="oklch(var(--clr-background)/0.6)"
 		colorBottom="oklch(var(--clr-background))"
 	/>
+	<Poligons className="poligons" color="oklch(var(--clr-background))" />
 </section>
 
 <style>
@@ -24,6 +26,14 @@ import Waves from "@/images/home/waves.astro";
 
 		:global(.waves) {
 			z-index: 2;
+		}
+
+		:global(.poligons) {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
 		}
 	}
 </style>

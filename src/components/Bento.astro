@@ -51,6 +51,8 @@
 		max-width: 70%;
 		margin: auto;
 		margin-block-start: 10rem;
+		position: relative;
+		z-index: 10;
 	}
 
 	.bento__item {
@@ -58,6 +60,7 @@
 		padding: 1.5rem;
 		border-radius: 10px;
 		background-color: oklch(var(--clr-background) / 0.6);
+		backdrop-filter: blur(10px);
 		box-shadow: 0 0 10px oklch(var(--clr-shadow));
 		transition: all 0.2s ease-in-out;
 
