@@ -14,10 +14,12 @@ import { Image } from "astro:assets";
 				autem ipsum, eveniet ipsa a! Aperiam culpa sunt unde dignissimos, veritatis delectus error
 				similique nemo velit. Iusto, excepturi?
 			</p>
-			<PrimaryButton reference="../documents/Daniel_Rodriguez_CV_EN.pdf" target={true}>
-				Download CV
-			</PrimaryButton>
-			<PrimaryButton reference="/contact-me/"> Contact me </PrimaryButton>
+			<div class="buttons">
+				<PrimaryButton reference="../documents/Daniel_Rodriguez_CV_EN.pdf" target={true}>
+					Download CV
+				</PrimaryButton>
+				<PrimaryButton reference="/contact-me/"> Contact me </PrimaryButton>
+			</div>
 			<div class="social-media">
 				<a target="_blank" href="https://github.com/vangiel"> <Icon name="social/github" /> </a>
 				<a
@@ -88,19 +90,24 @@ import { Image } from "astro:assets";
 			width: clamp(2rem, 30vw, 50rem);
 			h1 {
 				font-family: var(--ff-accent);
-				font-size: var(--fs-900);
+				font-size: clamp(var(--fs-700), 3vw + 0.7rem, var(--fs-900));
 				font-weight: var(--fw-bold);
 			}
 			p {
-				font-size: var(--fs-500);
+				font-size: clamp(var(--fs-300), 3vw, var(--fs-500));
 				padding-block-end: 2rem;
+			}
+
+			.buttons {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1rem;
+				padding-block-end: 1rem;
 			}
 
 			.social-media {
 				display: flex;
-				justify-content: space-between;
-				padding-block-start: 1.2rem;
-				max-width: 40%;
+				gap: 1rem;
 				font-size: 3rem;
 
 				& > * {
@@ -138,10 +145,13 @@ import { Image } from "astro:assets";
 				order: 2;
 				width: 90%;
 				text-align: center;
+				display: grid;
+				place-items: center;
 			}
 
 			.hero__image {
-				margin-block: 2rem;
+				margin-block-start: 4rem;
+				max-height: 40vh;
 			}
 		}
 	}

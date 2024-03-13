@@ -1,11 +1,43 @@
+---
+import Image from "astro/components/Image.astro";
+
+import astonLogo from "@/icons/home/aston-logo.png";
+import googleLogo from "@/icons/home/google-logo.svg";
+---
+
 <section class="bento">
 	<article class="bento__item work-experience">
 		<h3 class="bento__item__title">Work experience</h3>
-		<p class="bento__item__text">
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
-			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
-			reiciendis voluptatum possimus tenetur dolorem laborum.
-		</p>
+		<div class="bento__item__content">
+			<div class="work">
+				<Image class="img" src={astonLogo} alt="Aston University logo" />
+				<h2 class="title">PhD Researcher</h2>
+				<h3 class="subtitle">Aston university <span>2019 - 2023</span></h3>
+				<p class="copy">
+					Four years of full time researcher that gave me the skills of critical thinking, team
+					work, project and time management
+				</p>
+			</div>
+			<div class="work">
+				<Image class="img" src={astonLogo} alt="Aston University logo" />
+				<h2 class="title">Lab Instructor</h2>
+				<h3 class="subtitle">Aston university <span>2020 - 2022</span></h3>
+				<p class="copy">
+					This role gave me the oportunity to teach students at undergraduate level. Giving me the
+					confidence and . I teached moduels in computing systems, batch scripting and web
+					technologies.
+				</p>
+			</div>
+			<div class="work">
+				<Image class="img" src={googleLogo} alt="Google logo" />
+				<h2 class="title">GSoc Mentor</h2>
+				<h3 class="subtitle">Google <span>Summer 2020 and 2021</span></h3>
+				<p class="copy">
+					During this work time, I mentoriced two students online in a projects in robotics and
+					reinforcement learning.
+				</p>
+			</div>
+		</div>
 	</article>
 	<article class="bento__item deep-learning">
 		<h3 class="bento__item__title">Deel Learning Knowledge</h3>
@@ -46,7 +78,7 @@
 		display: grid;
 		gap: 2rem;
 		grid-template-columns: repeat(4, 1fr);
-		grid-template-rows: repeat(3, 1fr);
+		grid-auto-rows: min-content;
 
 		max-width: 70%;
 		margin: auto;
@@ -67,10 +99,32 @@
 		&:hover {
 			transform: translateY(-10px);
 		}
+
+		.bento__item__title {
+			font-size: var(--fs-600);
+			color: oklch(var(--clr-accent));
+			font-weight: var(--fw-bold);
+			text-align: center;
+			padding-block-end: 2rem;
+		}
 	}
 
 	.work-experience {
 		grid-column: 1 / span 3;
 		grid-row: 1 / span 1;
+
+		.bento__item__content {
+			display: grid;
+			gap: 2rem;
+			grid-template-columns: repeat(3, 1fr);
+			grid-auto-rows: min-content;
+
+			.img {
+				height: 100px;
+				width: 100px;
+				border-radius: 100%;
+				object-fit: contain;
+			}
+		}
 	}
 </style>

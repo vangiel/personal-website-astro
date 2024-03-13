@@ -7,6 +7,7 @@ import { Image } from "astro:assets";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/effect-coverflow";
 ---
 
 <div class="swiper">
@@ -43,13 +44,43 @@ import "swiper/css/pagination";
 				</p>
 			</div>
 		</div>
-		<!-- Pagination -->
-		<div class="swiper-pagination"></div>
-
-		<!-- Navigation buttons -->
-		<div class="swiper-button-prev"></div>
-		<div class="swiper-button-next"></div>
+		<!-- <div class="swiper-slide">
+			<Image class="slide__img" src={HPEImage} alt="" />
+			<div class="slide__text">
+				<h3 class="slide__title">Human Pose Estimation</h3>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
+					neque quidem quibusdam.
+				</p>
+			</div>
+		</div>
+		<div class="swiper-slide">
+			<Image class="slide__img" src={traffic3DImage} alt="" />
+			<div class="slide__text">
+				<h3 class="slide__title">Image generation</h3>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
+					neque quidem quibusdam.
+				</p>
+			</div>
+		</div>
+		<div class="swiper-slide">
+			<Image class="slide__img" src={HANImage} alt="" />
+			<div class="slide__text">
+				<h3 class="slide__title">Human-aware navigation with robots</h3>
+				<p>
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
+					neque quidem quibusdam.
+				</p>
+			</div>
+		</div> -->
 	</div>
+	<!-- Pagination -->
+	<div class="swiper-pagination"></div>
+
+	<!-- Navigation buttons -->
+	<div class="swiper-button-prev"></div>
+	<div class="swiper-button-next"></div>
 </div>
 
 <style>
@@ -57,72 +88,77 @@ import "swiper/css/pagination";
 		margin-block-start: var(--navbar-height);
 		max-width: 70%;
 		overflow: visible;
-	}
-	.swiper-wrapper {
-		position: relative;
 
 		.swiper-pagination {
 			position: absolute;
 			bottom: -3rem;
+
 			:global(.swiper-pagination-bullet) {
 				opacity: 0.4;
 				width: 1.5rem;
 				height: 1.5rem;
 				background: oklch(var(--clr-accent));
 			}
+
 			:global(.swiper-pagination-bullet-active) {
 				opacity: 1;
 				background: oklch(var(--clr-accent));
 			}
 		}
+
 		.swiper-button-prev,
 		.swiper-button-next {
 			color: oklch(var(--clr-accent));
 		}
 	}
 
-	.swiper-slide {
-		text-align: center;
-		border-radius: 30px;
-		overflow: hidden;
-		color: oklch(var(--clr-text-invert));
-		background: oklch(var(--clr-text));
+	.swiper-wrapper {
 		position: relative;
+		.swiper-slide {
+			text-align: center;
+			border-radius: 30px;
+			overflow: hidden;
+			color: oklch(var(--clr-text-invert));
+			background: oklch(var(--clr-text));
+			position: relative;
 
-		.slide__text .slide__title {
-			font-size: var(--fs-400);
-			font-weight: var(--fw-bold);
+			.slide__text .slide__title {
+				font-size: var(--fs-400);
+				font-weight: var(--fw-bold);
+				color: oklch(var(--clr-accent));
+			}
 
-			color: oklch(var(--clr-accent));
-		}
-
-		.slide__img {
-			display: block;
-			width: 100%;
-			height: auto;
-			aspect-ratio: 16/9;
-			object-fit: cover;
+			.slide__img {
+				display: block;
+				width: 100%;
+				height: auto;
+				aspect-ratio: 16/9;
+				object-fit: cover;
+			}
 		}
 	}
 </style>
 
-<script type="module">
-	import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
+<script>
+	import Swiper from "swiper";
+
+	import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 
 	var swiper = new Swiper(".swiper", {
-		slidesPerView: 3,
+		modules: [Navigation, Pagination, EffectCoverflow],
+
+		slidesPerView: 2,
 		spaceBetween: 0,
 		centeredSlides: true,
 		grabCursor: true,
-		loop: "auto",
-		parallax: true,
+		loop: true,
 		effect: "coverflow",
 		coverflowEffect: {
 			rotate: 10,
-			stretch: -80,
-			depth: 250,
-			modifier: 2,
-			slideShadows: false,
+			stretch: 0,
+			depth: 150,
+			modifier: 3,
+			slideShadows: true,
 		},
 		navigation: {
 			nextEl: ".swiper-button-next",

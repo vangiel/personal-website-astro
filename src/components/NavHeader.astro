@@ -150,32 +150,32 @@ let accentColor = "oklch(var(--clr-accent))";
 					flex-direction: column;
 					justify-content: flex-start;
 					align-items: center;
-					padding-block-start: 10rem;
+					padding-block-start: 7rem;
 
 					position: fixed;
 					height: 100vh;
 					inset: 0;
-					background-color: oklch(var(--clr-text) / 0.5);
+					background-color: oklch(var(--clr-background) / 0.5);
 					backdrop-filter: blur(8px);
-					color: oklch(var(--clr-text-invert));
+					color: oklch(var(--clr-text));
 
 					#main-nav > ul {
 						flex-direction: column;
-						gap: 2rem;
+						gap: 1rem;
 						align-items: center;
-						font-size: var(--fs-800);
 
 						a {
-							line-height: 4.4rem;
+							line-height: 4rem;
+							font-size: clamp(var(--fs-500), 4vw, var(--fs-600));
 						}
 					}
 
 					.logo-theme {
-						padding-block-end: 9rem;
+						padding-block-end: 3rem;
 
 						:global(.logo__img) {
-							width: 12rem;
-							height: 12rem;
+							width: 10rem;
+							height: 10rem;
 						}
 					}
 				}
