@@ -277,4 +277,33 @@ import astonLogo from "@/icons/home/aston-logo.png";
 			opacity: 1;
 		}
 	}
+
+	@media (--bp-tablet) {
+		*::after {
+			content: normal;
+		}
+		.timeline {
+			display: block;
+
+			&__row {
+				animation: none !important;
+			}
+		}
+		.timeline__element {
+			width: 100%;
+			z-index: 2;
+			&::after {
+				content: normal;
+			}
+			.timeline__header {
+				grid-template-columns: 1fr;
+				align-items: unset;
+			}
+			.date {
+				width: fit-content;
+				position: unset;
+				margin-top: 10px;
+			}
+		}
+	}
 </style>
