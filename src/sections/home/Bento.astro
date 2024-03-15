@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import Image from "astro/components/Image.astro";
 
 import astonLogo from "@/icons/home/aston-logo.png";
@@ -11,8 +12,10 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		<div class="bento__item__content">
 			<div class="work">
 				<Image class="img" src={astonLogo} alt="Aston University logo" />
-				<h2 class="title">PhD Researcher</h2>
-				<h3 class="subtitle">Aston university <span>2019 - 2023</span></h3>
+				<div class="work__title">
+					<h2 class="title">PhD Researcher</h2>
+					<h3 class="subtitle">Aston university <span>2019 - 2023</span></h3>
+				</div>
 				<p class="copy">
 					Four years of full time researcher that gave me the skills of critical thinking, team
 					work, project and time management
@@ -20,8 +23,10 @@ import googleLogo from "@/icons/home/google-logo.svg";
 			</div>
 			<div class="work">
 				<Image class="img" src={astonLogo} alt="Aston University logo" />
-				<h2 class="title">Lab Instructor</h2>
-				<h3 class="subtitle">Aston university <span>2020 - 2022</span></h3>
+				<div class="work__title">
+					<h2 class="title">Lab Instructor</h2>
+					<h3 class="subtitle">Aston university <span>2020 - 2022</span></h3>
+				</div>
 				<p class="copy">
 					This role gave me the oportunity to teach students at undergraduate level. Giving me the
 					confidence and . I teached moduels in computing systems, batch scripting and web
@@ -30,8 +35,10 @@ import googleLogo from "@/icons/home/google-logo.svg";
 			</div>
 			<div class="work">
 				<Image class="img" src={googleLogo} alt="Google logo" />
-				<h2 class="title">GSoc Mentor</h2>
-				<h3 class="subtitle">Google <span>Summer 2020 and 2021</span></h3>
+				<div class="work__title">
+					<h2 class="title">GSoc Mentor</h2>
+					<h3 class="subtitle">Google <span>Summer 2020 and 2021</span></h3>
+				</div>
 				<p class="copy">
 					During this work time, I mentoriced two students online in a projects in robotics and
 					reinforcement learning.
@@ -41,46 +48,79 @@ import googleLogo from "@/icons/home/google-logo.svg";
 	</article>
 	<article class="bento__item deep-learning">
 		<h3 class="bento__item__title">Deel Learning Knowledge</h3>
-		<p class="bento__item__text">
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
-			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
-			reiciendis voluptatum possimus tenetur dolorem laborum.
-		</p>
+		<div class="bento__item__content">
+			<h3>Models</h3>
+			<ul>
+				<li>Neural Networks</li>
+				<li>Convolutional Neural Networks (GNN)</li>
+				<li>Generative Adversarial Networks (GAN)</li>
+				<li>Reinforcement Learning</li>
+				<li>Transformers</li>
+				<li>Multilayer Perceptron</li>
+				<li>Variational Autoencoders (VAE)</li>
+			</ul>
+			<h3>Applications in</h3>
+			<ul>
+				<li>Human-Aware Navigation (HAN) with robots</li>
+				<li>Human Pose Estimation 3D (HPE)</li>
+				<li>Image Generation</li>
+			</ul>
+		</div>
 	</article>
 	<article class="bento__item programming-languages">
 		<h3 class="bento__item__title">Programming Languages</h3>
-		<p class="bento__item__text">
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
-			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
-			reiciendis voluptatum possimus tenetur dolorem laborum.
-		</p>
+		<div class="bento__item__content">
+			<div class="language">
+				<Icon name="home/bento/python" />
+				<h4>Python</h4>
+			</div>
+			<div class="language">
+				<Icon name="home/bento/c" />
+				<h4>C/C++</h4>
+			</div>
+			<div class="language">
+				<Icon name="home/bento/bash" />
+				<h4>Bash</h4>
+			</div>
+			<div class="language">
+				<Icon name="home/bento/latex" />
+				<h4>LaTex</h4>
+			</div>
+			<div class="language">
+				<Icon name="home/bento/typescript" />
+				<h4>JS/TS</h4>
+			</div>
+			<div class="language">
+				<Icon name="home/bento/matlab" />
+				<h4>Matlab</h4>
+			</div>
+		</div>
 	</article>
 	<article class="bento__item frameworks">
 		<h3 class="bento__item__title">Frameworks</h3>
-		<p class="bento__item__text">
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
-			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
-			reiciendis voluptatum possimus tenetur dolorem laborum.
-		</p>
+		<div class="bento__item__content">
+			<p>
+				Pytorch, Tensorflow, Keras, OpenCV, Pandas, Numpy, Matplotlib, Scikit-learn, Pytorch
+				Lightning
+			</p>
+		</div>
 	</article>
 	<article class="bento__item learning">
 		<h3 class="bento__item__title">Learning</h3>
-		<p class="bento__item__text">
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit facilis, porro asperiores
-			tempora accusantium dolores quo nemo quasi deserunt quos voluptatibus magni, quas ratione,
-			reiciendis voluptatum possimus tenetur dolorem laborum.
-		</p>
+		<div class="bento__item__content">
+			<p>Amazon web services, s4 models, diffusion models</p>
+		</div>
 	</article>
 </section>
 
 <style>
 	.bento {
 		display: grid;
+		grid-auto-flow: dense;
 		gap: 2rem;
 		grid-template-columns: repeat(4, 1fr);
-		grid-auto-rows: min-content;
 
-		max-width: 70%;
+		max-width: clamp(90rem, 90vw, 150rem);
 		margin: auto;
 		margin-block-start: 10rem;
 		position: relative;
@@ -91,7 +131,7 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		z-index: 10;
 		padding: 1.5rem;
 		border-radius: 10px;
-		background-color: oklch(var(--clr-background) / 0.6);
+		background-color: oklch(var(--clr-background) / 0.8);
 		backdrop-filter: blur(10px);
 		box-shadow: 0 0 10px oklch(var(--clr-shadow));
 		transition: all 0.2s ease-in-out;
@@ -110,20 +150,85 @@ import googleLogo from "@/icons/home/google-logo.svg";
 	}
 
 	.work-experience {
-		grid-column: 1 / span 3;
-		grid-row: 1 / span 1;
+		grid-column: span 3;
 
 		.bento__item__content {
 			display: grid;
-			gap: 2rem;
+			gap: 0.5rem;
 			grid-template-columns: repeat(3, 1fr);
-			grid-auto-rows: min-content;
+			grid-auto-rows: 6rem auto auto;
 
-			.img {
-				height: 100px;
-				width: 100px;
-				border-radius: 100%;
-				object-fit: contain;
+			.work {
+				grid-row: span 3;
+
+				display: grid;
+				place-items: center;
+				grid-template-rows: subgrid;
+
+				text-align: center;
+
+				.img {
+					height: 100%;
+					width: fit-content;
+					border-radius: 100%;
+					object-fit: contain;
+					box-shadow: 0px 0px 10px 2px #333;
+				}
+
+				.work__title {
+					.title {
+						font-size: var(--fs-600);
+						font-weight: var(--fw-bold);
+					}
+					.subtitle {
+						font-size: var(--fs-400);
+						font-weight: var(--fw-bold);
+						span {
+							padding-inline-start: 1rem;
+							color: oklch(var(--clr-accent));
+						}
+					}
+				}
+				p.copy {
+					align-self: self-start;
+					font-size: var(--fs-400);
+				}
+			}
+		}
+	}
+
+	.deep-learning {
+		grid-row: span 2;
+
+		h3 {
+			text-align: center;
+			padding-block: 1rem;
+			color: oklch(var(--clr-accent));
+			font-weight: var(--fw-bold);
+			&:first-child {
+				padding-block-start: 0;
+			}
+		}
+		ul > li {
+			list-style-type: circle;
+			font-size: var(--fs-400);
+			padding: 0.4rem;
+			margin-inline-start: 0.7rem;
+		}
+	}
+
+	.programming-languages {
+		.bento__item__content {
+			display: grid;
+			gap: 0.5rem;
+			grid-template-columns: repeat(3, 1fr);
+
+			.language {
+				min-width: 5rem;
+				text-align: center;
+				[data-icon] {
+					font-size: 6rem;
+				}
 			}
 		}
 	}

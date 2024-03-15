@@ -131,7 +131,7 @@ import astonLogo from "@/icons/home/aston-logo.png";
 
 		.education-timeline {
 			max-width: 70%;
-			margin: auto;
+			margin-inline: auto;
 		}
 	}
 
@@ -210,6 +210,7 @@ import astonLogo from "@/icons/home/aston-logo.png";
 			0 0 4px 2px #333,
 			5px 0 0 0 oklch(var(--clr-yellow-400)) inset;
 		background-color: oklch(var(--clr-yellow-200));
+		container-type: inline-size;
 
 		.timeline__header {
 			display: grid;
@@ -227,7 +228,7 @@ import astonLogo from "@/icons/home/aston-logo.png";
 			.title {
 				color: oklch(var(--clr-yellow-400));
 				font-weight: var(--fw-black);
-				font-size: var(--fs-600);
+				font-size: clamp(var(--fs-400), 6cqi, var(--fs-600));
 			}
 
 			.university {
@@ -235,7 +236,7 @@ import astonLogo from "@/icons/home/aston-logo.png";
 				margin-bottom: 1.5em;
 				color: oklch(var(--clr-yellow-700));
 				font-style: italic;
-				font-size: var(--fs-400);
+				font-size: clamp(var(--fs-300), 6cqi, var(--fs-500));
 			}
 		}
 
@@ -279,26 +280,22 @@ import astonLogo from "@/icons/home/aston-logo.png";
 	}
 
 	@media (--bp-tablet) {
-		*::after {
-			content: normal;
+		*::after,
+		*::before {
+			display: none;
 		}
-		.timeline {
+		.education-timeline.timeline {
 			display: block;
+			min-width: 95%;
 
 			&__row {
 				animation: none !important;
 			}
 		}
 		.timeline__element {
-			width: 100%;
 			z-index: 2;
-			&::after {
-				content: normal;
-			}
-			.timeline__header {
-				grid-template-columns: 1fr;
-				align-items: unset;
-			}
+			width: 100%;
+
 			.date {
 				width: fit-content;
 				position: unset;
