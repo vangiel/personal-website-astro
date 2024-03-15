@@ -25,12 +25,12 @@
 	}
 
 	.hamburger-wrapper {
-		position: absolute;
+		position: sticky;
 		top: 1.2rem;
-		left: 1.2rem;
-		z-index: 20;
+		left: 2rem;
+		z-index: 30;
 		display: none;
-		@media only screen and (width <= 650px) {
+		@media (--bp-mobile) {
 			display: block;
 		}
 	}

@@ -24,6 +24,13 @@ import Bento from "@/sections/home/Bento.astro";
 		background: oklch(var(--clr-primary));
 		position: relative;
 
+		:global(.bento) {
+			padding-block: 5rem;
+			@media (--bp-tablet) {
+				margin-inline: 2rem;
+			}
+		}
+
 		:global(.waves) {
 			z-index: 2;
 		}

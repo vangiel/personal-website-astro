@@ -49,22 +49,26 @@ import googleLogo from "@/icons/home/google-logo.svg";
 	<article class="bento__item deep-learning">
 		<h3 class="bento__item__title">Deel Learning Knowledge</h3>
 		<div class="bento__item__content">
-			<h3>Models</h3>
-			<ul>
-				<li>Neural Networks</li>
-				<li>Convolutional Neural Networks (GNN)</li>
-				<li>Generative Adversarial Networks (GAN)</li>
-				<li>Reinforcement Learning</li>
-				<li>Transformers</li>
-				<li>Multilayer Perceptron</li>
-				<li>Variational Autoencoders (VAE)</li>
-			</ul>
-			<h3>Applications in</h3>
-			<ul>
-				<li>Human-Aware Navigation (HAN) with robots</li>
-				<li>Human Pose Estimation 3D (HPE)</li>
-				<li>Image Generation</li>
-			</ul>
+			<article class="models">
+				<h3>Models</h3>
+				<ul>
+					<li>Graph Neural Networks (GNN)</li>
+					<li>Convolutional Neural Networks (CNN)</li>
+					<li>Generative Adversarial Networks (GAN)</li>
+					<li>Reinforcement Learning</li>
+					<li>Transformers</li>
+					<li>Multilayer Perceptron</li>
+					<li>Variational Autoencoders (VAE)</li>
+				</ul>
+			</article>
+			<article class="applications">
+				<h3>Applications in</h3>
+				<ul>
+					<li>Human-Aware Navigation (HAN) with robots</li>
+					<li>Human Pose Estimation 3D (HPE)</li>
+					<li>Image Generation</li>
+				</ul>
+			</article>
 		</div>
 	</article>
 	<article class="bento__item programming-languages">
@@ -122,9 +126,14 @@ import googleLogo from "@/icons/home/google-logo.svg";
 
 		max-width: clamp(90rem, 90vw, 150rem);
 		margin: auto;
-		margin-block-start: 10rem;
 		position: relative;
 		z-index: 10;
+	}
+
+	@media (--bp-mobile) {
+		.bento > article:nth-last-child(-n + 3) {
+			grid-column: span 4;
+		}
 	}
 
 	.bento__item {
@@ -151,11 +160,17 @@ import googleLogo from "@/icons/home/google-logo.svg";
 
 	.work-experience {
 		grid-column: span 3;
+		@media (--bp-tablet) {
+			grid-column: span 4;
+		}
 
 		.bento__item__content {
 			display: grid;
 			gap: 0.5rem;
 			grid-template-columns: repeat(3, 1fr);
+			@media (--bp-mobile) {
+				grid-template-columns: 1fr;
+			}
 			grid-auto-rows: 6rem auto auto;
 
 			.work {
@@ -199,6 +214,21 @@ import googleLogo from "@/icons/home/google-logo.svg";
 
 	.deep-learning {
 		grid-row: span 2;
+		@media (--bp-tablet) {
+			grid-column: span 4;
+			grid-row: span 1;
+
+			.bento__item__content {
+				display: flex;
+				gap: 2rem;
+				justify-content: space-between;
+			}
+		}
+		@media (--bp-mobile) {
+			.bento__item__content {
+				flex-wrap: wrap;
+			}
+		}
 
 		h3 {
 			text-align: center;
@@ -218,6 +248,9 @@ import googleLogo from "@/icons/home/google-logo.svg";
 	}
 
 	.programming-languages {
+		@media (--bp-tablet) {
+			grid-column: span 2;
+		}
 		.bento__item__content {
 			display: grid;
 			gap: 0.5rem;
@@ -229,6 +262,10 @@ import googleLogo from "@/icons/home/google-logo.svg";
 				[data-icon] {
 					font-size: 6rem;
 				}
+			}
+
+			.language:nth-of-type(4) [data-icon] {
+				color: black;
 			}
 		}
 	}
