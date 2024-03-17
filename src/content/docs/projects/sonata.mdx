@@ -3,11 +3,11 @@ title: SONATA - A Toolkit to Generate Social Navigation Datasets and HRI
 description: SONATA is a tool to generate datasets for social navigation with robots.
 ---
 
-import { Image } from "astro:assets";
-import { Steps } from "@astrojs/starlight/components";
 import PrimaryButton from "@/components/PrimaryButton.astro";
-import videoWebm from "@/images/projects/sonata/SONATA.webm";
 import videoMp4 from "@/images/projects/sonata/SONATA.mp4";
+import videoWebm from "@/images/projects/sonata/SONATA.webm";
+import { Steps } from "@astrojs/starlight/components";
+import { Image } from "astro:assets";
 
 > Contributors: Rishabh Baghel, Aditya Kapoor, Pilar Bachiller, Ronit R. Jorvekar, **Daniel Rodriguez-Criado** and Luis J. Manso
 
@@ -22,7 +22,6 @@ Social navigation datasets are necessary to assess social navigation algorithms 
 
 <video controls autoplay width="100%">
 	<source src={videoWebm} type="video/webm" />
-	<source src={videoMp4} type="video/mp4" />
 </video>
 
 The toolkit is used to generate the dataset by simulating the scenarios for robot's navigation in a social setting. We show an usecase of this data collected from the toolkit by converting into graphs and feeding it into the GNNs to predicts the robot's path in a given scene.
@@ -142,12 +141,12 @@ bash run.sh
 
 ### Using SONATA GUI
 
-import contributorImage from "@/images/projects/sonata/get_contributor.png";
-import greenImage from "@/images/projects/sonata/simulation_green_start.png";
-import selectRangeImage from "@/images/projects/sonata/select_range.png";
 import moveImage from "@/images/projects/sonata/click_joystick.png";
+import contributorImage from "@/images/projects/sonata/get_contributor.png";
 import goalImage from "@/images/projects/sonata/reach_goal.png";
 import saveImage from "@/images/projects/sonata/save.png";
+import selectRangeImage from "@/images/projects/sonata/select_range.png";
+import greenImage from "@/images/projects/sonata/simulation_green_start.png";
 
 After you run the above commands the SONATA GUI opens up. Follow the following steps to start generating your data:
 

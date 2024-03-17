@@ -3,12 +3,12 @@ title: Synthesizing Traffic Datasets using Graph Neural Networks
 description: A combination of GNNs and the well-known GAN arquitecture called SPADE for traffic image generation.
 ---
 
-import { Image } from "astro:assets";
 import PrimaryButton from "@/components/PrimaryButton.astro";
-import resultsImage from "@/images/projects/traffic3d/visual_results_traffic.png";
 import demotoolImage from "@/images/projects/traffic3d/demotool.png";
-import videoWebm from "@/images/projects/traffic3d/traffic.webm";
 import videoMp4 from "@/images/projects/traffic3d/traffic.mp4";
+import videoWebm from "@/images/projects/traffic3d/traffic.webm";
+import resultsImage from "@/images/projects/traffic3d/visual_results_traffic.png";
+import { Image } from "astro:assets";
 
 > Contributors: **Daniel Rodriguez-Criado**, Maria Chli, Luis J. Manso, George Vogiatzis
 
@@ -25,7 +25,6 @@ This project introduces a novel methodology for bridging this `sim-real' gap by 
 
 <video controls autoplay width="100%">
 	<source src={videoWebm} type="video/webm" />
-	<source src={videoMp4} type="video/mp4" />
 </video>
 
 The model harness GNNs' ability to process abstract information alongside segmented images for preserving locality data. The architecture leverages the power of SPADE and Graph Attention network (GAT) models to create images based on traffic scenarios simulated by SUMO. These images are conditioned by factors such as entity positions, colours, and time of day. The uniqueness of the approach lies in its ability to effectively translate structured and human-readable conditions, encoded as graphs, into realistic images. This advancement contributes to applications requiring rich traffic image datasets, from data augmentation to urban traffic solutions.
