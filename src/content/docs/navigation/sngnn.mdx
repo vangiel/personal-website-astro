@@ -3,11 +3,15 @@ title: SNGNN - Social Navigation with Graph Neural Networks
 description: SNGNN is a Graph Neural Network to model adherence to social-navigation conventions for robots.
 ---
 
-import { Image } from "astro:assets";
 import PrimaryButton from "@/components/PrimaryButton.astro";
 import GMMImage from "@/images/projects/sngnn/GMMs.png";
+import { Image } from "astro:assets";
 
 > Contributors: Luis J. Manso, Ronit R. Jorvekar, Diego R. Faria, Pablo Bustos and Pilar Bachiller.
+
+:::caution[Disclaimer]
+I didn't participate in the development of this project. However, I deemed important to include it here since is the onset of my research in the field of Human-aware Navigation. The following projects in this section build on top of this work.
+:::
 
 <PrimaryButton reference="https://github.com/robocomp/sngnn" target={true}>
 	Code
@@ -25,7 +29,7 @@ As most researchers working on human-aware navigation, we used to handcraft the 
 	src={GMMImage}
 	alt="Example of Gaussian Mixture Models to model proxemics"
 />
-<p style="text-align:center;"> **Fig 1.** Example of the use of Gaussian Mixture Models to model proxemics (2017). </p>
+<p style="text-align:center;"> **Fig 1.** Example of the use of Gaussian Mixture Models to model proxemics (2017).</p>
 
 It worked quite well, but it had limitations regarding scalability with respect to the number of factors to consider. The models becoming slower was not the biggest of our problems. The complexity of the code, the number of bugs to deal with and the time necessary to develop these new features made the process hard and expensive. At some point we realised that following a (hybrid) data-driven approach would probably be a good idea, especially more cost-efficient than hand-engineering the models. Additionally, it would allow us to investigate into aspects which we did not consider because we were aware of their importance.
 
@@ -61,14 +65,14 @@ The mean squared error (**MSE**) achieved for the dataset is **0.03173**. Humans
 	src={scenarioImage}
 	alt="Example of the tool developed in SocNav1 dataset to adquire data"
 />
-<p style="text-align:center;">**Fig 2.** Fig. 2: Example of the tool developed in SocNav1 dataset to adquire data. </p>
+<p style="text-align:center;"> **Fig 2.** Fig. 2: Example of the tool developed in SocNav1 dataset to adquire data.</p>
 
 ## Results
 
-import video1Webm from "@/images/projects/sngnn/showcase_7_1.webm";
 import video2Webm from "@/images/projects/sngnn/showcase_2_1.webm";
 import video3Webm from "@/images/projects/sngnn/showcase_3_3.webm";
 import video4Webm from "@/images/projects/sngnn/showcase_5_1.webm";
+import video1Webm from "@/images/projects/sngnn/showcase_7_1.webm";
 import video5Webm from "@/images/projects/sngnn/sngnn.webm";
 
 The following videos demonstrate the results obtained and showcase some of the properties of SNGNN.
