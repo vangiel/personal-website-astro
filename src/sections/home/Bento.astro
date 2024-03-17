@@ -101,12 +101,24 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		</div>
 	</article>
 	<article class="bento__item frameworks">
-		<h3 class="bento__item__title">Frameworks</h3>
+		<h3 class="bento__item__title">Frameworks and tools</h3>
 		<div class="bento__item__content">
-			<p>
-				Pytorch, Tensorflow, Keras, OpenCV, Pandas, Numpy, Matplotlib, Scikit-learn, Pytorch
-				Lightning
-			</p>
+			<div class="framework">
+				<Icon name="home/bento/pytorch" />
+				<h4>PyTorch</h4>
+			</div>
+			<div class="framework">
+				<Icon name="home/bento/docker" />
+				<h4>Docker</h4>
+			</div>
+			<div class="framework">
+				<Icon name="home/bento/numpy" />
+				<h4>Numpy</h4>
+			</div>
+			<div class="framework">
+				<Icon name="home/bento/qt" />
+				<h4>Qt</h4>
+			</div>
 		</div>
 	</article>
 	<article class="bento__item learning">
@@ -266,6 +278,24 @@ import googleLogo from "@/icons/home/google-logo.svg";
 
 			.language:nth-of-type(4) [data-icon] {
 				color: black;
+			}
+		}
+	}
+
+	.frameworks,
+	.learning {
+		.bento__item__content {
+			display: grid;
+			gap: 0.5rem;
+			grid-template-columns: repeat(2, 1fr);
+
+			.framework {
+				min-width: 5rem;
+				text-align: center;
+				[data-icon] {
+					font-size: 4rem;
+					height: auto;
+				}
 			}
 		}
 	}
