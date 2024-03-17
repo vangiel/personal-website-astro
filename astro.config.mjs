@@ -19,9 +19,23 @@ export default defineConfig({
 				"linkedin": "https://www.linkedin.com/in/daniel-rodr%C3%ADguez-criado-phd-6967626a/",
 				"x.com": "https://twitter.com/danirocri",
 			},
+			sidebar: [
+				{
+					label: "Human-Aware Navigation (HAN)",
+					autogenerate: { directory: "navigation" },
+				},
+				{
+					label: "Human Pose Estimation 3D (HPE)",
+					autogenerate: { directory: "pose-estimation" },
+				},
+				{
+					label: "Image Generation",
+					autogenerate: { directory: "image-generation" },
+				},
+			],
 		}),
 	],
-	output: "server",
+	output: "hybrid",
 	adapter: cloudflare({
 		imageService: "passthrough",
 	}),
