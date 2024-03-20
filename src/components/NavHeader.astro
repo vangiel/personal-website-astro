@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import ThemeToggle from "./ThemeToggle.astro";
-import Hamburger from "@/icons/nav-icons/hamburger.astro";
+import Hamburger from "@/components/Hamburger.astro";
 import Logo from "@/icons/logo.astro";
 
 interface Props {
@@ -141,14 +141,18 @@ let accentColor = "oklch(var(--clr-accent))";
 					position: absolute;
 					top: 4rem;
 					right: 4rem;
-					z-index: 10;
+					z-index: 30;
+				}
+
+				body:has(> #menu-toggle:checked) {
+					overflow: hidden;
 				}
 
 				:global(#menu-toggle:checked) ~ .nav-container {
 					visibility: visible;
 					display: flex;
 					flex-direction: column;
-					justify-content: flex-start;
+					justify-content: center;
 					align-items: center;
 					padding-block-start: 7rem;
 
@@ -171,7 +175,7 @@ let accentColor = "oklch(var(--clr-accent))";
 					}
 
 					.logo-theme {
-						padding-block-end: 3rem;
+						margin-block-end: 5rem;
 
 						:global(.logo__img) {
 							width: 10rem;
