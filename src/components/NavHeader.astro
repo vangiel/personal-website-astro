@@ -131,37 +131,29 @@ let accentColor = "oklch(var(--clr-accent))";
 				}
 			}
 
-			@media (--bp-mobile) {
+			@media (--media-tablet) {
 				.nav-container {
-					visibility: hidden;
-				}
+					--_menu-width: 80vw;
 
-				:global(#themeToggle) {
-					visibility: visible;
-					position: absolute;
-					top: 4rem;
-					right: 4rem;
-					z-index: 30;
-				}
-
-				body:has(> #menu-toggle:checked) {
-					overflow: hidden;
-				}
-
-				:global(#menu-toggle:checked) ~ .nav-container {
-					visibility: visible;
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
 					padding-block-start: 7rem;
 
-					position: fixed;
-					height: 100vh;
-					inset: 0;
 					background-color: oklch(var(--clr-background) / 0.5);
 					backdrop-filter: blur(8px);
 					color: oklch(var(--clr-text));
+
+					position: fixed;
+					height: 100vh;
+					width: var(--_menu-width);
+					top: 0;
+					bottom: 0;
+					left: calc(100vw + (100vw - var(--_menu-width)));
+
+					animation: none;
+					transition: transform 0.3s ease-in-out;
 
 					#main-nav > ul {
 						flex-direction: column;
@@ -169,8 +161,8 @@ let accentColor = "oklch(var(--clr-accent))";
 						align-items: center;
 
 						a {
-							line-height: 4rem;
-							font-size: clamp(var(--fs-500), 4vw, var(--fs-600));
+							line-height: 2em;
+							font-size: var(--fs-600);
 						}
 					}
 
@@ -183,15 +175,26 @@ let accentColor = "oklch(var(--clr-accent))";
 						}
 					}
 				}
+
+				body:has(> #menu-toggle:checked) {
+					overflow: hidden;
+				}
+
+				:global(#menu-toggle:checked) ~ .nav-container {
+					transform: translateX(-100vw);
+				}
+
+				:global(#themeToggle) {
+					position: fixed;
+					top: 4rem;
+					left: 10%;
+					z-index: 30;
+				}
 			}
 
-			@media (--bp-tablet) {
-				#main-nav > ul {
-					gap: 0.7rem;
-					flex-shrink: 0;
-				}
-				.nav-container .logo-theme {
-					gap: 0.5rem !important;
+			@media (--media-mobile) {
+				.nav-container {
+					--_menu-width: 100vw;
 				}
 			}
 		</style>

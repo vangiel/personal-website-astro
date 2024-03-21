@@ -38,6 +38,9 @@ import { DARK_THEME, LIGHT_THEME } from "@/consts/themes";
 </style>
 
 <script is:inline define:vars={{ DARK_THEME, LIGHT_THEME }}>
+	// This scripts add the functionality to the theme toggle button and
+	// update the theme in the local storage.
+
 	function handleToggleClick() {
 		const element = document.documentElement;
 

@@ -51,6 +51,9 @@
 	--max-main-width: 60ch;
 	--navbar-height: 8rem;
 
-	@custom-media --bp-mobile only screen and (width <= 650px);
-	@custom-media --bp-tablet only screen and (width <= 900px);
+	--bp-mobile: 600px;
+	--bp-tablet: 900px;
+
+	@custom-media --media-mobile only screen and (width <= 600px);
+	@custom-media --media-tablet only screen and (width <= 900px);
 }

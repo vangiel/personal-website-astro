@@ -8,7 +8,7 @@ import { Image } from "astro:assets";
 <header>
 	<article class="hero-section">
 		<div class="hero__text">
-			<h1>Hey I am Daniel!</h1>
+			<h1>Hey I am Dr Daniel!</h1>
 			<p>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos architecto alias cupiditate
 				autem ipsum, eveniet ipsa a! Aperiam culpa sunt unde dignissimos, veritatis delectus error
@@ -84,7 +84,7 @@ import { Image } from "astro:assets";
 
 		width: fit-content;
 		margin-inline: auto;
-		padding-block-start: 10rem;
+		margin-block-start: auto;
 
 		.hero__text {
 			width: clamp(2rem, 30vw, 50rem);
@@ -134,7 +134,7 @@ import { Image } from "astro:assets";
 			background-size: 100% 50%;
 		}
 
-		@media (--bp-mobile) {
+		@media (--media-tablet) {
 			flex-direction: column;
 			justify-content: center;
 			gap: 2rem;
@@ -157,7 +157,7 @@ import { Image } from "astro:assets";
 	}
 
 	.continue_arrow {
-		margin-top: auto;
+		margin-block-start: auto;
 		text-align: center;
 
 		h4 {
@@ -178,7 +178,7 @@ import { Image } from "astro:assets";
 			animation: bounce 2s ease infinite;
 		}
 
-		@media (--bp-mobile) {
+		@media (--media-tablet) {
 			display: none;
 		}
 	}
