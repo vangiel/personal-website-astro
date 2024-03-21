@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+import FormattedDate from "@/components/FormattedDate.astro";
+
+type Props = CollectionEntry<"blog">["data"];
+
+const { title, pubDate: date, tags, heroImage: imageUrl } = Astro.props;
+---
+
+<article>
+	<a href="#">
+		<div class="card-wrapper">
+			<Image class="image" src={imageUrl} alt="placeholder" width="1000" height="1000" />
+			<div class="copy">
+				<h3 class="title">{title}</h3>
+				<div class="tags">
+					{tags.map((tag) => <span>{tag}</span>)}
+				</div>
+				<FormattedDate className="date" date={date} />
+			</div>
+		</div>
+	</a>
+</article>
+
+<style>
+	article a {
+		display: block;
+	}
+	.card-wrapper {
+		border: 1px solid oklch(var(--clr-text));
+		border-radius: 30px;
+		box-shadow: 0px 0px 10px 2px oklch(var(--clr-text) / 0.7);
+
+		width: 100%;
+		overflow: hidden;
+
+		.image {
+			object-fit: cover;
+			max-height: 25rem;
+		}
+
+		.copy {
+			padding: 2rem;
+			background: oklch(var(--clr-text));
+			.title {
+				font-size: var(--fs-600);
+				font-weight: var(--fw-bold);
+				font-family: var(--ff-accent);
+				color: oklch(var(--clr-accent));
+				margin-block-end: 0.5rem;
+			}
+
+			.tags {
+				display: flex;
+				gap: 0.5rem;
+				font-size: var(--fs-400);
+				font-weight: var(--fw-bold);
+				margin-block-end: 0.5rem;
+
+				span {
+					background: oklch(var(--clr-text-invert));
+					border-radius: 0.5rem;
+					padding-inline: 0.5rem;
+					padding-block: 0.2rem;
+					color: oklch(var(--clr-text));
+				}
+			}
+
+			:global(.date) {
+				font-size: var(--fs-400);
+				font-weight: var(--fw-bold);
+				color: oklch(var(--clr-text-invert));
+				margin-block-end: 0.5rem;
+			}
+		}
+	}
+</style>

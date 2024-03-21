@@ -1,9 +1,40 @@
 ---
+import ArticleCard from "@/components/ArticleCard.astro";
 import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
 <Layout title="Blog">
-	<main></main>
+	<main>
+		<section>
+			<ul>
+				{
+					posts.map((post) => (
+						<li>
+							<ArticleCard {...post.data} />
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</main>
 </Layout>
 
-<style></style>
+<style>
+	main {
+		padding-block-start: calc(var(--navbar-height) + 2rem);
+	}
+
+	section {
+		margin-inline: auto;
+		max-width: min(90%, calc(var(--max-main-width) + 10rem));
+	}
+
+	li {
+		margin-block-start: 2rem;
+	}
+</style>
