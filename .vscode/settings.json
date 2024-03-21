@@ -25,9 +25,6 @@
   "[astro]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[svelte]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode"
-  },
   "prettier.documentSelectors": ["**/*.astro"],
   "prettier.trailingComma": "all",
   "prettier.requireConfig": true

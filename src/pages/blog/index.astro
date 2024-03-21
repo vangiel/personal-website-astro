@@ -15,7 +15,7 @@ const posts = (await getCollection("blog")).sort(
 				{
 					posts.map((post) => (
 						<li>
-							<ArticleCard {...post.data} />
+							<ArticleCard {...post.data} slug={post.slug} />
 						</li>
 					))
 				}

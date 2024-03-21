@@ -10,8 +10,10 @@ interface Props {
 
 const { pageActive } = Astro.props;
 
-let primaryColor = "oklch(var(--clr-primary))";
-let accentColor = "oklch(var(--clr-accent))";
+let primaryColor: string = "oklch(var(--clr-primary))";
+let accentColor: string = "oklch(var(--clr-accent))";
+
+let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 ---
 
 <Hamburger />
@@ -47,7 +49,7 @@ let accentColor = "oklch(var(--clr-accent))";
 				</a>
 			</li>
 			<li role="none">
-				<a class:list={["menu-item", { active: pageActive === "Blog" }]} href="/blog/">
+				<a class:list={["menu-item", { active: activeBlog }]} href="/blog/">
 					<Icon name="nav-icons/blog" />
 					Blog
 				</a>

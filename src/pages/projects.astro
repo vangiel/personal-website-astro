@@ -1,15 +1,46 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+
+import { getCollection } from "astro:content";
+
+const docs = await getCollection("docs");
 ---
 
 <Layout title="Projects">
 	<main>
-		<a href="/navigation/sngnn"> This is a link to sngnn projet</a>
+		<h2>Right now the list of projects are the following:</h2>
+		<ul>
+			{
+				docs.map((doc) => (
+					<li>
+						<a href={`/${doc.slug}`}>{doc.data.title}</a>
+					</li>
+				))
+			}
+		</ul>
+
+		<p>I am working on the design of this page still.</p>
 	</main>
 </Layout>
 
 <style>
 	main {
 		padding-block-start: 10rem;
+		text-align: center;
+	}
+
+	h2 {
+		font-size: var(--fs-600);
+		font-weight: var(--fw-bold);
+		padding-block-end: 2rem;
+	}
+
+	a:hover:visited {
+		color: oklch(var(--clr-accent));
+	}
+
+	p {
+		padding-block-start: 7rem;
+		font-size: var(--fs-300);
 	}
 </style>
