@@ -22,8 +22,8 @@ const { title, heroImage, pubDate } = Astro.props;
 			</a>
 		</button>
 	</header>
-	<main>
-		<article transition:name={title}>
+	<main transition:name={title}>
+		<article>
 			<header class="article-header">
 				<Image class="image" src={heroImage} alt="placeholder" width="1000" height="1000" />
 				<h1>{title}</h1>
@@ -95,7 +95,7 @@ const { title, heroImage, pubDate } = Astro.props;
 				font-style: italic;
 			}
 		}
-		/* 
+
 		.text {
 			:global(h2) {
 				font-size: var(--fs-600);
@@ -112,6 +112,6 @@ const { title, heroImage, pubDate } = Astro.props;
 			:global(strong) {
 				font-weight: var(--fw-bold);
 			}
-		} */
+		}
 	}
 </style>
