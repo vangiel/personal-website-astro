@@ -1,6 +1,5 @@
 ---
 import { Icon } from "astro-icon/components";
-import { DARK_THEME, LIGHT_THEME } from "@/consts/themes";
 ---
 
 <button id="themeToggle">
@@ -37,50 +36,57 @@ import { DARK_THEME, LIGHT_THEME } from "@/consts/themes";
 	}
 </style>
 
-<script is:inline define:vars={{ DARK_THEME, LIGHT_THEME }}>
+<script>
 	// This scripts add the functionality to the theme toggle button and
 	// update the theme in the local storage.
 
-	function handleToggleClick() {
-		const element = document.documentElement;
+	document.addEventListener("astro:page-load", () => {
+		const DARK_THEME = "dark";
+		const LIGHT_THEME = "light";
 
-		element.getAttribute("data-theme") === "☀️"
-			? element.setAttribute("data-theme", "🌑")
-			: element.setAttribute("data-theme", "☀️");
+		function handleToggleClick() {
+			const element = document.documentElement;
 
-		const isDark = element.getAttribute("data-theme") === "🌑";
-		localStorage.setItem("theme", isDark ? DARK_THEME : LIGHT_THEME);
+			element.getAttribute("data-theme") === "☀️"
+				? element.setAttribute("data-theme", "🌑")
+				: element.setAttribute("data-theme", "☀️");
+
+			const isDark = element.getAttribute("data-theme") === "🌑";
+			localStorage.setItem("theme", isDark ? DARK_THEME : LIGHT_THEME);
+
+			const theme = getTheme();
+			updateThemeMessage(theme);
+		}
+
+		function getTheme(): string {
+			if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+				return localStorage.getItem("theme") as string;
+			}
+			if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+				return DARK_THEME;
+			}
+			return LIGHT_THEME;
+		}
+
+		function updateThemeMessage(theme: string) {
+			const translation = theme === DARK_THEME ? "dark" : "light";
+			const actualThemeMsg = `Toggle theme, the current theme is ${translation}`;
+			const span = document.querySelector("span.visually-hidden");
+			if (span) {
+				span.innerHTML = actualThemeMsg;
+			}
+		}
 
 		const theme = getTheme();
 		updateThemeMessage(theme);
-	}
 
-	function getTheme() {
-		if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-			return localStorage.getItem("theme");
+		if (theme === LIGHT_THEME) {
+			document.documentElement.setAttribute("data-theme", "☀️");
+		} else {
+			document.documentElement.setAttribute("data-theme", "🌑");
 		}
-		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-			return DARK_THEME;
-		}
-		return LIGHT_THEME;
-	}
 
-	function updateThemeMessage(theme) {
-		const translation = theme === DARK_THEME ? "dark" : "light";
-		const actualThemeMsg = `Toggle theme, the current theme is ${translation}`;
-		const span = document.querySelector("span.visually-hidden");
-		span.innerHTML = actualThemeMsg;
-	}
-
-	const theme = getTheme();
-	updateThemeMessage(theme);
-
-	if (theme === LIGHT_THEME) {
-		document.documentElement.setAttribute("data-theme", "☀️");
-	} else {
-		document.documentElement.setAttribute("data-theme", "🌑");
-	}
-
-	window.localStorage.setItem("theme", theme);
-	document.getElementById("themeToggle").addEventListener("click", handleToggleClick);
+		window.localStorage.setItem("theme", theme);
+		document.getElementById("themeToggle")?.addEventListener("click", handleToggleClick);
+	});
 </script>

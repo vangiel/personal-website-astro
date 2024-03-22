@@ -1,0 +1,117 @@
+---
+import FormattedDate from "@/components/FormattedDate.astro";
+import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+import { type CollectionEntry } from "astro:content";
+
+type Props = CollectionEntry<"blog">["data"];
+
+const { title, heroImage, pubDate } = Astro.props;
+---
+
+<Layout title={title}>
+	<header class="main-header">
+		<button class="back-button">
+			<a href="/blog">
+				<svg viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" height="20" width="20"
+					><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" fill="#BFC7D2"
+					></path></svg
+				>
+				Back to blog
+			</a>
+		</button>
+	</header>
+	<main>
+		<article transition:name={title}>
+			<header class="article-header">
+				<Image class="image" src={heroImage} alt="placeholder" width="1000" height="1000" />
+				<h1>{title}</h1>
+				<FormattedDate className="date" date={pubDate} />
+			</header>
+			<div class="text">
+				<slot />
+			</div>
+		</article>
+	</main>
+</Layout>
+
+<style>
+	.main-header {
+		width: 70%;
+		margin-inline: auto;
+		padding-block-start: calc(var(--navbar-height) + 2rem);
+
+		.back-button a {
+			display: flex;
+			align-items: center;
+			gap: 0.5em;
+			width: fit-content;
+			padding-inline: 1.2em;
+			margin-block-end: 2rem;
+
+			line-height: 2em;
+			border: 1px solid oklch(var(--clr-text));
+			border-radius: 100vmax;
+		}
+	}
+
+	main {
+		max-width: min(90%, calc(var(--max-main-width) + 10rem));
+		margin-inline: auto;
+	}
+
+	article {
+		.article-header {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding-block-end: 3rem;
+
+			.image {
+				width: 100%;
+				height: 25rem;
+				object-fit: cover;
+				border-radius: 1rem;
+			}
+
+			h1 {
+				font-size: var(--fs-700);
+				font-weight: var(--fw-bold);
+				text-wrap: wrap;
+				background-image: linear-gradient(
+					to right,
+					oklch(var(--clr-accent)),
+					oklch(var(--clr-purple-500))
+				);
+				color: transparent;
+				background-clip: text;
+			}
+
+			:global(.date) {
+				font-size: var(--fs-400);
+				font-weight: var(--fw-bold);
+				align-self: self-start;
+				font-style: italic;
+			}
+		}
+		/* 
+		.text {
+			:global(h2) {
+				font-size: var(--fs-600);
+				color: var(--clr-accent);
+			}
+			:global(p) {
+				margin-block-end: 2em;
+			}
+
+			:global(img) {
+				margin-block-end: 2em;
+			}
+
+			:global(strong) {
+				font-weight: var(--fw-bold);
+			}
+		} */
+	}
+</style>
