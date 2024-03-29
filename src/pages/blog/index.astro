@@ -1,7 +1,10 @@
 ---
 import ArticleCard from "@/components/ArticleCard.astro";
+import PageBanner from "@/components/PageBanner.astro";
 import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
+
+import BannerImage from "@/images/blog/blog-banner.png";
 
 const posts = (await getCollection("blog")).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -9,6 +12,7 @@ const posts = (await getCollection("blog")).sort(
 ---
 
 <Layout title="Blog">
+	<PageBanner image={BannerImage} title="Blog" description="Latest posts from the blog" />
 	<main>
 		<section>
 			<ul>
@@ -25,10 +29,6 @@ const posts = (await getCollection("blog")).sort(
 </Layout>
 
 <style>
-	main {
-		padding-block-start: calc(var(--navbar-height) + 2rem);
-	}
-
 	section {
 		margin-inline: auto;
 		max-width: min(90%, calc(var(--max-main-width) + 10rem));

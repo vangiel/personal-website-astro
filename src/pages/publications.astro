@@ -1,8 +1,12 @@
 ---
+import PageBanner from "@/components/PageBanner.astro";
 import Layout from "@/layouts/Layout.astro";
+
+import BannerImage from "@/images/publications/publications-banner.jpg";
 ---
 
 <Layout title="Publications">
+	<PageBanner image={BannerImage} title="Publications" description="A list of my publications" />
 	<main></main>
 </Layout>
 

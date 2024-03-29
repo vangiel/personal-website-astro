@@ -1,0 +1,78 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import WaveBanner from "./WaveBanner.astro";
+
+interface Props {
+	image: string | ImageMetadata;
+	title: string;
+	description: string;
+}
+
+const { image, title, description } = Astro.props;
+---
+
+<header>
+	<Image class="image" src={image} alt="banner background" />
+	<WaveBanner className="wave" color="oklch(var(--clr-background))" />
+	<div class="copy">
+		<h1>{title}</h1>
+		<p>{description}</p>
+	</div>
+</header>
+
+<style>
+	header {
+		position: relative;
+
+		.image {
+			width: 100%;
+			height: 50rem;
+			object-fit: cover;
+		}
+
+		:global(.wave) {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+
+			background-image: linear-gradient(
+					to right,
+					oklch(var(--clr-background)) 0%,
+					oklch(var(--clr-background) / 0.4) 40%,
+					transparent 90%
+				),
+				linear-gradient(
+					to bottom,
+					oklch(var(--clr-background)) 0%,
+					oklch(var(--clr-background) / 0.7) 15%,
+					transparent 90%
+				);
+		}
+	}
+	.copy {
+		position: absolute;
+		top: 50%;
+		left: 10%;
+		transform: translateY(-50%);
+
+		h1 {
+			color: oklch(var(--clr-accent));
+			font-size: var(--fs-700);
+			font-family: var(--ff-accent);
+			font-weight: var(--fw-bold);
+			margin-bottom: 1rem;
+		}
+	}
+</style>

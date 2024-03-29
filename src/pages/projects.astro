@@ -1,5 +1,8 @@
 ---
+import PageBanner from "@/components/PageBanner.astro";
 import Layout from "@/layouts/Layout.astro";
+
+import BannerImg from "@/images/projects/projects-banner.png";
 
 import { getCollection } from "astro:content";
 
@@ -7,6 +10,7 @@ const docs = await getCollection("docs");
 ---
 
 <Layout title="Projects">
+	<PageBanner image={BannerImg} title="Projects" description="A list of my projects" />
 	<main>
 		<h2>Right now the list of projects are the following:</h2>
 		<ul>

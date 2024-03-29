@@ -79,6 +79,7 @@ const { title, heroImage, pubDate } = Astro.props;
 				font-size: var(--fs-700);
 				font-weight: var(--fw-bold);
 				text-wrap: wrap;
+				align-self: flex-start;
 				background-image: linear-gradient(
 					to right,
 					oklch(var(--clr-accent)),
@@ -91,7 +92,7 @@ const { title, heroImage, pubDate } = Astro.props;
 			:global(.date) {
 				font-size: var(--fs-400);
 				font-weight: var(--fw-bold);
-				align-self: self-start;
+				align-self: flex-start;
 				font-style: italic;
 			}
 		}
