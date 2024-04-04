@@ -1,22 +1,20 @@
 ---
 title: Synthesizing Traffic Datasets using Graph Neural Networks
 description: A combination of GNNs and the well-known GAN arquitecture called SPADE for traffic image generation.
+tags: [computer vision, generative adversarial networks, graph neural networks, traffic simulation]
 ---
 
-import PrimaryButton from "@/components/PrimaryButton.astro";
+import Header from "@/components/starlight/ProjectHeader.astro";
 import demotoolImage from "@/images/projects/traffic3d/demotool.png";
 import videoWebm from "@/images/projects/traffic3d/traffic.webm";
 import resultsImage from "@/images/projects/traffic3d/visual_results_traffic.png";
 import { Image } from "astro:assets";
 
-> Contributors: **Daniel Rodriguez-Criado**, Maria Chli, Luis J. Manso, George Vogiatzis
-
-<PrimaryButton reference="https://github.com/gnns4hri/sonata" target={true}>
-	Code
-</PrimaryButton>
-<PrimaryButton reference="https://arxiv.org/abs/2009.05345" target={true}>
-	Paper
-</PrimaryButton>
+<Header
+	contributors={["Daniel Rodriguez-Criado", "Maria Chli", "Luis J. Manso", "George Vogiatzis"]}
+	githubUrl="https://github.com/gnns4hri/sonata"
+	paperUrl="https://arxiv.org/abs/2009.05345"
+/>
 
 Traffic congestion in urban areas presents significant challenges, and Intelligent Transportation Systems (ITS) have sought to address these via automated and adaptive controls. However, these systems often struggle to transfer simulated experiences to real-world scenarios.
 

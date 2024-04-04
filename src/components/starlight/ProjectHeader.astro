@@ -1,0 +1,29 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+
+interface Props {
+	contributors: string[];
+	githubUrl: string;
+	peperUrl: string;
+}
+
+const { contributors, githubUrl, peperUrl } = Astro.props;
+---
+
+<blockquote>
+	<p>
+		Contributors: {contributors.join(", ")}
+	</p>
+	<button>
+		<a href={githubUrl} target="_blank">
+			<Icon name="star" color="goldenrod" size="2rem" />
+			Code
+		</a>
+	</button>
+	<button>
+		<a href={peperUrl} target="_blank">
+			<Icon name="star" color="goldenrod" size="2rem" />
+			Paper
+		</a>
+	</button>
+</blockquote>

@@ -1,0 +1,55 @@
+---
+import Logo from "@/icons/logo.astro";
+import type { Props } from "@astrojs/starlight/props";
+
+let primaryColor: string = "var(--sl-color-primary)";
+let accentColor: string = "var(--sl-color-accent)";
+---
+
+<span class="site-title">
+	<a href="/" class="page-logo">
+		<Logo className="page-logo__img" gradFrom={primaryColor} gradTo={accentColor} />
+		Dr Daniel
+	</a>
+	<a href="/projects/" class="projects-link"> projects</a>
+</span>
+
+<style>
+	.site-title {
+		--_font-size: 1.5rem;
+		display: flex;
+
+		a {
+			transition: transform 0.3s ease-in-out;
+			&:hover {
+				transform: translateY(-0.25rem);
+			}
+		}
+	}
+
+	.page-logo {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--sl-color-accent-high);
+		text-decoration: none;
+		font-size: var(--_font-size);
+		font-weight: bold;
+		text-wrap: nowrap;
+
+		.page-logo__img {
+			height: 2.2rem;
+			width: 2.2rem;
+		}
+	}
+
+	.projects-link {
+		display: flex;
+		align-items: center;
+		color: var(--sl-color-accent);
+		text-decoration: none;
+		font-size: var(--_font-size);
+		font-weight: bold;
+		margin-left: 0.6ch;
+	}
+</style>

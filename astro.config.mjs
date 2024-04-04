@@ -10,15 +10,11 @@ export default defineConfig({
 		icon(),
 		starlight({
 			title: "Dr Daniel projects",
-			logo: {
-				src: "./src/icons/logo.svg",
+			components: {
+				SiteTitle: "./src/components/starlight/SiteTitle.astro",
+				SocialIcons: "./src/components/starlight/SocialIcons.astro",
 			},
-			// customCss: ['./src/custom-styles.css', '@fontsource/roboto'],
-			social: {
-				"github": "https://github.com/vangiel",
-				"linkedin": "https://www.linkedin.com/in/daniel-rodr%C3%ADguez-criado-phd-6967626a/",
-				"x.com": "https://twitter.com/danirocri",
-			},
+			customCss: ["./src/styles/starlight-styles.css", "@fontsource-variable/roboto-flex"],
 			sidebar: [
 				{
 					label: "Human-Aware Navigation (HAN)",
