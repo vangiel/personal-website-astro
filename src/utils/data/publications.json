@@ -1,0 +1,123 @@
+[
+  {
+    "title": "Synthesizing Traffic Datasets using Graph Neural Networks",
+    "author": ["Daniel Rodriguez-Criado", "Maria Chli", "Luis J. Manso", "George Vogiatzis"],
+    "year": "2023",
+    "month": "jul",
+    "day": "10",
+    "language": "English",
+    "booktitle": "Proceedings of IEEE 26th International Conference on Intelligent Transportation Systems ITSC",
+    "publisher": "IEEE",
+    "address": "United States",
+    "in": "Proceedings of IEEE 26th International Conference on Intelligent Transportation Systems ITSC",
+    "abstract": "Traffic congestion in urban areas presents significant challenges, and Intelligent Transportation Systems (ITS) have sought to address these via automated and adaptive controls. However, these systems often struggle to transfer simulated experiences to real-world scenarios. This paper introduces a novel methodology for bridging this `sim-real' gap by creating photorealistic images from 2D traffic simulations and recorded junction footage. We propose a novel image generation approach, integrating a Conditional Generative Adversarial Network with a Graph Neural Network (GNN) to facilitate the creation of realistic urban traffic images. We harness GNNs' ability to process information at different levels of abstraction alongside segmented images for preserving locality data. The presented architecture leverages the power of SPADE and Graph ATtention (GAT) network models to create images based on simulated traffic scenarios. These images are conditioned by factors such as entity positions, colors, and time of day. The uniqueness of our approach lies in its ability to effectively translate structured and human-readable conditions, encoded as graphs, into realistic images. This advancement contributes to applications requiring rich traffic image datasets, from data augmentation to urban traffic solutions. We further provide an application to test the model's capabilities, including generating images with manually defined positions for various entities.",
+    "type": "cpaper",
+    "key": "rodriguezcriado2023traffic",
+    "url": "https://2023.ieee-itsc.org/",
+    "download": "https://arxiv.org/pdf/2312.05031.pdf"
+  },
+  {
+    "year": "2022",
+    "title": "A Graph Neural Network to Model User Comfort in Robot Navigation",
+    "author": [
+      "Pilar Bachiller",
+      "Daniel Rodriguez-Criado",
+      "Ronit R. Jorvekar",
+      "Pablo Bustos",
+      "Diego R. Faria",
+      "Luis J. Manso"
+    ],
+    "journal": "Multimedia Tools and Applications",
+    "volume": "81",
+    "number": "3",
+    "pages": "3277--3295",
+    "publisher": "Springer",
+    "in": "Multimedia Tools and Applications, Springer",
+    "type": "jpaper",
+    "download": "https://link.springer.com/content/pdf/10.1007/s11042-021-11113-6.pdf",
+    "url": "https://link.springer.com/article/10.1007/s11042-021-11113-6",
+    "abstract": "Minimising the discomfort caused by robots when navigating in social situations is crucial for them to be accepted. The paper presents a machine learning-based framework that bootstraps existing one-dimensional datasets to generate a cost map dataset and a model combining Graph Neural Network and Convolutional Neural Network layers to produce cost maps for human-aware navigation in real-time. The proposed framework is evaluated against the original one-dimensional dataset and in simulated navigation tasks. The results outperform similar state-of-the-art-methods considering the accuracy on the dataset and the navigation metrics used. The applications of the proposed framework are not limited to human-aware navigation, it could be applied to other fields where map generation is needed. ",
+    "key": "bachiller2022graph"
+  },
+  {
+    "year": "2021",
+    "title": "Generation of Human-aware Navigation Maps using Graph Neural Networks",
+    "author": ["Daniel Rodriguez-Criado", "Pilar Bachiller", "Luis J. Manso"],
+    "booktitle": "Artificial Intelligence XXXVIII",
+    "publisher": "Springer International Publishing",
+    "address": "Cham",
+    "pages": "19--32",
+    "in": "Artificial Intelligence XXXVIII, Springer International Publishing",
+    "type": "cpaper",
+    "download": "https://arxiv.org/pdf/2011.05180",
+    "url": "https://arxiv.org/abs/2011.05180",
+    "abstract": "Minimising the discomfort caused by robots when navigating in social situations is crucial for them to be accepted. The paper presents a machine learning-based framework that bootstraps existing one-dimensional datasets to generate a cost map dataset and a model combining Graph Neural Network and Convolutional Neural Network layers to produce cost maps for human-aware navigation in real-time. The proposed framework is evaluated against the original one-dimensional dataset and in simulated navigation tasks. The results outperform similar state-of-the-art-methods considering the accuracy on the dataset and the navigation metrics used. The applications of the proposed framework are not limited to human-aware navigation, it could be applied to other fields where map generation is needed. ",
+    "key": "rodriguezcriado2021generation",
+    "isbn": "978-3-030-91100-3"
+  },
+  {
+    "year": "2021",
+    "title": "A Toolkit to Generate Social Navigation Datasets",
+    "author": [
+      "Rishabh Baghel",
+      "Aditya Kapoor",
+      "Pilar Bachiller",
+      "Ronit R. Jorvekar",
+      "Daniel Rodriguez-Criado",
+      "Luis J. Manso"
+    ],
+    "booktitle": "Advances in Physical Agents II",
+    "publisher": "Springer International Publishing",
+    "address": "Cham",
+    "pages": "180--193",
+    "isbn": "978-3-030-62579-5",
+    "in": "Advances in Physical Agents II, Springer International Publishing",
+    "type": "cpaper",
+    "download": "https://arxiv.org/pdf/2009.05345.pdf",
+    "url": "https://arxiv.org/abs/2009.05345",
+    "abstract": "Social navigation datasets are necessary to assess social navigation algorithms and train those making use of machine learning. Most of the available datasets target pedestrians whose movement is taken as the pattern to replicate by the robots. It can be argued that one of the main reasons for this to happen is that compiling datasets where real robots are manually controlled as they would be expected to behave when moving is a very resource-intensive task. Another aspect which is often missing in the datasets is symbolic information that could be relevant, such as human activities or relationships. Unfortunately, the available datasets targeting robots and supporting symbolic information are restricted to static scenes. This paper argues that simulation can be used to gather social navigation data in an effective and cost-efficient way and presents a toolkit for this purpose. A use case studying the application of graph neural networks to create learned control policies using supervised learning is presented as an example of how the toolkit can be used.",
+    "key": "rishabh2021toolkit"
+  },
+  {
+    "year": "2020",
+    "title": "Multi-camera Torso Pose Estimation using Graph Neural Networks",
+    "author": [
+      "Daniel Rodriguez-Criado",
+      "Pilar Bachiller",
+      "Pablo Bustos",
+      "George Vogiatzis",
+      "Luis J. Manso"
+    ],
+    "booktitle": "29th IEEE International Conference on Robot and Human Interactive Communication (RO-MAN)",
+    "pages": "827-832",
+    "doi": "10.1109/RO-MAN47096.2020.9223542",
+    "in": "29th IEEE International Conference on Robot and Human Interactive Communication (RO-MAN)",
+    "type": "cpaper",
+    "download": "https://arxiv.org/pdf/2007.14126.pdf",
+    "url": "https://arxiv.org/abs/2007.14126",
+    "abstract": "Estimating the location and orientation of humans is an essential skill for service and assistive robots. To achieve a reliable estimation in a wide area such as an apartment, multiple RGBD cameras are frequently used. Firstly, these setups are relatively expensive. Secondly, they seldom perform an effective data fusion using the multiple camera sources at an early stage of the processing pipeline. Occlusions and partial views make this second point very relevant in these scenarios. The proposal presented in this paper makes use of graph neural networks to merge the information acquired from multiple camera sources, achieving a mean absolute error below 125 mm for the location and 10 degrees for the orientation using low-resolution RGB images. The experiments, conducted in an apartment with three cameras, benchmarked two different graph neural network implementations and a third architecture based on fully connected layers. The software used has been released as open-source in a public repository.",
+    "key": "rodriguezcriado2020multicamera"
+  },
+  {
+    "year": "2019",
+    "title": "Dise&ntilde;o e implementaci&oacute;n de la arquitectura de un procesador para la detecci&oacute;n del deslizamiento de objetos sobre una matriz de sensores t&aacute;ctiles controlado por una FPGA",
+    "author": ["Daniel Rodriguez-Criado"],
+    "in": "Master in Industrial Engineerings. University of M&aacute;laga.",
+    "school": "School of Industrial Engineering, University of M&aacute;laga",
+    "type": "masterthesis",
+    "download": "../documents/theses/thesisIndustriales.pdf",
+    "abstract": "Este trabajo describe el desarrollo del dise&ntilde;o y la implementaci&oacute;n de un algoritmo capaz de detectar el deslizamiento con los datos recogidos por una matriz de sensores táctiles. El principal objetivo es el de identificar las etapas tempranas de este deslizamiento para que una vez instalado en un mano rob&oacute;tica funcional, se pueda reaccionar con antelaci&oacute;n a la ca&iacute;da del objeto sujetado. Todo esto usando MATLAB para el dise&ntilde;o del algoritmo y el an&aacute;lisis de los datos; el sistema de FPGA y matriz de sensores táctiles para implementar la l&oacute;gica; y una aplicaci&oacute;n en LabVIEW para la representaci&oacute;n en tiempo real de los datos arrojados por la FPGA.",
+    "key": "rodriguez2019tactilFPGA"
+  },
+  {
+    "year": "2019",
+    "title": "Differential Robot for Table Surfaces Disinfection using Hi-NW Technology",
+    "author": ["Daniel Rodriguez-Criado"],
+    "in": "Master in Electronic Systmes for Smart Environments. University of M&aacute;laga in collaboration with Hong Kong University of Science and Technology.",
+    "school": "School of Industrial Engineering, University of M&aacute;laga.",
+    "type": "masterthesis",
+    "download": "../documents/theses/thesisHK.pdf",
+    "abstract": "Recently, there has been significant concern regarding the widesprea prolifera ion of biological hazards and thus, it is necessary to adapt novel solutions to this matter. This project has developed a differential robot for simultaneously performing automatic cleaning and disinfection on table surfaces. This system has a body with two motion wheels and a castor wheel what allows it to move in any direction. Also included are IR sensors to detect the edges of the table, and an obstacle detecting sensor facing forward for detecting an object located ahead of its travelling direction. The microcontroller system located within the robot controls all of its movements, which allows for a safe path to be navigated on the table surface when combined with the mentioned sensors. The disinfection system is made up of three LEDs (two blue light sources and one UV emitter) that eliminate pathogens or mi crobes from the irradiated surface. Finally, the robot includes a broom at the rear in order to sweep the dust and waste from the table.",
+    "key": "rodriguez2019difrobot"
+  }
+]
