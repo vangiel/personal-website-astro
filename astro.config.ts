@@ -13,6 +13,8 @@ export default defineConfig({
 			components: {
 				SiteTitle: "./src/components/starlight/SiteTitle.astro",
 				SocialIcons: "./src/components/starlight/SocialIcons.astro",
+				ThemeProvider: "./src/components/starlight/ThemeProvider.astro",
+				ThemeSelect: "./src/components/ThemeToggle.astro",
 			},
 			customCss: ["./src/styles/starlight-styles.css", "@fontsource-variable/roboto-flex"],
 			sidebar: [
