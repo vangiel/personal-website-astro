@@ -12,18 +12,64 @@ const { contributors, githubUrl, peperUrl } = Astro.props;
 
 <blockquote>
 	<p>
-		Contributors: {contributors.join(", ")}
+		Contributors: {
+			contributors.map((contributor, i, array) =>
+				["Daniel Rodriguez-Criado", "Daniel Rodriguez Criado", "Daniel Rodriguez"].includes(
+					contributor
+				) ? (
+					<Fragment
+						set:html={`<strong> ${contributor + "</strong>" + (i < array.length - 2 ? ", " : "")}`}
+					/>
+				) : (
+					<span>
+						{contributor +
+							(i < array.length - 2 ? ", " : "") +
+							(i == array.length - 2 ? " and " : "")}
+					</span>
+				)
+			)
+		}
 	</p>
-	<button>
+	<div class="links">
 		<a href={githubUrl} target="_blank">
-			<Icon name="star" color="goldenrod" size="2rem" />
+			<Icon name="github" size="1.3rem" />
 			Code
 		</a>
-	</button>
-	<button>
+
 		<a href={peperUrl} target="_blank">
-			<Icon name="star" color="goldenrod" size="2rem" />
+			<Icon name="open-book" size="1.3rem" />
 			Paper
 		</a>
-	</button>
+	</div>
 </blockquote>
+
+<style>
+	strong {
+		font-weight: bold;
+		color: var(--sl-color-accent);
+	}
+
+	.links {
+		display: flex;
+		gap: 1rem;
+		margin-top: 1rem;
+
+		a {
+			display: flex;
+			align-items: center;
+			gap: 0.3em;
+			padding-inline: 0.5em;
+
+			color: var(--sl-color-gray-1);
+			text-decoration: none;
+			background-color: var(--sl-color-primary);
+			cursor: pointer;
+			border-radius: 30px;
+
+			&:hover {
+				color: var(--sl-color-gray-6);
+				background-color: var(--sl-color-accent);
+			}
+		}
+	}
+</style>
