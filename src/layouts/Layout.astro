@@ -31,64 +31,65 @@ const { title } = Astro.props;
 	<body>
 		<NavHeader pageActive={title} />
 		<slot />
-	</body><style is:global>
-		:root {
-			/* Light mode */
-			&[data-theme="☀️"] {
-				color-scheme: light;
-				--clr-background: var(--clr-light);
+		<style is:global>
+			:root {
+				/* Light mode */
+				&[data-theme="light"] {
+					color-scheme: light;
+					--clr-background: var(--clr-light);
 
-				--clr-text: var(--clr-neutral-800);
-				--clr-text-invert: var(--clr-light);
+					--clr-text: var(--clr-neutral-800);
+					--clr-text-invert: var(--clr-light);
 
-				--clr-primary: var(--clr-yellow-300);
-				--clr-secondary: var(--clr-neutral-500);
-				--clr-accent: var(--clr-purple-400);
+					--clr-primary: var(--clr-yellow-300);
+					--clr-secondary: var(--clr-neutral-500);
+					--clr-accent: var(--clr-purple-400);
 
-				--bg-img-home: url(../images/home/light-bg.png);
+					--bg-img-home: url(../images/home/light-bg.webp);
+				}
+
+				/* Dark mode */
+				&[data-theme="dark"] {
+					color-scheme: dark;
+					--clr-background: var(--clr-neutral-800);
+
+					--clr-text: var(--clr-light);
+					--clr-text-invert: var(--clr-neutral-800);
+
+					--clr-primary: var(--clr-yellow-300);
+					--clr-secondary: var(--clr-neutral-500);
+					--clr-accent: var(--clr-purple-400);
+
+					--bg-img-home: url(../images/home/dark-bg.webp);
+				}
+
+				/* Font families */
+				--ff-base: "Roboto Flex Variable", sans-serif, system-ui;
+				--ff-accent: "merienda", cursive, serif;
 			}
 
-			/* Dark mode */
-			&[data-theme="🌑"] {
-				color-scheme: dark;
-				--clr-background: var(--clr-neutral-800);
-
-				--clr-text: var(--clr-light);
-				--clr-text-invert: var(--clr-neutral-800);
-
-				--clr-primary: var(--clr-yellow-300);
-				--clr-secondary: var(--clr-neutral-500);
-				--clr-accent: var(--clr-purple-400);
-
-				--bg-img-home: url(../images/home/dark-bg.png);
-			}
-
-			/* Font families */
-			--ff-base: "Roboto Flex Variable", sans-serif, system-ui;
-			--ff-accent: "merienda", cursive, serif;
-		}
-
-		html {
-			color-scheme: dark light;
-			color: oklch(var(--clr-text));
-			font-family: var(--ff-base);
-			background-color: oklch(var(--clr-background));
-			scroll-behavior: smooth;
-
-			@media screen and (prefers-reduced-motion: no-preference) {
+			html {
+				color-scheme: dark light;
+				color: oklch(var(--clr-text));
+				font-family: var(--ff-base);
+				background-color: oklch(var(--clr-background));
 				scroll-behavior: smooth;
-			}
-		}
 
-		/* Utility classes: */
-		.visually-hidden:not(:focus):not(:active) {
-			clip: rect(0 0 0 0);
-			clip-path: inset(50%);
-			height: 1px;
-			overflow: hidden;
-			position: absolute;
-			white-space: nowrap;
-			width: 1px;
-		}
-	</style>
+				@media screen and (prefers-reduced-motion: no-preference) {
+					scroll-behavior: smooth;
+				}
+			}
+
+			/* Utility classes: */
+			.visually-hidden:not(:focus):not(:active) {
+				clip: rect(0 0 0 0);
+				clip-path: inset(50%);
+				height: 1px;
+				overflow: hidden;
+				position: absolute;
+				white-space: nowrap;
+				width: 1px;
+			}
+		</style>
+	</body>
 </html>

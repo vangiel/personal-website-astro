@@ -5,13 +5,16 @@ import { Icon } from "astro-icon/components";
 <button id="themeToggle">
 	<Icon name="themes/republic" class="dark-icon" />
 	<Icon name="themes/rebel" class="light-icon" />
-	<span class="visually-hidden"></span>
+	<span class="visually-hidden sr-only"></span>
 </button>
 
 <style>
 	#themeToggle {
-		width: 2.8rem;
+		width: 32px;
 		aspect-ratio: 1;
+		cursor: pointer;
+		border: none;
+		background: transparent;
 	}
 
 	.dark-icon {
@@ -27,11 +30,11 @@ import { Icon } from "astro-icon/components";
 		color: var(--clr-text);
 	}
 
-	:global([data-theme="🌑"]) .light-icon {
+	:global([data-theme="dark"]) .light-icon {
 		display: none;
 	}
 
-	:global([data-theme="🌑"]) .dark-icon {
+	:global([data-theme="dark"]) .dark-icon {
 		display: inline;
 	}
 </style>
@@ -47,11 +50,11 @@ import { Icon } from "astro-icon/components";
 		function handleToggleClick() {
 			const element = document.documentElement;
 
-			element.getAttribute("data-theme") === "☀️"
-				? element.setAttribute("data-theme", "🌑")
-				: element.setAttribute("data-theme", "☀️");
+			element.getAttribute("data-theme") === "light"
+				? element.setAttribute("data-theme", "dark")
+				: element.setAttribute("data-theme", "light");
 
-			const isDark = element.getAttribute("data-theme") === "🌑";
+			const isDark = element.getAttribute("data-theme") === "dark";
 			localStorage.setItem("theme", isDark ? DARK_THEME : LIGHT_THEME);
 
 			const theme = getTheme();
@@ -81,9 +84,9 @@ import { Icon } from "astro-icon/components";
 		updateThemeMessage(theme);
 
 		if (theme === LIGHT_THEME) {
-			document.documentElement.setAttribute("data-theme", "☀️");
+			document.documentElement.setAttribute("data-theme", "light");
 		} else {
-			document.documentElement.setAttribute("data-theme", "🌑");
+			document.documentElement.setAttribute("data-theme", "dark");
 		}
 
 		window.localStorage.setItem("theme", theme);
