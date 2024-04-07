@@ -1,5 +1,5 @@
 /* Dark mode colors. */
-:root {
+:root[data-theme="dark"] {
 	--sl-color-accent-low: #2e1a39;
 	--sl-color-accent: #8e3fb2;
 	--sl-color-primary: #f0b05f;
@@ -12,8 +12,6 @@
 	--sl-color-gray-5: #253952;
 	--sl-color-gray-6: #14283f;
 	--sl-color-black: #101924;
-
-	--sl-nav-gap: 0.6rem;
 }
 /* Light mode colors. */
 :root[data-theme="light"] {
