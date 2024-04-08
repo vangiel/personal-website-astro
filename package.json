@@ -21,6 +21,8 @@
     "@fontsource/merienda": "^5.0.12",
     "astro": "4.4.9",
     "astro-icon": "1.1.0",
+    "rehype-mathjax": "^6.0.0",
+    "remark-math": "^6.0.0",
     "swiper": "^11.0.7"
   },
   "devDependencies": {

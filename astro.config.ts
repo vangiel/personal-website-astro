@@ -1,6 +1,8 @@
 import cloudflare from "@astrojs/cloudflare";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
+import rehypeMathJax from "rehype-mathjax";
+import remarkMath from "remark-math";
 
 import starlight from "@astrojs/starlight";
 
@@ -37,4 +39,8 @@ export default defineConfig({
 	adapter: cloudflare({
 		imageService: "passthrough",
 	}),
+	markdown: {
+		remarkPlugins: [remarkMath],
+		rehypePlugins: [rehypeMathJax],
+	},
 });
