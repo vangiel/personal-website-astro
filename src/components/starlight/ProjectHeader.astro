@@ -18,7 +18,12 @@ const { contributors, githubUrl, peperUrl } = Astro.props;
 					contributor
 				) ? (
 					<Fragment
-						set:html={`<strong> ${contributor + "</strong>" + (i < array.length - 2 ? ", " : "")}`}
+						set:html={`<strong> ${
+							contributor +
+							"</strong>" +
+							(i < array.length - 2 ? ", " : "") +
+							(i == array.length - 2 ? " and " : "")
+						}`}
 					/>
 				) : (
 					<span>
@@ -43,7 +48,7 @@ const { contributors, githubUrl, peperUrl } = Astro.props;
 	</div>
 </blockquote>
 
-<style>
+<style is:inline>
 	strong {
 		font-weight: bold;
 		color: var(--sl-color-accent);
