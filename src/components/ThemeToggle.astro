@@ -39,47 +39,56 @@ import { Icon } from "astro-icon/components";
 	}
 </style>
 
-<script>
-	// This scripts add the functionality to the theme toggle button and
-	// update the theme in the local storage.
+<script is:inline>
+	const DARK_THEME = "dark";
+	const LIGHT_THEME = "light";
+
+	function getTheme() {
+		if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+			return localStorage.getItem("theme");
+		}
+		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+			return DARK_THEME;
+		}
+		return LIGHT_THEME;
+	}
+
+	function handleToggleClick() {
+		const element = document.documentElement;
+
+		element.getAttribute("data-theme") === "light"
+			? element.setAttribute("data-theme", "dark")
+			: element.setAttribute("data-theme", "light");
+
+		const isDark = element.getAttribute("data-theme") === "dark";
+		localStorage.setItem("theme", isDark ? DARK_THEME : LIGHT_THEME);
+
+		const theme = getTheme();
+		updateThemeMessage(theme);
+	}
+
+	function updateThemeMessage(theme) {
+		const translation = theme === DARK_THEME ? "dark" : "light";
+		const actualThemeMsg = `Toggle theme, the current theme is ${translation}`;
+		const span = document.querySelector("span.visually-hidden");
+		if (span) {
+			span.innerHTML = actualThemeMsg;
+		}
+	}
+
+	const theme = getTheme();
+	updateThemeMessage(theme);
+
+	if (theme === LIGHT_THEME) {
+		document.documentElement.setAttribute("data-theme", "light");
+	} else {
+		document.documentElement.setAttribute("data-theme", "dark");
+	}
+
+	window.localStorage.setItem("theme", theme);
+	document.getElementById("themeToggle")?.addEventListener("click", handleToggleClick);
 
 	document.addEventListener("astro:page-load", () => {
-		const DARK_THEME = "dark";
-		const LIGHT_THEME = "light";
-
-		function handleToggleClick() {
-			const element = document.documentElement;
-
-			element.getAttribute("data-theme") === "light"
-				? element.setAttribute("data-theme", "dark")
-				: element.setAttribute("data-theme", "light");
-
-			const isDark = element.getAttribute("data-theme") === "dark";
-			localStorage.setItem("theme", isDark ? DARK_THEME : LIGHT_THEME);
-
-			const theme = getTheme();
-			updateThemeMessage(theme);
-		}
-
-		function getTheme(): string {
-			if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-				return localStorage.getItem("theme") as string;
-			}
-			if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-				return DARK_THEME;
-			}
-			return LIGHT_THEME;
-		}
-
-		function updateThemeMessage(theme: string) {
-			const translation = theme === DARK_THEME ? "dark" : "light";
-			const actualThemeMsg = `Toggle theme, the current theme is ${translation}`;
-			const span = document.querySelector("span.visually-hidden");
-			if (span) {
-				span.innerHTML = actualThemeMsg;
-			}
-		}
-
 		const theme = getTheme();
 		updateThemeMessage(theme);
 
