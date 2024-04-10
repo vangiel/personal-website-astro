@@ -2,14 +2,14 @@
 import { Icon } from "astro-icon/components";
 ---
 
-<button id="themeToggle">
+<button class="themeToggle">
 	<Icon name="themes/republic" class="dark-icon" />
 	<Icon name="themes/rebel" class="light-icon" />
 	<span class="visually-hidden sr-only"></span>
 </button>
 
 <style>
-	#themeToggle {
+	.themeToggle {
 		width: 32px;
 		aspect-ratio: 1;
 		cursor: pointer;
@@ -40,17 +40,14 @@ import { Icon } from "astro-icon/components";
 </style>
 
 <script is:inline>
-	const DARK_THEME = "dark";
-	const LIGHT_THEME = "light";
-
 	function getTheme() {
 		if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
 			return localStorage.getItem("theme");
 		}
 		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-			return DARK_THEME;
+			return "dark";
 		}
-		return LIGHT_THEME;
+		return "light";
 	}
 
 	function handleToggleClick() {
@@ -61,14 +58,14 @@ import { Icon } from "astro-icon/components";
 			: element.setAttribute("data-theme", "light");
 
 		const isDark = element.getAttribute("data-theme") === "dark";
-		localStorage.setItem("theme", isDark ? DARK_THEME : LIGHT_THEME);
+		localStorage.setItem("theme", isDark ? "dark" : "light");
 
-		const theme = getTheme();
+		theme = getTheme();
 		updateThemeMessage(theme);
 	}
 
 	function updateThemeMessage(theme) {
-		const translation = theme === DARK_THEME ? "dark" : "light";
+		const translation = theme === "dark" ? "dark" : "light";
 		const actualThemeMsg = `Toggle theme, the current theme is ${translation}`;
 		const span = document.querySelector("span.visually-hidden");
 		if (span) {
@@ -76,29 +73,24 @@ import { Icon } from "astro-icon/components";
 		}
 	}
 
-	const theme = getTheme();
-	updateThemeMessage(theme);
-
-	if (theme === LIGHT_THEME) {
-		document.documentElement.setAttribute("data-theme", "light");
-	} else {
-		document.documentElement.setAttribute("data-theme", "dark");
-	}
-
-	window.localStorage.setItem("theme", theme);
-	document.getElementById("themeToggle")?.addEventListener("click", handleToggleClick);
-
-	document.addEventListener("astro:page-load", () => {
+	function onLoadSetUp() {
 		const theme = getTheme();
 		updateThemeMessage(theme);
 
-		if (theme === LIGHT_THEME) {
+		if (theme === "light") {
 			document.documentElement.setAttribute("data-theme", "light");
 		} else {
 			document.documentElement.setAttribute("data-theme", "dark");
 		}
 
 		window.localStorage.setItem("theme", theme);
-		document.getElementById("themeToggle")?.addEventListener("click", handleToggleClick);
-	});
+		toggleButtons = document.getElementsByClassName("themeToggle");
+		console.log("toggleButtons:", toggleButtons);
+		for (let button of toggleButtons) {
+			button.addEventListener("click", handleToggleClick);
+		}
+	}
+
+	window.onload = onLoadSetUp;
+	document.addEventListener("astro:page-load", onLoadSetUp);
 </script>

@@ -4,10 +4,10 @@ import { Icon } from "@astrojs/starlight/components";
 interface Props {
 	contributors: string[];
 	githubUrl: string;
-	peperUrl: string;
+	paperUrl: string;
 }
 
-const { contributors, githubUrl, peperUrl } = Astro.props;
+const { contributors, githubUrl, paperUrl } = Astro.props;
 ---
 
 <blockquote>
@@ -18,7 +18,7 @@ const { contributors, githubUrl, peperUrl } = Astro.props;
 					contributor
 				) ? (
 					<Fragment
-						set:html={`<strong> ${
+						set:html={`<strong class="my-name"> ${
 							contributor +
 							"</strong>" +
 							(i < array.length - 2 ? ", " : "") +
@@ -41,7 +41,7 @@ const { contributors, githubUrl, peperUrl } = Astro.props;
 			Code
 		</a>
 
-		<a href={peperUrl} target="_blank">
+		<a href={paperUrl} target="_blank">
 			<Icon name="open-book" size="1.3rem" />
 			Paper
 		</a>
@@ -49,7 +49,7 @@ const { contributors, githubUrl, peperUrl } = Astro.props;
 </blockquote>
 
 <style is:inline>
-	strong {
+	strong.my-name {
 		font-weight: bold;
 		color: var(--sl-color-accent);
 	}
