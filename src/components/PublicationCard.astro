@@ -1,0 +1,234 @@
+---
+import type { Publication } from "@/types/publication";
+
+interface Props extends Publication {}
+
+const { ...pubAttrs } = Astro.props;
+
+// Preprocess the title of the publication with the year
+const pubTitle = `<span>${pubAttrs.year}</span> ${pubAttrs.title}`;
+
+// Preprocess the type of publication
+let typetxt;
+let bibTexHead;
+switch (pubAttrs.type) {
+	case "jpaper":
+		typetxt = "<span class='journal'>Journal Papers</span>";
+		bibTexHead = "@article{";
+		break;
+	case "cpaper":
+		typetxt = "<span class='conference'>Conference Papers</span>";
+		bibTexHead = "@inproceedings{";
+		break;
+	case "bookchapter":
+		typetxt = "<span class='book'>Book Chapter</span>";
+		bibTexHead = "@inbook{";
+		break;
+	case "phdthesis":
+		typetxt = "<span class='theses'>Theses</span>";
+		bibTexHead = "@phdthesis{";
+		break;
+	case "masterthesis":
+		typetxt = "<span class='theses'>Theses</span>";
+		bibTexHead = "@masterthesis{";
+		break;
+	default:
+		typetxt = "";
+		bibTexHead = "";
+}
+let cite = typetxt + pubAttrs.in;
+
+// Preprocess bibtext citation
+let bibTex = `${bibTexHead}${pubAttrs.key},
+                              <br>`;
+for (let key in pubAttrs) {
+	if (
+		key === "in" ||
+		key === "key" ||
+		key === "abstract" ||
+		key === "x" ||
+		key === "abstract" ||
+		key === "download" ||
+		key === "url" ||
+		key === "type" ||
+		key === "title" ||
+		key === "author" ||
+		key === "year"
+	) {
+		continue;
+	} else {
+		bibTex += `<span>${key} = "${(pubAttrs as any)[key]}"</span>,
+                                   <br>`;
+	}
+}
+bibTex += "}";
+---
+
+<div class="pubmain">
+	<h3 set:html={pubTitle} class="title" />
+	<p class="authors">
+		{
+			pubAttrs.author.map((contributor, i, array) =>
+				["Daniel Rodriguez-Criado", "Daniel Rodriguez Criado", "Daniel Rodriguez"].includes(
+					contributor
+				) ? (
+					<Fragment
+						set:html={`<strong class="my-name"> ${
+							contributor +
+							"</strong>" +
+							(i < array.length - 2 ? ", " : "") +
+							(i == array.length - 2 ? " and " : "")
+						}`}
+					/>
+				) : (
+					<span>
+						{contributor +
+							(i < array.length - 2 ? ", " : "") +
+							(i == array.length - 2 ? " and " : "")}
+					</span>
+				)
+			)
+		}
+	</p>
+	<p set:html={cite} class="cite" />
+	<div class="assets">
+		<a class="pubgo" href={pubAttrs.url}></a>
+		<a class="pubdownload" href={pubAttrs.download}></a>
+		<a class="pubcollapse" href="#/"></a>
+	</div>
+</div>
+
+<div class="pubdetails">
+	<h4>BibTeX</h4>
+	<p set:html={bibTex} class="bibtex" />
+	<h4>Abstract</h4>
+	<p class="abstract">
+		{pubAttrs.abstract}
+	</p>
+</div>
+
+<style>
+	.pubmain {
+		margin: auto;
+		position: relative;
+		padding-top: 1em;
+		padding-bottom: 2.6em;
+
+		@media (--media-tablet) {
+			margin-inline: 5em;
+		}
+
+		.title {
+			margin-bottom: 1em;
+		}
+		p {
+			margin-top: 0.21em;
+		}
+		.cite {
+			span {
+				display: inline-block;
+				color: white;
+				font-size: 10px;
+				font-weight: bold;
+				padding: 0.12em 0.5em;
+
+				border-radius: 5px;
+				margin-right: 1em;
+			}
+			.journal {
+				background-color: red;
+			}
+			.conference {
+				background-color: green;
+			}
+			.theses {
+				background-color: teal;
+			}
+			.book {
+				background-color: orange;
+			}
+		}
+
+		.assets {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			display: flex;
+
+			background-color: oklch(var(--clr-primary) / 0.6);
+
+			&::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 2px;
+				background-color: oklch(var(--clr-primary));
+			}
+
+			a {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				height: 2.5rem;
+				width: 2.5rem;
+
+				font-size: 20px;
+				color: oklch(var(--clr-text));
+
+				&:hover {
+					background-color: oklch(var(--clr-primary));
+					color: white;
+				}
+
+				&:last-child {
+					background-color: oklch(var(--clr-primary));
+					color: white;
+				}
+			}
+		}
+	}
+	.pubdetails {
+		max-height: 0;
+		margin-top: 2px;
+
+		overflow: hidden;
+		transition: max-height 0.3s ease-out;
+		box-shadow: 0 -2px 0 0 oklch(var(--clr-primary));
+
+		@media (--media-tablet) {
+			margin-inline: 5em;
+		}
+
+		.wrapper {
+			padding: 2em;
+		}
+
+		h3 {
+			margin-bottom: 1em;
+		}
+
+		.bibtex {
+			margin-bottom: 1.5em;
+			span {
+				margin-left: 40px;
+			}
+		}
+
+		.abstract {
+			text-align: justify;
+			text-justify: inter-word;
+		}
+	}
+
+	.bibtex {
+		overflow-x: auto;
+		& > p {
+			background-color: #dcdcdc;
+			padding: 2em;
+			min-width: calc(var(--bp-tablet) - 12em);
+		}
+	}
+</style>

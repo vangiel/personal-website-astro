@@ -1,13 +1,33 @@
 ---
 import PageBanner from "@/components/PageBanner.astro";
+import PublicationCard from "@/components/PublicationCard.astro";
 import Layout from "@/layouts/Layout.astro";
 
+import publications from "@/data/publications.json";
 import BannerImage from "@/images/publications/publications-banner.jpg";
 ---
 
 <Layout title="Publications">
 	<PageBanner image={BannerImage} title="Publications" description="A list of my publications" />
-	<main></main>
+	<main>
+		<section class="publications-section">
+			<ul class="publications-list">
+				{
+					publications.map((publication: any) => (
+						<li class="publication">
+							<PublicationCard {...publication} />
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</main>
 </Layout>
 
-<style></style>
+<style>
+	.publications-section {
+		max-width: var(--max-main-width);
+		margin-inline: auto;
+		padding-block-end: 5rem;
+	}
+</style>
