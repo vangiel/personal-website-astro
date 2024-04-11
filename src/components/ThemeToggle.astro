@@ -85,7 +85,6 @@ import { Icon } from "astro-icon/components";
 
 		window.localStorage.setItem("theme", theme);
 		toggleButtons = document.getElementsByClassName("themeToggle");
-		console.log("toggleButtons:", toggleButtons);
 		for (let button of toggleButtons) {
 			button.addEventListener("click", handleToggleClick);
 		}

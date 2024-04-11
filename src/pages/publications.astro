@@ -14,7 +14,7 @@ import BannerImage from "@/images/publications/publications-banner.jpg";
 			<ul class="publications-list">
 				{
 					publications.map((publication: any) => (
-						<li class="publication">
+						<li>
 							<PublicationCard {...publication} />
 						</li>
 					))
@@ -26,8 +26,11 @@ import BannerImage from "@/images/publications/publications-banner.jpg";
 
 <style>
 	.publications-section {
-		max-width: var(--max-main-width);
+		max-width: clamp(60rem, 80%, 120rem);
 		margin-inline: auto;
-		padding-block-end: 5rem;
+	}
+
+	.publications-list li {
+		padding-block-end: 3rem;
 	}
 </style>

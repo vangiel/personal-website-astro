@@ -1,5 +1,6 @@
 ---
 import type { Publication } from "@/types/publication";
+import { Icon } from "astro-icon/components";
 
 interface Props extends Publication {}
 
@@ -10,33 +11,38 @@ const pubTitle = `<span>${pubAttrs.year}</span> ${pubAttrs.title}`;
 
 // Preprocess the type of publication
 let typetxt;
+let citeClass;
 let bibTexHead;
 switch (pubAttrs.type) {
 	case "jpaper":
-		typetxt = "<span class='journal'>Journal Papers</span>";
+		typetxt = "Journal Paper";
+		citeClass = "journal";
 		bibTexHead = "@article{";
 		break;
 	case "cpaper":
-		typetxt = "<span class='conference'>Conference Papers</span>";
+		typetxt = "Conference Paper";
+		citeClass = "conference";
 		bibTexHead = "@inproceedings{";
 		break;
 	case "bookchapter":
-		typetxt = "<span class='book'>Book Chapter</span>";
+		typetxt = "Book Chapter";
+		citeClass = "book";
 		bibTexHead = "@inbook{";
 		break;
 	case "phdthesis":
-		typetxt = "<span class='theses'>Theses</span>";
+		typetxt = "Thesis";
+		citeClass = "thesis";
 		bibTexHead = "@phdthesis{";
 		break;
 	case "masterthesis":
-		typetxt = "<span class='theses'>Theses</span>";
+		typetxt = "Thesis";
+		citeClass = "thesis";
 		bibTexHead = "@masterthesis{";
 		break;
 	default:
 		typetxt = "";
 		bibTexHead = "";
 }
-let cite = typetxt + pubAttrs.in;
 
 // Preprocess bibtext citation
 let bibTex = `${bibTexHead}${pubAttrs.key},
@@ -53,7 +59,8 @@ for (let key in pubAttrs) {
 		key === "type" ||
 		key === "title" ||
 		key === "author" ||
-		key === "year"
+		key === "year" ||
+		key === "class"
 	) {
 		continue;
 	} else {
@@ -64,72 +71,101 @@ for (let key in pubAttrs) {
 bibTex += "}";
 ---
 
-<div class="pubmain">
-	<h3 set:html={pubTitle} class="title" />
-	<p class="authors">
-		{
-			pubAttrs.author.map((contributor, i, array) =>
-				["Daniel Rodriguez-Criado", "Daniel Rodriguez Criado", "Daniel Rodriguez"].includes(
-					contributor
-				) ? (
-					<Fragment
-						set:html={`<strong class="my-name"> ${
-							contributor +
-							"</strong>" +
-							(i < array.length - 2 ? ", " : "") +
-							(i == array.length - 2 ? " and " : "")
-						}`}
-					/>
-				) : (
-					<span>
-						{contributor +
-							(i < array.length - 2 ? ", " : "") +
-							(i == array.length - 2 ? " and " : "")}
-					</span>
+<article class="publication-card">
+	<div class="pubmain">
+		<h3 set:html={pubTitle} class="title" />
+		<p class="authors">
+			{
+				pubAttrs.author.map((contributor, i, array) =>
+					["Daniel Rodriguez-Criado", "Daniel Rodriguez Criado", "Daniel Rodriguez"].includes(
+						contributor
+					) ? (
+						<Fragment
+							set:html={`<strong class="my-name"> ${
+								contributor +
+								"</strong>" +
+								(i < array.length - 2 ? ", " : "") +
+								(i == array.length - 2 ? " and " : "")
+							}`}
+						/>
+					) : (
+						<span>
+							{contributor +
+								(i < array.length - 2 ? ", " : "") +
+								(i == array.length - 2 ? " and " : "")}
+						</span>
+					)
 				)
-			)
-		}
-	</p>
-	<p set:html={cite} class="cite" />
-	<div class="assets">
-		<a class="pubgo" href={pubAttrs.url}></a>
-		<a class="pubdownload" href={pubAttrs.download}></a>
-		<a class="pubcollapse" href="#/"></a>
+			}
+		</p>
+		<p class="cite">
+			<span class:list={citeClass}>{typetxt}</span>{pubAttrs.in}
+		</p>
+		<div class="assets">
+			{
+				pubAttrs.url && (
+					<a class="pubgo" target="_blank" href={pubAttrs.url}>
+						<Icon name="publications/link" />
+					</a>
+				)
+			}
+			<a class="pubdownload" target="_blank" href={pubAttrs.download}>
+				<Icon name="publications/download" />
+			</a>
+			<button class="pubcollapse">
+				<Icon class="down" name="publications/down" />
+				<Icon class="up visually-hidden" name="publications/up" />
+			</button>
+		</div>
 	</div>
-</div>
 
-<div class="pubdetails">
-	<h4>BibTeX</h4>
-	<p set:html={bibTex} class="bibtex" />
-	<h4>Abstract</h4>
-	<p class="abstract">
-		{pubAttrs.abstract}
-	</p>
-</div>
+	<div class="pubdetails">
+		<h4>BibTeX citation</h4>
+		<p set:html={bibTex} class="bibtex" />
+		<h4>Abstract</h4>
+		<p class="abstract">
+			{pubAttrs.abstract}
+		</p>
+	</div>
+</article>
 
 <style>
-	.pubmain {
-		margin: auto;
+	.publication-card {
+		--_padding: 1.5rem;
 		position: relative;
-		padding-top: 1em;
-		padding-bottom: 2.6em;
+		color: oklch(var(--clr-text-invert));
+		background-color: oklch(var(--clr-text));
+	}
 
-		@media (--media-tablet) {
-			margin-inline: 5em;
-		}
+	.pubmain {
+		padding: var(--_padding);
+		position: relative;
 
 		.title {
-			margin-bottom: 1em;
+			font-weight: var(--fw-bold);
+			font-size: clamp(var(--fs-400), 1.5vw, var(--fs-600));
+
+			span {
+				font-style: italic;
+			}
 		}
-		p {
-			margin-top: 0.21em;
+
+		.authors .my-name {
+			color: oklch(var(--clr-accent));
+			font-weight: var(--fw-bold);
 		}
+
 		.cite {
+			display: flex;
+			align-items: center;
+			font-style: italic;
+
 			span {
 				display: inline-block;
 				color: white;
-				font-size: 10px;
-				font-weight: bold;
+				font-style: normal;
+				font-size: var(--fs-300);
+				font-weight: var(--fw-bold);
 				padding: 0.12em 0.5em;
 
 				border-radius: 5px;
@@ -141,7 +177,7 @@ bibTex += "}";
 			.conference {
 				background-color: green;
 			}
-			.theses {
+			.thesis {
 				background-color: teal;
 			}
 			.book {
@@ -167,7 +203,8 @@ bibTex += "}";
 				background-color: oklch(var(--clr-primary));
 			}
 
-			a {
+			a,
+			button {
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -175,39 +212,32 @@ bibTex += "}";
 				height: 2.5rem;
 				width: 2.5rem;
 
-				font-size: 20px;
+				font-size: 1.5rem;
+				color: oklch(var(--clr-text-invert));
+			}
+
+			a:hover {
+				background-color: oklch(var(--clr-primary));
 				color: oklch(var(--clr-text));
+			}
 
-				&:hover {
-					background-color: oklch(var(--clr-primary));
-					color: white;
-				}
-
-				&:last-child {
-					background-color: oklch(var(--clr-primary));
-					color: white;
-				}
+			button {
+				background-color: oklch(var(--clr-primary));
 			}
 		}
 	}
 	.pubdetails {
 		max-height: 0;
-		margin-top: 2px;
 
 		overflow: hidden;
-		transition: max-height 0.3s ease-out;
+		transition:
+			max-height 0.3s ease-in-out,
+			padding 0.3s ease-in-out;
 		box-shadow: 0 -2px 0 0 oklch(var(--clr-primary));
 
-		@media (--media-tablet) {
-			margin-inline: 5em;
-		}
-
-		.wrapper {
-			padding: 2em;
-		}
-
-		h3 {
-			margin-bottom: 1em;
+		h4 {
+			color: oklch(var(--clr-accent));
+			font-weight: var(--fw-bold);
 		}
 
 		.bibtex {
@@ -216,19 +246,30 @@ bibTex += "}";
 				margin-left: 40px;
 			}
 		}
-
-		.abstract {
-			text-align: justify;
-			text-justify: inter-word;
-		}
-	}
-
-	.bibtex {
-		overflow-x: auto;
-		& > p {
-			background-color: #dcdcdc;
-			padding: 2em;
-			min-width: calc(var(--bp-tablet) - 12em);
+		&.show {
+			max-height: 1000px;
+			padding: var(--_padding);
 		}
 	}
 </style>
+
+<script>
+	import { $, $$ } from "@/lib/dom-selector";
+	document.addEventListener("astro:page-load", (ev) => {
+		// Add a click event listener to the publication collapse button
+		const collapseButtons = $$(".pubcollapse");
+		collapseButtons.forEach((button) => {
+			button.addEventListener("click", () => {
+				const pubDetails = $(".pubdetails", button.closest(".publication-card") as HTMLElement);
+				pubDetails.classList.toggle("show");
+
+				// Change icon based on the state of the publication details
+				const upIcon = $(".up", button as HTMLElement);
+				const downIcon = $(".down", button as HTMLElement);
+
+				upIcon.classList.toggle("visually-hidden");
+				downIcon.classList.toggle("visually-hidden");
+			});
+		});
+	});
+</script>

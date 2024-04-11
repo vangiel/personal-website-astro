@@ -90,6 +90,7 @@ const { title } = Astro.props;
 			white-space: nowrap;
 			width: 1px;
 		}
+		/*Stop animations on resize of the browser window*/
 
 		.resize-animation-stopper * {
 			transition: none !important;
@@ -98,6 +99,7 @@ const { title } = Astro.props;
 	</style>
 
 	<script is:inline>
+		/*Stop animations on resize of the browser window*/
 		let resizeTimer;
 		window.addEventListener("resize", () => {
 			document.body.classList.add("resize-animation-stopper");

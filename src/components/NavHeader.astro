@@ -61,168 +61,168 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 				</a>
 			</li>
 		</ul>
-
-		<style>
-			.nav-container {
-				display: flex;
-				align-items: center;
-				justify-content: space-around;
-
-				height: var(--navbar-height);
-				padding-inline: min(1rem, 2vw);
-
-				position: fixed;
-				top: 0;
-				inset: 0;
-				z-index: 20;
-
-				animation: blur linear both;
-				animation-timeline: scroll();
-				animation-range: 0 500px;
-
-				.logo-theme {
-					display: flex;
-					align-items: center;
-					flex-shrink: 0;
-					gap: 2rem;
-
-					a {
-						display: flex;
-						align-items: center;
-					}
-
-					:global(.logo__img) {
-						height: 5rem;
-						width: 5rem;
-					}
-				}
-			}
-
-			@keyframes blur {
-				to {
-					box-shadow:
-						0px 5px 50px -5px oklch(var(--clr-text) / 0.1),
-						0px 0px 0px 1px oklch(var(--clr-text) / 0.3);
-					background-color: oklch(var(--clr-background) / 0.6);
-					backdrop-filter: blur(10px);
-				}
-			}
-
-			#main-nav > ul {
-				display: flex;
-				gap: 1.5rem;
-				align-items: center;
-				justify-content: center;
-
-				a {
-					display: flex;
-					align-items: center;
-					gap: 0.5rem;
-
-					line-height: 3rem;
-					padding-inline: 1rem;
-					border-radius: 0.5rem;
-					font-weight: var(--fw-bold);
-				}
-
-				.active,
-				a:hover,
-				a:focus {
-					background: oklch(var(--clr-accent));
-					color: oklch(var(--clr-text-invert));
-				}
-			}
-
-			@media (--media-tablet) {
-				.nav-container {
-					--_menu-width: 80vw;
-
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					align-items: center;
-					padding-block-start: 7rem;
-
-					background-color: oklch(var(--clr-background) / 0.5);
-					backdrop-filter: blur(8px);
-					color: oklch(var(--clr-text));
-
-					position: fixed;
-					height: 100vh;
-					width: var(--_menu-width);
-					top: 0;
-					bottom: 0;
-					left: calc(100vw + (100vw - var(--_menu-width)));
-
-					animation: none;
-					transition: transform 0.3s ease-in-out;
-
-					#main-nav > ul {
-						flex-direction: column;
-						gap: 1rem;
-						align-items: center;
-
-						a {
-							line-height: 2em;
-							font-size: var(--fs-600);
-						}
-					}
-
-					.logo-theme {
-						margin-block-end: 5rem;
-
-						:global(.logo__img) {
-							width: 10rem;
-							height: 10rem;
-						}
-					}
-				}
-
-				body:has(> #menu-toggle:checked) {
-					overflow: hidden;
-				}
-
-				:global(#menu-toggle:checked) ~ .nav-container {
-					transform: translateX(-100vw);
-				}
-
-				:global(.themeToggle) {
-					position: fixed;
-					top: 4rem;
-					left: 10%;
-					z-index: 30;
-				}
-			}
-
-			@media (--media-mobile) {
-				.nav-container {
-					--_menu-width: 100vw;
-				}
-			}
-		</style>
-
-		<script>
-			const menuItems = document.querySelectorAll(".menu-item");
-			const activeElement = document.querySelector(".active");
-			const mainNav = document.querySelector("#main-nav");
-
-			menuItems.forEach((element) => {
-				element.addEventListener("mouseover", () => {
-					menuItems.forEach((item) => {
-						if (item.classList.contains("active")) {
-							item.classList.remove("active");
-						}
-					});
-				});
-			});
-
-			if (mainNav != null) {
-				mainNav.addEventListener("mouseleave", () => {
-					if (activeElement != null) {
-						activeElement.classList.add("active");
-					}
-				});
-			}
-		</script>
 	</nav>
 </div>
+
+<style>
+	.nav-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+
+		height: var(--navbar-height);
+		padding-inline: min(1rem, 2vw);
+
+		position: fixed;
+		top: 0;
+		inset: 0;
+		z-index: 20;
+
+		animation: blur linear both;
+		animation-timeline: scroll();
+		animation-range: 0 500px;
+
+		.logo-theme {
+			display: flex;
+			align-items: center;
+			flex-shrink: 0;
+			gap: 2rem;
+
+			a {
+				display: flex;
+				align-items: center;
+			}
+
+			:global(.logo__img) {
+				height: 5rem;
+				width: 5rem;
+			}
+		}
+	}
+
+	@keyframes blur {
+		to {
+			box-shadow:
+				0px 5px 50px -5px oklch(var(--clr-text) / 0.1),
+				0px 0px 0px 1px oklch(var(--clr-text) / 0.3);
+			background-color: oklch(var(--clr-background) / 0.6);
+			backdrop-filter: blur(10px);
+		}
+	}
+
+	#main-nav > ul {
+		display: flex;
+		gap: 1.5rem;
+		align-items: center;
+		justify-content: center;
+
+		a {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+
+			line-height: 3rem;
+			padding-inline: 1rem;
+			border-radius: 0.5rem;
+			font-weight: var(--fw-bold);
+		}
+
+		.active,
+		a:hover,
+		a:focus {
+			background: oklch(var(--clr-accent));
+			color: oklch(var(--clr-text-invert));
+		}
+	}
+
+	@media (--media-tablet) {
+		.nav-container {
+			--_menu-width: 80vw;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			padding-block-start: 7rem;
+
+			background-color: oklch(var(--clr-background) / 0.5);
+			backdrop-filter: blur(8px);
+			color: oklch(var(--clr-text));
+
+			position: fixed;
+			height: 100vh;
+			width: var(--_menu-width);
+			top: 0;
+			bottom: 0;
+			left: calc(100vw + (100vw - var(--_menu-width)));
+
+			animation: none;
+			transition: transform 0.3s ease-in-out;
+
+			#main-nav > ul {
+				flex-direction: column;
+				gap: 1rem;
+				align-items: center;
+
+				a {
+					line-height: 2em;
+					font-size: var(--fs-600);
+				}
+			}
+
+			.logo-theme {
+				margin-block-end: 5rem;
+
+				:global(.logo__img) {
+					width: 10rem;
+					height: 10rem;
+				}
+			}
+		}
+
+		body:has(> #menu-toggle:checked) {
+			overflow: hidden;
+		}
+
+		:global(#menu-toggle:checked) ~ .nav-container {
+			transform: translateX(-100vw);
+		}
+
+		:global(.themeToggle) {
+			position: fixed;
+			top: 4rem;
+			left: 10%;
+			z-index: 30;
+		}
+	}
+
+	@media (--media-mobile) {
+		.nav-container {
+			--_menu-width: 100vw;
+		}
+	}
+</style>
+
+<script>
+	const menuItems = document.querySelectorAll(".menu-item");
+	const activeElement = document.querySelector(".active");
+	const mainNav = document.querySelector("#main-nav");
+
+	menuItems.forEach((element) => {
+		element.addEventListener("mouseover", () => {
+			menuItems.forEach((item) => {
+				if (item.classList.contains("active")) {
+					item.classList.remove("active");
+				}
+			});
+		});
+	});
+
+	if (mainNav != null) {
+		mainNav.addEventListener("mouseleave", () => {
+			if (activeElement != null) {
+				activeElement.classList.add("active");
+			}
+		});
+	}
+</script>

@@ -39,6 +39,8 @@
 	--fw-extra-bold: 900;
 
 	/* font sizes */
+	--fs-100: 0.5rem;
+	--fs-200: 0.7rem;
 	--fs-300: 1rem;
 	--fs-400: 1.5rem;
 	--fs-500: 1.75rem;
