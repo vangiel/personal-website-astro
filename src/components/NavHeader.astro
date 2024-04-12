@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
-import ThemeToggle from "./ThemeToggle.astro";
-import Hamburger from "@/components/Hamburger.astro";
+import ThemeToggle from "./buttons/ThemeToggle.astro";
+import Hamburger from "@/components/buttons/Hamburger.astro";
 import Logo from "@/icons/logo.astro";
 
 interface Props {
@@ -74,11 +74,11 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 		padding-inline: min(1rem, 2vw);
 
 		position: fixed;
-		top: 0;
-		inset: 0;
-		z-index: 20;
+		inset: 0 0 auto 0;
+		z-index: 100;
 
-		animation: blur linear both;
+		background-color: oklch(var(--clr-background) / 0.01);
+		animation: blur linear forwards;
 		animation-timeline: scroll();
 		animation-range: 0 500px;
 
