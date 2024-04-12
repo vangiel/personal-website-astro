@@ -267,8 +267,13 @@ bibTex += "}";
 				const upIcon = $(".up", button as HTMLElement);
 				const downIcon = $(".down", button as HTMLElement);
 
-				upIcon.classList.toggle("visually-hidden");
-				downIcon.classList.toggle("visually-hidden");
+				if (pubDetails.classList.contains("show")) {
+					upIcon.classList.remove("visually-hidden");
+					downIcon.classList.add("visually-hidden");
+				} else {
+					upIcon.classList.add("visually-hidden");
+					downIcon.classList.remove("visually-hidden");
+				}
 			});
 		});
 	});

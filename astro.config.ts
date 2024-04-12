@@ -14,9 +14,9 @@ export default defineConfig({
 			title: "Dr Daniel projects",
 			components: {
 				SiteTitle: "./src/components/starlight/SiteTitle.astro",
-				SocialIcons: "./src/components/starlight/SocialIcons.astro",
+				SocialIcons: "./src/components/SocialIcons.astro",
 				ThemeProvider: "./src/components/starlight/ThemeProvider.astro",
-				ThemeSelect: "./src/components/ThemeToggle.astro",
+				ThemeSelect: "./src/components/buttons/ThemeToggle.astro",
 			},
 			customCss: ["./src/styles/starlight-styles.css", "@fontsource-variable/roboto-flex"],
 			sidebar: [
