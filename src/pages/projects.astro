@@ -1,5 +1,6 @@
 ---
 import PageBanner from "@/components/PageBanner.astro";
+import ProjectCard from "@/components/cards/ProjectCard.astro";
 import Layout from "@/layouts/Layout.astro";
 
 import BannerImg from "@/images/projects/projects-banner.png";
@@ -7,23 +8,23 @@ import BannerImg from "@/images/projects/projects-banner.png";
 import { getCollection } from "astro:content";
 
 const docs = await getCollection("docs");
+// console.log(docs);
 ---
 
 <Layout title="Projects">
 	<PageBanner image={BannerImg} title="Projects" description="A list of my projects" />
 	<main>
-		<h2>Right now the list of projects are the following:</h2>
-		<ul>
-			{
-				docs.map((doc) => (
-					<li>
-						<a href={`/${doc.slug}`}>{doc.data.title}</a>
-					</li>
-				))
-			}
-		</ul>
-
-		<p>I am working on the design of this page still.</p>
+		<section>
+			<ul>
+				{
+					docs.map((doc) => (
+						<li>
+							<ProjectCard {...doc.data} slug={doc.slug} />
+						</li>
+					))
+				}
+			</ul>
+		</section>
 	</main>
 </Layout>
 

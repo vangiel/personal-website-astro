@@ -1,0 +1,67 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+import FormattedDate from "@/components/FormattedDate.astro";
+
+type Props = CollectionEntry<"docs">["data"] & { slug: string };
+
+const { title, lastUpdated: date, cover, coverAlt, description, slug } = Astro.props;
+console.log(description);
+---
+
+<article transition:name={title}>
+	<a href={`/${slug}`}>
+		<div class="card-wrapper">
+			{cover && <Image class="image" src={cover} alt={coverAlt as string} />}
+			<div class="copy">
+				<h3 class="title">{title}</h3>
+				<p class="description">
+					{description}
+				</p>
+				{date && <FormattedDate className="date" date={date as Date} />}
+			</div>
+		</div>
+	</a>
+</article>
+
+<style>
+	article a {
+		display: block;
+	}
+	.card-wrapper {
+		border: 1px solid oklch(var(--clr-text));
+		border-radius: 30px;
+		box-shadow: 0px 0px 10px 2px oklch(var(--clr-text) / 0.7);
+
+		max-width: 50rem;
+		overflow: hidden;
+
+		.image {
+			object-fit: cover;
+			max-height: 25rem;
+		}
+
+		.copy {
+			padding: 2rem;
+			background: oklch(var(--clr-text));
+			.title {
+				font-size: var(--fs-600);
+				font-weight: var(--fw-bold);
+				font-family: var(--ff-accent);
+				color: oklch(var(--clr-accent));
+				margin-block-end: 0.5rem;
+			}
+			.description {
+				color: oklch(var(--clr-text-invert));
+			}
+
+			:global(.date) {
+				font-size: var(--fs-400);
+				font-weight: var(--fw-bold);
+				color: oklch(var(--clr-text-invert));
+				margin-block-end: 0.5rem;
+			}
+		}
+	}
+</style>

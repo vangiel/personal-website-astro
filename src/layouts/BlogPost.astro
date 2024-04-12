@@ -7,7 +7,7 @@ import { type CollectionEntry } from "astro:content";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, heroImage, pubDate } = Astro.props;
+const { title, heroImage, imageAlt, pubDate } = Astro.props;
 ---
 
 <Layout title={title}>
@@ -25,7 +25,7 @@ const { title, heroImage, pubDate } = Astro.props;
 	<main transition:name={title}>
 		<article>
 			<header class="article-header">
-				<Image class="image" src={heroImage} alt="placeholder" width="1000" height="1000" />
+				<Image class="image" src={heroImage} alt={imageAlt as string} width="1000" height="1000" />
 				<h1>{title}</h1>
 				<FormattedDate className="date" date={pubDate} />
 			</header>
