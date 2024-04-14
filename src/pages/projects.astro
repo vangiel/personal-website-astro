@@ -8,44 +8,64 @@ import BannerImg from "@/images/projects/projects-banner.png";
 import { getCollection } from "astro:content";
 
 const docs = await getCollection("docs");
-// console.log(docs);
+
+// This function format the text in the slug to use it as a title
+function formatTittle(slug: string) {
+	let title = slug.split("/")[0].split("-").join(" ");
+	return title.charAt(0).toUpperCase() + title.slice(1);
+}
+
+let titles: string[] = [];
+for (let i = 0; i < docs.length; i++) {
+	const doc = docs[i];
+	const title = formatTittle(doc.slug);
+	if (!titles.includes(title)) {
+		titles.push(title);
+	}
+}
 ---
 
 <Layout title="Projects">
 	<PageBanner image={BannerImg} title="Projects" description="A list of my projects" />
 	<main>
 		<section>
-			<ul>
-				{
-					docs.map((doc) => (
-						<li>
-							<ProjectCard {...doc.data} slug={doc.slug} />
-						</li>
-					))
-				}
-			</ul>
+			{
+				titles.map((title) => (
+					<>
+						<h2 class="projects-field">{title}</h2>
+						<ul class="projects-list">
+							{docs.map(
+								(doc) =>
+									formatTittle(doc.slug) === title && (
+										<li>
+											<ProjectCard {...doc.data} slug={doc.slug} />
+										</li>
+									)
+							)}
+						</ul>
+					</>
+				))
+			}
 		</section>
 	</main>
 </Layout>
 
 <style>
-	main {
-		padding-block-start: 10rem;
-		text-align: center;
-	}
+	section {
+		max-width: clamp(20rem, 90vw, 150rem);
+		margin: auto;
 
-	h2 {
-		font-size: var(--fs-600);
-		font-weight: var(--fw-bold);
-		padding-block-end: 2rem;
-	}
+		.projects-field {
+			font-size: var(--fs-700);
+			font-weight: var(--fw-bold);
+			color: oklch(var(--clr-accent));
+			margin-block: 2rem;
+		}
 
-	a:hover:visited {
-		color: oklch(var(--clr-accent));
-	}
-
-	p {
-		padding-block-start: 7rem;
-		font-size: var(--fs-300);
+		.projects-list {
+			display: grid;
+			gap: 1.5rem;
+			grid-template-columns: repeat(auto-fill, minmax(40rem, 1fr));
+		}
 	}
 </style>
