@@ -7,7 +7,8 @@ import BannerImg from "@/images/projects/projects-banner.png";
 
 import { getCollection } from "astro:content";
 
-const docs = await getCollection("docs");
+// TODO: sort the projects by the order parameter
+const docs = (await getCollection("docs")).sort();
 
 // This function format the text in the slug to use it as a title
 function formatTittle(slug: string) {
