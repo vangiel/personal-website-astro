@@ -36,4 +36,8 @@ html {
 		width: 90%;
 		margin-inline: auto;
 	}
+
+	.centered {
+		margin-inline: auto;
+	}
 }
