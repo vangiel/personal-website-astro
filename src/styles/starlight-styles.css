@@ -29,3 +29,11 @@
 	--sl-color-gray-7: #f2f7fd;
 	--sl-color-black: #ffffff;
 }
+
+html {
+	.caption {
+		text-align: center;
+		width: 90%;
+		margin-inline: auto;
+	}
+}

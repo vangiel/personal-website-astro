@@ -8,7 +8,11 @@ import BannerImg from "@/images/projects/projects-banner.png";
 import { getCollection } from "astro:content";
 
 // TODO: sort the projects by the order parameter
-const docs = (await getCollection("docs")).sort();
+const docs = (await getCollection("docs")).sort((a, b) => {
+	const aDate = a.data.lastUpdated ? a.data.lastUpdated.valueOf() : 0;
+	const bDate = b.data.lastUpdated ? b.data.lastUpdated.valueOf() : 0;
+	return (aDate as number) - (bDate as number);
+});
 
 // This function format the text in the slug to use it as a title
 function formatTittle(slug: string) {
@@ -24,6 +28,20 @@ for (let i = 0; i < docs.length; i++) {
 		titles.push(title);
 	}
 }
+
+let titlesToDisplay: string[] = [];
+for (let i = 0; i < titles.length; i++) {
+	switch (titles[i]) {
+		case "Navigation":
+			titlesToDisplay.push("Human-Aware Navigation (HAN) with robots");
+			break;
+		case "Pose estimation":
+			titlesToDisplay.push("3D Human Pose Estimation (HPE)");
+			break;
+		default:
+			titlesToDisplay.push(titles[i]);
+	}
+}
 ---
 
 <Layout title="Projects">
@@ -31,9 +49,9 @@ for (let i = 0; i < docs.length; i++) {
 	<main>
 		<section>
 			{
-				titles.map((title) => (
+				titles.map((title, index) => (
 					<>
-						<h2 class="projects-field">{title}</h2>
+						<h2 class="projects-field">{titlesToDisplay[index]}</h2>
 						<ul class="projects-list">
 							{docs.map(
 								(doc) =>
@@ -54,7 +72,8 @@ for (let i = 0; i < docs.length; i++) {
 <style>
 	section {
 		max-width: clamp(20rem, 90vw, 150rem);
-		margin: auto;
+		margin-inline: auto;
+		padding-block-end: 5rem;
 
 		.projects-field {
 			font-size: var(--fs-700);

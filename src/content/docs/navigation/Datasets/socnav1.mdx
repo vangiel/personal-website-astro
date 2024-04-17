@@ -1,11 +1,47 @@
 ---
-title: SNGNN - Social Navigation with Graph Neural Networks
-description: SNGNN is a Graph Neural Network to model adherence to social-navigation conventions for robots.
-cover: "@/images/projects/hpe3d/HPE.png"
-coverAlt: "Human Pose Estimation with Graph Neural Networks"
-lastUpdated: 2023-04-01
+title: SocNav1 - A Benchmark Dataset for Social Navigation (version 1)
+description: A dataset for social navigation with robots. It captures the positions of humans, objects, and the robot within a room environment. Additionally, it includes a discomfort score that quantifies how the robot's current location disrupts people's comfort.
+cover: "@/images/projects/datasets/socnav1/socnav1_big.png"
+coverAlt: "GUI of the SocNav1 dataset tool to gather data on social navigation"
+lastUpdated: 2019-09-16
 sidebar:
-  order: 1
+  label: SocNav1 Dataset
 ---
 
-dfsagfdsagfsd
+import Header from "@/components/starlight/ProjectHeader.astro";
+import socnavBig from "@/images/projects/datasets/socnav1/socnav1_big.png";
+import socnavSmall from "@/images/projects/datasets/socnav1/socnav1_small.png";
+import { Image } from "astro:assets";
+
+<Header
+	contributors={[
+		"Luis J. Manso",
+		"Pedro Nunez",
+		"Luis V. Calderita",
+		"Diego R. Faria",
+		"Pilar Bachiller",
+	]}
+	githubUrl="https://github.com/gnns4hri/SocNav1"
+	paperUrl="https://arxiv.org/abs/1909.02993"
+/>
+
+:::caution[Disclaimer]
+I didn't participate in the development of this dataset. However, I deemed important to include it here since is the onset of my research in the field of Human-aware Navigation. The following projects in this section build on top of this work.
+:::
+
+This dataset comprises single-frame scenarios depicting a room populated with humans, objects, and a robot, as illustrated in **Fig. 1**. Blue ellipses represent humans, green rectangles objects, and the red square denotes the robot. Two types of interactions are represented by black lines: human-human interactions (see **Fig. 1**) and human-object interactions (see **Fig. 2**).
+
+<Image style="width: 49%; display: inline-block" src={socnavBig} alt="SocNav1 Dataset" />
+<Image style="width: 49%; display: inline-block" src={socnavSmall} alt="SocNav1 Dataset" />
+
+<p class="caption"> **Fig 1. (left)** and **Fig 2. (right)**. _Scenario representation from the SocNav1 dataset. The 2D images depict blue ellipses for humans, green squares for objects, and a red square for the robot. Human-human and human-object interactions are represented by two parallel lines between the entities. The slider on the right is used to provide the discomfort score caused by the robot in the scenario._ </p>
+
+## Labeling
+
+Three participants involved in the creation of the dataset assigned to each scenario a score between 0 and 100. A score close to 100 suggests that the robot is not causing any inconvenience to the individuals in the room, while a score close to 0 indicates an unwelcome situation or a collision with a human. The slider next to the scenario in **Fig. 1 and 2** was used to determine the score when acquiring the dataset. To ensure the consistency of the three users labeling, both inter-rater and intra-rater agreement were quantitatively assessed using the linearly weighted kappa coefficient ([J. Cohen](https://doi.org/10.1037/h0026256)).
+
+The creation of _SocNav1_ was motivated by two key factors. Firstly, considering the current technology readiness level, the expected behavior from robots may differ from what is anticipated from interactions among humans. This divergence highlights the necessity to understand and align robot behavior with human expectations. Secondly, _SocNav1_ aims to evaluate the capacity of robots to gauge the discomfort their presence might evoke among humans. This ability holds significance for robot navigation systems as it aids in estimating path costs based on human comfort levels.
+
+:::note
+ The dataset can be downloaded from the [SocNav1 GitHub repository](https://github.com/gnns4hri/SocNav1). The code in that repository provides tools to visualize and interact with the dataset and gather more data if necessary.
+:::

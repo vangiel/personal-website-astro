@@ -22,10 +22,10 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: "Human-Aware Navigation (HAN)",
-					autogenerate: { directory: "navigation" },
+					autogenerate: { directory: "navigation", collapsed: false },
 				},
 				{
-					label: "Human Pose Estimation 3D (HPE)",
+					label: "3D Human Pose Estimation (HPE)",
 					autogenerate: { directory: "pose-estimation" },
 				},
 				{

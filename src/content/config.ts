@@ -8,6 +8,7 @@ export const collections = {
 				return z.object({
 					cover: image().optional(),
 					coverAlt: z.string().optional(),
+					lastUpdated: z.coerce.date(),
 				});
 			},
 		}),

@@ -1,11 +1,50 @@
 ---
-title: SNGNN - Social Navigation with Graph Neural Networks
-description: SNGNN is a Graph Neural Network to model adherence to social-navigation conventions for robots.
-cover: "@/images/projects/hpe3d/HPE.png"
-coverAlt: "Human Pose Estimation with Graph Neural Networks"
+title: SocNav2 - A Benchmark Dataset for Social Navigation (version 2)
+description: SocNav2 is the second version of SovNav1. This new datasets includes several improvements such as dynamic scenarios and an additional score to evaluate how well the robot navigates towards the goal.
+cover: "@/images/projects/datasets/socnav2/sample_f3.png"
+coverAlt: "A example scene from the SocNav2 dataset"
 lastUpdated: 2023-04-01
 sidebar:
-  order: 2
+  label: SocNav2 Dataset
 ---
 
-dasfadsfasdf
+import Header from "@/components/starlight/ProjectHeader.astro";
+import { Image } from "astro:assets";
+
+<Header
+	contributors={[
+		"Luis J. Manso",
+		"Pedro Nunez",
+		"Luis V. Calderita",
+		"Diego R. Faria",
+		"Pilar Bachiller",
+	]}
+	githubUrl="https://github.com/gnns4hri/SocNav1"
+	paperUrl="https://arxiv.org/abs/1909.02993"
+/>
+
+[SocNav1](/navigation/datasets/socnav1/) was developed to learn and benchmark disruption estimation functions for social navigation. _SocNav2_ shares the same objective as its predecessor; however, it incorporates the velocity and trajectory of the robot and surrounding humans among other advantages. Like _SocNav1_, _SocNav2_ contains scenarios with a robot in a room, alongside various objects and individuals who may potentially interact with other objects or people. In _SocNav2_, the room also includes a landmark that constitutes a goal position to be reached by the robot. Any existing human-human or human-object interactions are noted in the scenarios. However, unlike in _SocNav1_ , these notes contain semantic information indicating the nature of the interaction and the interactions are not limited to entities facing each other. For instance, there is a type of interaction of two or more humans walking together.
+
+_SocNav2_ provides 13,406 scored samples of dynamic scene sequences. Each sample consists of 35 "snapshots" of a scene of a room with a moving robot, objects and potentially moving humans, taken during a time interval of 4 seconds. Each _SocNav2_ sample includes scores for two social navigation-related statements: "_the robot does not cause any disturbance to the humans in the room_" `Q1` and "_the robot is moving towards the goal efficiently, not causing any disturbance to the humans in the room_" `Q2`. The scores range from 0 to 100, considering the following reference values:
+
+    * 0: Unacceptable
+    * 20: Undesirable
+    * 40: Acceptable
+    * 60: Good
+    * 80: Very good
+    * 100: Perfect
+
+The scenarios compiled in _SocNav2_ have been generated using [SONATA](/navigation/sonata/).
+_SONATA_ is a toolkit built on top of [PyRep](https://pyrep.readthedocs.io/en/latest/) and [CoppeliaSim](https://www.coppeliarobotics.com/), designed to simulate human-populated navigation scenarios and generate datasets.
+It offers an API to generate random scenarios, incorporating humans, objects, interactions, the robot, and its goals.
+The walls delineating a room are also randomly generated, considering both rectangular and L-shaped rooms.
+While _SONATA_ exclusively provides simulated scenarios, the use of synthetic data is crucial in the context of social navigation.
+This is primarily because generating a comparable number of situations using only real-world data would be infeasible.
+Furthermore, scenarios that jeopardise human safety, such as human-robot collisions, cannot be ethically performed in real-world settings.
+
+The robot's movements were generated using two distinct strategies to enhance the diversity of its behaviour.
+The first strategy employs a machine learning model (see [SONATA](/navigation/sonata/)) that outputs the robot's control actions based on a graph representation of the scenario.
+This model was trained using supervised learning (i.e., containing only examples of appropriate behaviours), which results in unexpected behaviours in situations that do not typically occur when controlled by humans.
+However, for the creation of _SocNav2_, these behaviours facilitate the generation of a broad range of favourable and unfavourable situations that would not have emerged from random actions.
+In addition to the samples where the robot's movement was controlled by the machine learning approach, a second set of samples was generated using a joystick for manual control of the robot.
+This second set was designed to encompass infrequent situations not present in the first set, such as the robot moving backwards to avoid being blocked or stopping to allow people to pass.
