@@ -255,7 +255,7 @@ bibTex += "}";
 
 <script>
 	import { $, $$ } from "@/lib/dom-selector";
-	document.addEventListener("astro:page-load", (ev) => {
+	document.addEventListener("astro:page-load", () => {
 		// Add a click event listener to the publication collapse button
 		const collapseButtons = $$(".pubcollapse");
 		collapseButtons.forEach((button) => {
