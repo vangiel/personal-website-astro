@@ -255,26 +255,24 @@ bibTex += "}";
 
 <script>
 	import { $, $$ } from "@/lib/dom-selector";
+
+	function eventHandler(button: HTMLElement) {
+		const pubDetails = $(".pubdetails", button.closest(".publication-card") as HTMLElement);
+		pubDetails.classList.toggle("show");
+
+		// Change icon based on the state of the publication details
+		const upIcon = $(".up", button);
+		const downIcon = $(".down", button);
+
+		upIcon.classList.toggle("visually-hidden");
+		downIcon.classList.toggle("visually-hidden");
+	}
+
 	document.addEventListener("astro:page-load", () => {
 		// Add a click event listener to the publication collapse button
 		const collapseButtons = $$(".pubcollapse");
 		collapseButtons.forEach((button) => {
-			button.addEventListener("click", () => {
-				const pubDetails = $(".pubdetails", button.closest(".publication-card") as HTMLElement);
-				pubDetails.classList.toggle("show");
-
-				// Change icon based on the state of the publication details
-				const upIcon = $(".up", button as HTMLElement);
-				const downIcon = $(".down", button as HTMLElement);
-
-				if (pubDetails.classList.contains("show")) {
-					upIcon.classList.remove("visually-hidden");
-					downIcon.classList.add("visually-hidden");
-				} else {
-					upIcon.classList.add("visually-hidden");
-					downIcon.classList.remove("visually-hidden");
-				}
-			});
+			button.addEventListener("click", () => eventHandler(button as HTMLElement));
 		});
 	});
 </script>
