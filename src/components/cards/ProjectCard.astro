@@ -6,15 +6,15 @@ import FormattedDate from "@/components/FormattedDate.astro";
 
 type Props = CollectionEntry<"docs">["data"] & { slug: string };
 
-const { title, lastUpdated: date, cover, coverAlt, description, slug } = Astro.props;
+const { sidebar, lastUpdated: date, cover, coverAlt, description, slug } = Astro.props;
 ---
 
-<article transition:name={title}>
+<article>
 	<a href={`/${slug}`}>
 		<div class="card-wrapper">
 			{cover && <Image class="image" src={cover} alt={coverAlt as string} />}
 			<div class="copy">
-				<h3 class="title">{title}</h3>
+				<h3 class="title">{sidebar.label}</h3>
 				<p class="description">
 					{description}
 				</p>
