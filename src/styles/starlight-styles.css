@@ -40,4 +40,13 @@ html {
 	.centered {
 		margin-inline: auto;
 	}
+
+	.MathJax > svg {
+		margin-inline: auto;
+	}
+
+	strong > .MathJax {
+		display: inline-block;
+		margin: 0;
+	}
 }

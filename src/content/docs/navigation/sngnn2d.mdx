@@ -22,7 +22,7 @@ This work builds on top of the project in [SNGNN](/navigation/sngnn) and exetend
 While _SNGNN_ could only generate a single score for scneario, this new model (_SNGNN2D_) can yield a entire disruption map of the space around the robot that can be use for HAN.
 It is worth noting that _SNGNN_ is also campable of generating these 2D maps by querying the model for every possible position of the robot in the scneario, generating 1 pixel value of the final map per position.
 However, this process is too slow due to the large number of queries required to generate the full map.
-Generating a map using this approach takes approximatelly 145 seconds while the SNGNN2D model can generate the full map in just 0.025 seconds using the same hardware.
+Generating a map using this approach takes approximatelly **37.55** seconds while the SNGNN2D model can generate the full map in just **0.045** seconds using the same hardware.
 
 import coverVideo from "@/images/projects/sngnn2d/cover_video.webm";
 
@@ -32,9 +32,9 @@ import coverVideo from "@/images/projects/sngnn2d/cover_video.webm";
 
 Thus the main contributions of this work are two-fold:
 
-<ol style="list-style-type: lower-alpha;">
-	<li>) A technique to bootstrap two-dimensional datasets from one dimensional Datasets. </li>
-	<li>) SNGNN-2D, an architecture that combines Graph Neural Networks (GNN) and Convolutional Neural Networks (CNN) to generate two dimensional cost maps based on the robot’s knowledge. </li>
+<ol style="list-style-type: none;">
+	<li>**a.)** A technique to bootstrap two-dimensional datasets from one dimensional Datasets. </li>
+	<li>**b.)** SNGNN-2D, an architecture that combines Graph Neural Networks (GNN) and Convolutional Neural Networks (CNN) to generate two dimensional cost maps based on the robot's knowledge. </li>
 </ol>
 
 After training, the resulting ML architecture is able to efficiently generate cost maps that can be used as a cost function for Human-Aware Navigation.
@@ -43,11 +43,69 @@ The experiments presented in the [published article](https://arxiv.org/pdf/2011.
 
 ## Dataset bootstrapping
 
+The acquisition of two-dimensional cost or _disruption_ maps to create datasets for learning purposes generates a number of challenges.
+First, asking people contributing to the datasets to provide a cost map instead of a single score per scenario would be more time-consuming.
+Another factor to consider is the precision of the answer is being dependent on the subjects' capability to represent their preferences graphically.
+Their inclination and motivation to stay engaged in the task would also be a challenge.
+
+import bootstrappingImg from "@/images/projects/sngnn2d/bootstrapping.png";
+
+<Image class="centered" src={bootstrappingImg} alt="Visualization of the dataset bootstrapping process" />
+<p class="caption">**Fig 1.** _The process used to bootstrap the two-dimensional dataset. The expected 2D outputs are generated performing multiple queries to SNGNN, shifting the scenario around the robot._</p>
+
+From an ML perspective, when factoring in an approximately equal time commitment and effort when generating answers, providing a single scalar for each scenario would yield answers for a higher number of scenarios.
+This would, in turn, generate a higher variability in the input scenarios that would make the model less prone to overfitting.
+
+A dataset containing scalars as output data cannot directly be used to train a model which provides a two-dimensional output, so the approach followed in this case is to use a model which provides single value estimations ([SNGNN](/navigation/sngnn)) and sample its output shifting the robot's position, bootstrapping this way a two-dimensional dataset.
+The process of sampling is depicted in *Fig. 1* and in more detail in the cover video.
+For each scenario in the bootstrapped dataset a matrix of 73 x 73 samples is generated.
+A total of 37,131 scenarios were randomly generated following the same strategy of [SocNav1](/navigation/datasets/socnav1).
+The dataset split for training, development and test is of 31,191, 2,970 and 2,970 scenarios, respectively.
+
 
 ## Graphs creation
+
+Considering that the input data is not presented in the form of a graph, its conversion to a graph-like structure is one of the most relevant steps if GNNs are to be used.
+This process follows the same steps as ([SNGNN](/navigation/sngnn)), with the exception that there is an additional grid of 18 x 18 nodes whose values are passed to the CNN layers of the architecture and decoded into the final output.
+The first part of the graph (scenario graph), which coincides with _SNGNN_ represents the entities in the room and their relations, using a node per entity (room, humans, walls and objects). 
+The walls are split into segments, creating a node for each of these segments.
+A global _room_ node connects to every other node in the graph to facilitate the use of global information in the room using fewer layers.
+The human-to-human and human-to-object interactions (if they exist) are represented as edges among the respective nodes.
+The scenario graph can be seen on the top half of **Fig. 2**.
+
+The grid is a lattice of interconnected nodes, structured to represent the area of the room surrounding the robot by associating them to 2D coordinates.
+The number of nodes of this grid and the area they cover are hyperparameters that can be tuned to reach a trade-off between performance, computation time, and area coverage.
+The **$x$**, **$y$** coordinates of a grid node in row **$i$** and column **$j$** from the robot's perspective are computed as in the following equation, where **$N$** is the width and height of the lattice and **$W$** is the side of the squared area covered by the grid.
+
+$$ x = \frac{W \; (\left \lfloor{(N-1)/2}\right \rfloor - i)}{N-1} $$
+
+$$ y = \frac{W \; (j - \left \lfloor{(N-1)/2}\right \rfloor)}{N-1} $$
 
 
 ## Results visualization
 
 
 ## How to use
+
+
+## Citation
+
+To cite this work, use the following BibTex notation:
+
+```bibtex
+@InProceedings{danielGraph2D,
+author="Rodriguez-Criado, Daniel
+and Bachiller, Pilar
+and Manso, Luis J.",
+editor="Bramer, Max
+and Ellis, Richard",
+title="Generation of Human-Aware Navigation Maps Using Graph Neural Networks",
+booktitle="Artificial Intelligence XXXVIII",
+year="2021",
+publisher="Springer International Publishing",
+address="Cham",
+pages="19--32",
+isbn="978-3-030-91100-3"
+}
+
+```
