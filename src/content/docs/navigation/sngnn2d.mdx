@@ -1,6 +1,6 @@
 ---
 title: "Generation of human-aware navigation maps using graph neural networks"
-description: "This projects consitis of the generation of disruption maps for Human-Aware Navigation (HAN) with robots using graph neural networks. This maps can be used for real time HAN."
+description: "This projects consitis of the generation of disruption maps for Human-Aware Navigation (HAN) with robots using graph neural networks. This maps can be used for real-time HAN as demonstrated in the experiments."
 cover: "@/images/projects/sngnn2d/results.png"
 coverAlt: "Results of the maps gneerated from a SocNav1 scenario with SNGNN2D."
 lastUpdated: 2021-12-06
@@ -18,4 +18,36 @@ import { Image } from "astro:assets";
 	paperUrl="https://arxiv.org/pdf/2011.05180.pdf"
 />
 
-# A GNN-Based Model for the Generation of Human-Aware Cost Maps in Dynamic Environments
+This work builds on top of the project in [SNGNN](/navigation/sngnn) and exetends it to generate 2D disruption maps for Human-Aware Navigation (HAN) using graph neural networks.
+While _SNGNN_ could only generate a single score for scneario, this new model (_SNGNN2D_) can yield a entire disruption map of the space around the robot that can be use for HAN.
+It is worth noting that _SNGNN_ is also campable of generating these 2D maps by querying the model for every possible position of the robot in the scneario, generating 1 pixel value of the final map per position.
+However, this process is too slow due to the large number of queries required to generate the full map.
+Generating a map using this approach takes approximatelly 145 seconds while the SNGNN2D model can generate the full map in just 0.025 seconds using the same hardware.
+
+import coverVideo from "@/images/projects/sngnn2d/cover_video.webm";
+
+<video controls width="100%">
+	<source src={coverVideo} type="video/webm" />
+</video>
+
+Thus the main contributions of this work are two-fold:
+
+<ol style="list-style-type: lower-alpha;">
+	<li>) A technique to bootstrap two-dimensional datasets from one dimensional Datasets. </li>
+	<li>) SNGNN-2D, an architecture that combines Graph Neural Networks (GNN) and Convolutional Neural Networks (CNN) to generate two dimensional cost maps based on the robot’s knowledge. </li>
+</ol>
+
+After training, the resulting ML architecture is able to efficiently generate cost maps that can be used as a cost function for Human-Aware Navigation.
+
+The experiments presented in the [published article](https://arxiv.org/pdf/2011.05180.pdf) provide the accuracy of the model, time efficiency and statistical information of the trajectories used by the robot when using SNGNN-2D and a reference Gaussian Mixture Model-based (GMM) algorithm. The software to bootstrap the two-dimensional dataset and SNGNN-2D has been released as [open-source in a public repository](https://github.com/gnns4hri/sngnn2d), with all the data required to replicate the experiments.
+
+## Dataset bootstrapping
+
+
+## Graphs creation
+
+
+## Results visualization
+
+
+## How to use
