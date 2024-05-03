@@ -1,11 +1,33 @@
 ---
-title: "Human torso pose estimation with graph neural networks"
+title: "Multi-camera Torso Pose Estimation using Graph Neural Networks"
 description: "A combination of GNNs and the well-known GAN arquitecture called SPADE for traffic image generation."
-cover: "@/images/projects/hpe3d/HPE.png"
-coverAlt: "Human Pose Estimation with Graph Neural Networks"
-lastUpdated: 2023-04-01
+cover: "@/images/projects/torso3d/graph1.png"
+coverAlt: "Human 3D Pose Estimation with Graph Neural Networks"
+lastUpdated: 2020-08-31
 sidebar:
   order: 1
+  label: "Human torso position and orientation estimation"
 ---
 
-dsfasdfe
+import Header from "@/components/starlight/ProjectHeader.astro";
+import { Image } from "astro:assets";
+
+<Header
+	contributors={[
+		"Daniel Rodriguez-Criado",
+		"Pilar Bachiller-Burgos",
+		"Pablo Bustos",
+		"George Vogiatzis",
+		"Luis J. Manso",
+	]}
+	githubUrl="https://github.com/vangiel/WheresTheFellow"
+	paperUrl="https://arxiv.org/pdf/2007.14126"
+/>
+
+Estimating the location and orientation of humans is an essential skill for service and assistive robots.
+To achieve a reliable estimation in a wide area such as an apartment, multiple RGBD cameras are frequently used.
+Firstly, these setups are relatively expensive.
+Secondly, they seldom perform an effective data fusion using the multiple camera sources at an early stage of the processing pipeline.
+Occlusions and partial views make this second point very relevant in these scenarios.
+The proposal presented in this paper makes use of graph neural networks to merge the information acquired from multiple camera sources, achieving a mean absolute error below **$125 mm$** for the location and **$10^\circ$** for the orientation using low-resolution RGB images.
+The experiments, conducted in an apartment with three cameras, benchmarked two different graph neural network implementations and a third architecture based on fully connected layers.
