@@ -11,6 +11,7 @@ sidebar:
 
 import Header from "@/components/starlight/ProjectHeader.astro";
 import { Image } from "astro:assets";
+import { Steps } from "@astrojs/starlight/components";
 
 <Header
 	contributors={["Daniel Rodriguez-Criado", "Pilar Bachiller-Burgos", "Luis J. Manso"]}
@@ -92,11 +93,84 @@ Explained how the model works and its structure, this section will focus on the 
 
 ### Load the model and the dataset
 
-The first step to use the model is to download it alongside with the dataset.
+The first step to use the model is to download it alongside with the dataset. To clone the repository of the project in your computer simply run:
 
-### Train your own model
+```bash
+git clone https://github.com/gnns4hri/sngnn2d.git
+cd sngnn2d
+```
+The repository already includes a trained model, the dataset and a docker container to run the model.
+
+### Train your own model (optional)
+
+If you just want to test our trained model, you can skip this section. However, if you want to train or fine tune your own model, you can follow the steps below.
+
+<Steps>
+1. You can use the same dataset split that we used that is located in the `data` folder. Each JSON file in that folder contain a list of scenarios, each scenario is a dictionary with the following keys (this is an example of a scenario entry):
+
+	```json
+	{
+		"identifier": "00108 B",
+		"score": 72,
+		"robot": {"id": 0},
+		"humans": [{"id": 1, "xPos": -189, "yPos": 98, "orientation": -150}, {"id": 3, "xPos": -339, "yPos": 157, "orientation": -1}, ...],
+		"objects": [{"id": 2, "xPos": -297.5, "yPos": 285.9275126212232, "orientation": 30}],
+		"links": [[1, 2, "interact"], [3, 4, "interact"], ...],
+		"room": [[-239, 461], [-129, 371], [-112, 392], [382, -16], [365, -37], [368, -39], [117, -343], [114, -341], [-29, -517], [-526, -110], [-380, 66], [-490, 156], [-239, 461]]
+	}
+	```
+	The _identifier_ key os a iunique name for the scene that coincides with the name of the image file in the `images/all` folder. The models use this naming convention to locate de images during training and testing. The rest of the keys provides information about the entities in the scene. Follow the same format to create your dataset or add data to the existing one.
+
+	:::note
+		The list of points in the `room` key is a list of coordinates that represent the outline of the room. The coordinates are in the format `[x, y]`, forming a close polygon.
+	:::
+
+2. Now to train a new model you just have to run the training script as follows:
+	```bash
+		python3 train.py
+	```
+	:::note
+	 It is important that the dataset is located in the `data` folder and that the `images/all` folder contains the images corresponding to the scenarios in the dataset.
+	:::
+
+</Steps>
 
 ### Test the model
+
+To test the model you have two options available: you can use the Docker images provided in the repo or you can use the scripts.
+We recommend to use the Docker images as they are easier to use and they include all the necessary dependencies.
+
+:::caution
+	The files containing the parameters of the model (`SNGNN2D.prms` and `SNGNN2D.tch`) must be located in the parent directory. And the JSON file containing the scenarios must be located in the `data` folder.
+:::
+
+#### Using Docker containers (recommended)
+
+To visualize the results of the model, we provide a docker container that includes all the necessary dependencies to run the model. To run the container you just have to run the following command:
+
+```bash
+cd docker/cuda_test
+./run.sh
+```
+
+To run the model in a simulated environment, run the following command:
+
+```bash
+cd docker/cuda_navigation
+docker build --tag 'sngnn2d' .
+```
+
+#### Using scripts
+
+For this option you first need to install all the dependecies of the project. 
+Then you can run first the simulator and then the model that you want to test:
+
+```bash
+cd test
+bash simulator.sh
+bash run.sh #For SNGNN2D
+bash run_araceli.sh #For GMMs
+```
 
 ## Citation
 
