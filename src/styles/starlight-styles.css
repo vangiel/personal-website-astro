@@ -45,8 +45,8 @@ html {
 		margin-inline: auto;
 	}
 
-	strong > .MathJax {
+	strong:has(> .MathJax) {
 		display: inline-block;
-		margin: 0;
+		vertical-align: middle;
 	}
 }
