@@ -1,50 +1,61 @@
 ---
+import "@/styles/animations.css";
 import { Icon } from "astro-icon/components";
+
+interface Props {
+	gap?: string;
+	color?: string;
+	fontSize?: string;
+}
+
+const { color, fontSize, gap } = Astro.props;
 ---
 
-<a target="_blank" href="https://github.com/vangiel" rel="me" class="sl-flex">
-	<span class="sr-only">GitHub</span>
-	<Icon name="social/github" />
-</a>
+<nav class="social-icons">
+	<a target="_blank" href="https://github.com/vangiel" rel="me">
+		<span class="sr-only visually-hidden">GitHub</span>
+		<Icon name="social/github" />
+	</a>
 
-<a
-	target="_blank"
-	href="https://www.linkedin.com/in/daniel-rodr%C3%ADguez-criado-phd-6967626a/"
-	rel="me"
-	class="sl-flex"
->
-	<span class="sr-only">LinkedIn</span>
-	<Icon name="social/linkedin" />
-</a>
+	<a
+		target="_blank"
+		href="https://www.linkedin.com/in/daniel-rodr%C3%ADguez-criado-phd-6967626a/"
+		rel="me"
+	>
+		<span class="sr-only visually-hidden">LinkedIn</span>
+		<Icon name="social/linkedin" />
+	</a>
 
-<a target="_blank" href="https://orcid.org/0000-0003-0562-531X" rel="me" class="sl-flex">
-	<span class="sr-only">OrcID</span>
-	<Icon name="social/orcid" />
-</a>
+	<a target="_blank" href="https://orcid.org/0000-0003-0562-531X" rel="me">
+		<span class="sr-only visually-hidden">OrcID</span>
+		<Icon name="social/orcid" />
+	</a>
 
-<a
-	target="_blank"
-	href="https://www.researchgate.net/profile/Daniel-Rodriguez-Criado"
-	rel="me"
-	class="sl-flex"
->
-	<span class="sr-only">ResearchGate</span>
-	<Icon name="social/researchgate" />
-</a>
+	<a target="_blank" href="https://www.researchgate.net/profile/Daniel-Rodriguez-Criado" rel="me">
+		<span class="sr-only visually-hidden">ResearchGate</span>
+		<Icon name="social/researchgate" />
+	</a>
 
-<a target="_blank" href="https://twitter.com/danirocri" rel="me" class="sl-flex">
-	<span class="sr-only">X</span>
-	<Icon name="social/square-x-twitter" />
-</a>
+	<a target="_blank" href="https://twitter.com/danirocri" rel="me">
+		<span class="sr-only visually-hidden">X</span>
+		<Icon name="social/square-x-twitter" />
+	</a>
+</nav>
 
-<style>
-	a {
-		color: var(--sl-color-text-accent);
-		padding: 0.5em;
-		margin: -0.5em;
-		font-size: 1.3rem;
-	}
-	a:hover {
-		opacity: 0.66;
+<style define:vars={{ color, fontSize, gap }}>
+	.social-icons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--gap, 1em);
+		a {
+			color: var(--color, var(--sl-color-text-accent));
+			padding: 0.5em;
+			margin: -0.5em;
+			font-size: var(--fontSize, 1.3rem);
+		}
+		a:hover {
+			filter: contrast(60%);
+			animation: bounce 2s ease 1;
+		}
 	}
 </style>

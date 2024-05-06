@@ -1,30 +1,55 @@
 ---
 interface Props {
 	reference: string;
+	fontSize?: string;
 	target?: boolean;
 }
 
-const { reference, target = false } = Astro.props;
+const { reference, fontSize, target = false } = Astro.props;
 ---
 
-<button>
-	<a href={reference} target={target ? "_blank" : ""}>
-		<slot />
-	</a>
-</button>
+<a href={reference} target={target ? "_blank" : ""}>
+	<slot />
+</a>
 
-<style>
-	button {
-		background-color: oklch(var(--clr-primary));
+<style define:vars={{ fontSize }}>
+	a {
+		display: inline-block;
+		font-size: var(--fontSize, inherited);
+		line-height: 2em;
+		padding-inline: 0.5em;
 		border-radius: 100vmax;
 
 		color: oklch(var(--clr-neutral-800));
+		background-color: oklch(var(--clr-primary));
 		font-weight: var(--fw-bold);
 
-		a {
-			display: block;
-			line-height: 3rem;
-			padding-inline: 1rem;
+		position: relative;
+		overflow: hidden;
+		z-index: 1;
+		transition:
+			width 0.3s,
+			color 0.3s;
+
+		&::before {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 0%;
+			height: 100%;
+			background-color: oklch(var(--clr-yellow-400));
+			transition: all 0.3s;
+			border-radius: 10rem;
+			z-index: -1;
+		}
+
+		&:hover::before {
+			width: 100%;
+		}
+
+		&:hover {
+			color: oklch(var(--clr-light));
 		}
 	}
 </style>

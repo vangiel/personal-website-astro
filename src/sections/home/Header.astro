@@ -1,6 +1,8 @@
 ---
+import SocialIcons from "@/components/SocialIcons.astro";
 import PrimaryButton from "@/components/buttons/PrimaryButton.astro";
 import yoImage from "@/images/home/hero/you-y-robot.png";
+import "@/styles/animations.css";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 ---
@@ -10,34 +12,18 @@ import { Image } from "astro:assets";
 		<div class="hero__text">
 			<h1>Hey I am Dr Daniel!</h1>
 			<p>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos architecto alias cupiditate
-				autem ipsum, eveniet ipsa a! Aperiam culpa sunt unde dignissimos, veritatis delectus error
-				similique nemo velit. Iusto, excepturi?
+				<strong>Machine learning researcher</strong> from Spain 🇪🇸. +5 years background in designing
+				and developing artificial neural networks models. Specialiced in <strong
+					>Graph Neural Network and Generative AI</strong
+				>.
 			</p>
 			<div class="buttons">
 				<PrimaryButton reference="../documents/Daniel_Rodriguez_CV_EN.pdf" target={true}>
 					Download CV
 				</PrimaryButton>
-				<PrimaryButton reference="/contact-me/"> Contact me </PrimaryButton>
+				<PrimaryButton reference="mailto:dani1610@hotmail.com"> Contact me </PrimaryButton>
 			</div>
-			<div class="social-media">
-				<a target="_blank" href="https://github.com/vangiel"> <Icon name="social/github" /> </a>
-				<a
-					target="_blank"
-					href="https://www.linkedin.com/in/daniel-rodr%C3%ADguez-criado-phd-6967626a/"
-				>
-					<Icon name="social/linkedin" />
-				</a>
-				<a target="_blank" href="https://orcid.org/0000-0003-0562-531X">
-					<Icon name="social/orcid" />
-				</a>
-				<a target="_blank" href="https://www.researchgate.net/profile/Daniel-Rodriguez-Criado">
-					<Icon name="social/researchgate" />
-				</a>
-				<a target="_blank" href="https://twitter.com/danirocri">
-					<Icon name="social/square-x-twitter" />
-				</a>
-			</div>
+			<SocialIcons fontSize="3rem" gap="1.2rem" />
 		</div>
 		<Image
 			class="hero__image"
@@ -94,8 +80,13 @@ import { Image } from "astro:assets";
 				font-weight: var(--fw-bold);
 			}
 			p {
-				font-size: clamp(var(--fs-300), 3vw, var(--fs-500));
+				font-size: clamp(var(--fs-400), 3vw, var(--fs-600));
 				padding-block-end: 2rem;
+
+				strong {
+					font-weight: var(--fw-bold);
+					color: oklch(var(--clr-accent));
+				}
 			}
 
 			.buttons {
@@ -103,20 +94,6 @@ import { Image } from "astro:assets";
 				flex-wrap: wrap;
 				gap: 1rem;
 				padding-block-end: 1rem;
-			}
-
-			.social-media {
-				display: flex;
-				gap: 1rem;
-				font-size: 3rem;
-
-				& > * {
-					transition: all 0.2s ease-in-out;
-				}
-
-				& > *:hover {
-					transform: scale(1.2);
-				}
 			}
 		}
 
@@ -180,22 +157,6 @@ import { Image } from "astro:assets";
 
 		@media (--media-tablet) {
 			display: none;
-		}
-	}
-
-	@keyframes bounce {
-		0%,
-		20%,
-		50%,
-		80%,
-		100% {
-			transform: translateY(0) scaleX(3);
-		}
-		40% {
-			transform: translateY(-20px) scaleX(2);
-		}
-		60% {
-			transform: translateY(-10px) scaleX(2);
 		}
 	}
 </style>
