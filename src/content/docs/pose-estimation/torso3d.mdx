@@ -10,6 +10,7 @@ sidebar:
 ---
 
 import Header from "@/components/starlight/ProjectHeader.astro";
+import { Steps } from "@astrojs/starlight/components";
 import { Image } from "astro:assets";
 
 <Header
@@ -24,10 +25,69 @@ import { Image } from "astro:assets";
 	paperUrl="https://arxiv.org/pdf/2007.14126"
 />
 
-Estimating the location and orientation of humans is an essential skill for service and assistive robots.
-To achieve a reliable estimation in a wide area such as an apartment, multiple RGBD cameras are frequently used.
-Firstly, these setups are relatively expensive.
-Secondly, they seldom perform an effective data fusion using the multiple camera sources at an early stage of the processing pipeline.
-Occlusions and partial views make this second point very relevant in these scenarios.
-The proposal presented in this paper makes use of graph neural networks to merge the information acquired from multiple camera sources, achieving a mean absolute error below **$125 mm$** for the location and **$10^\circ$** for the orientation using low-resolution RGB images.
-The experiments, conducted in an apartment with three cameras, benchmarked two different graph neural network implementations and a third architecture based on fully connected layers.
+This work is a first approximation to human pose estimation using Graph Neural Networks (GNNs). In this case, the model estimates only the human's torso position and its orientation. (For full 3D pose estimation see [next project](/pose-estimation/hpe3d)).
+Thus, we can define the pose as the person's torso position on the floor plane and their orientation concerning the vertical axis: **$\left(x, y, \alpha\right)$**. The system should be able to cover spaces large enough to require multiple cameras attached to the walls with overlapping fields of view.
+
+import torsoDetectionImg from "@/images/projects/torso3d/torsoDetections.png";
+
+<Image class="centered" src={torsoDetectionImg} alt="Torso detection in a real environment (first row) and in CoppeliaSim (second row)." />
+<p class="caption">**Fig 1.** _Torso detection in a real environment (first row) and in CoppeliaSim (second row)._</p>
+
+This project employs both real and synthetic training data to generate a large dataset in a relatively short time, saving a considerable amount of resources.
+The hypothesis is that the data augmentation coming from simulation will contribute to improving results compared to training solely with real data.
+The first row of **Fig 1.** displays images of the real environment, while the second row shows a representation in [CoppeliaSim](https://www.coppeliarobotics.com/) of three views of the environment where the system has been tested. 
+Both systems have the same camera setup with identical calibration, using an _AprilTag_ in the same relative position as a reference for the origin of coordinates.
+
+The model presented in this page makes use of graph neural networks to merge the information acquired from multiple camera sources, achieving a mean absolute error below **$125 mm$** for the location and **$10^\circ$** for the orientation using low-resolution RGB images.
+
+## How does it work?
+
+The whole process id divided into three main steps. Initially, images are acquired and processed using [OpenPifPaf](https://openpifpaf.github.io/intro.html).
+It should be noted that any other 2D detector can be utilised during this step. 
+The output data from this phase, a set of detected skeletons from different cameras, is passed on to the subsequent phase, where skeletons corresponding to the same person are matched and grouped. 
+These groups are then supplied to a GNN, which generates the final output. 
+The utilization of a GNN in this context is due to its adaptability to potential missing parts detected by the 2D detector, owing to the input dimension flexibility inherent in these networks.
+Moreover, the graph structures following the body's anatomical form introduce a degree of bias into the network. This bias arguably aids in a better comprehension of the input data, potentially leading to improved results.
+
+import pipelineImg from "@/images/projects/torso3d/pipelineTorso.png";
+
+<Image class="centered" src={pipelineImg} alt="Pipeline of the steps of the system for torso pose estimation." />
+<p class="caption">**Fig 2.** _Representation of the pipeline of the system for torso pose estimation._</p>
+
+
+## How to use it?
+
+If you want to test the model follow the next steps:
+
+<Steps>
+1. **Clone the repository**
+	```bash
+		git clone https://github.com/vangiel/WheresTheFellow.git
+		cd WhereesTheFellow
+	```
+2. **Install the required packages**
+
+3. **Run the test script**
+	```bash
+	python3 test.py
+	```
+</Steps>
+
+:::note
+The data to train or test the model is under the `dataset` folder. The repository also include several models trained on that dataset under the `models` folder. If you want more information about these models, check out the [paper](https://arxiv.org/pdf/2007.14126).
+:::
+
+## Citation
+
+To cite this work, use the following BibTex notation:
+
+```bibtex
+@inproceedings{rodriguez2020multi,
+  title={Multi-camera torso pose estimation using graph neural networks},
+  author={Rodriguez-Criado, Daniel and Bachiller, Pilar and Bustos, Pablo and Vogiatzis, George and Manso, Luis J},
+  booktitle={2020 29th IEEE International Conference on Robot and Human Interactive Communication (RO-MAN)},
+  pages={827--832},
+  year={2020},
+  organization={IEEE}
+}
+```

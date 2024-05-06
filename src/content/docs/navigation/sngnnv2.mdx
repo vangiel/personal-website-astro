@@ -32,11 +32,10 @@ Autonomous navigation is a key skill for assistive and service robots. To be suc
 
 The script `single_test.py` demonstrates how to use the API:
 
-```
-$ git clone https://github.com/gnns4hri/sngnnv2
-$ cd sngnnv2/
-$ python3 single_test.py example_model/ jsons_test/S1_000003.json
-Result for a *single* query: tensor([0.9363, 0.7759]). It took 0.21820592880249023 seconds
+```bash
+git clone https://github.com/gnns4hri/sngnnv2
+cd sngnnv2/
+python3 single_test.py example_model/ jsons_test/S1_000003.json
 ```
 
 Bear in mind that the script **does not use CUDA by default**.
@@ -49,11 +48,8 @@ You can download our dataset from [here](https://www.dropbox.com/scl/fi/92vn9bkx
 The downloaded file must be unzipped in the `raw_data` directory under the directory `data`.
 It contains several JSON files with the information of the scenarios and its labels.
 Hence, each file stores data for several consecutive frames of the simulation which correspond to one label.
-In the end, you will have the following path to the JSON files:
+In the end, you will have the following path to the JSON files: `./raw_data/data`
 
-```bash
-./raw_data/data
-```
 
 Notice that there are 3 txt files in the raw data directory.
 These are used by the training script to divide the dataset into train, dev and test sets.
