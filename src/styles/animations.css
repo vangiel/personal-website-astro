@@ -13,3 +13,13 @@
 		transform: translateY(-7px);
 	}
 }
+
+@keyframes blur {
+	to {
+		box-shadow:
+			0px 5px 50px -5px oklch(var(--clr-text) / 0.1),
+			0px 0px 0px 1px oklch(var(--clr-text) / 0.3);
+		background-color: oklch(var(--clr-background) / 0.6);
+		backdrop-filter: blur(10px);
+	}
+}

@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import ThemeToggle from "./buttons/ThemeToggle.astro";
 import Hamburger from "@/components/buttons/Hamburger.astro";
 import Logo from "@/icons/logo.astro";
+import "@/styles/animations.css";
 
 interface Props {
 	pageActive: string;
@@ -28,13 +29,16 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 	<nav id="main-nav">
 		<ul role="menubar">
 			<li role="none">
-				<a class:list={["menu-item", { active: pageActive === "Home" }]} href="/"
-					><Icon name="nav-icons/home" />
+				<a class:list={["menu-item", { active: pageActive === "Home" }]} href="/" role="menuitem">
+					<Icon name="nav-icons/home" />
 					Home
 				</a>
 			</li>
 			<li role="none">
-				<a class:list={["menu-item", { active: pageActive === "Projects" }]} href="/projects/"
+				<a
+					class:list={["menu-item", { active: pageActive === "Projects" }]}
+					href="/projects/"
+					role="menuitem"
 					><Icon name="nav-icons/projects" />
 					Projects
 				</a>
@@ -43,19 +47,24 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 				<a
 					class:list={["menu-item", { active: pageActive === "Publications" }]}
 					href="/publications/"
+					role="menuitem"
 				>
 					<Icon name="nav-icons/publications" />
 					Publications
 				</a>
 			</li>
 			<li role="none">
-				<a class:list={["menu-item", { active: activeBlog }]} href="/blog/">
+				<a class:list={["menu-item", { active: activeBlog }]} href="/blog/" role="menuitem">
 					<Icon name="nav-icons/blog" />
 					Blog
 				</a>
 			</li>
 			<li role="none">
-				<a class:list={["menu-item", { active: pageActive === "Contact me" }]} href="/contact-me/">
+				<a
+					class:list={["menu-item", { active: pageActive === "Contact me" }]}
+					href="/contact-me/"
+					role="menuitem"
+				>
 					<Icon name="nav-icons/contact" />
 					Contact me
 				</a>
@@ -100,16 +109,6 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 		}
 	}
 
-	@keyframes blur {
-		to {
-			box-shadow:
-				0px 5px 50px -5px oklch(var(--clr-text) / 0.1),
-				0px 0px 0px 1px oklch(var(--clr-text) / 0.3);
-			background-color: oklch(var(--clr-background) / 0.6);
-			backdrop-filter: blur(10px);
-		}
-	}
-
 	#main-nav > ul {
 		display: flex;
 		gap: 1.5rem;
@@ -139,7 +138,6 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 		.nav-container {
 			--_menu-width: 80vw;
 
-			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
