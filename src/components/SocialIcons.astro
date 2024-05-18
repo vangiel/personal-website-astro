@@ -11,35 +11,47 @@ interface Props {
 const { color, fontSize, gap } = Astro.props;
 ---
 
-<nav class="social-icons">
-	<a target="_blank" href="https://github.com/vangiel" rel="me">
-		<span class="sr-only visually-hidden">GitHub</span>
-		<Icon name="social/github" />
-	</a>
-
-	<a
-		target="_blank"
-		href="https://www.linkedin.com/in/daniel-rodr%C3%ADguez-criado-phd-6967626a/"
-		rel="me"
-	>
-		<span class="sr-only visually-hidden">LinkedIn</span>
-		<Icon name="social/linkedin" />
-	</a>
-
-	<a target="_blank" href="https://orcid.org/0000-0003-0562-531X" rel="me">
-		<span class="sr-only visually-hidden">OrcID</span>
-		<Icon name="social/orcid" />
-	</a>
-
-	<a target="_blank" href="https://www.researchgate.net/profile/Daniel-Rodriguez-Criado" rel="me">
-		<span class="sr-only visually-hidden">ResearchGate</span>
-		<Icon name="social/researchgate" />
-	</a>
-
-	<a target="_blank" href="https://twitter.com/danirocri" rel="me">
-		<span class="sr-only visually-hidden">X</span>
-		<Icon name="social/square-x-twitter" />
-	</a>
+<nav>
+	<ul class="social-icons">
+		<li>
+			<a target="_blank" href="https://github.com/vangiel" rel="me">
+				<span class="sr-only visually-hidden">GitHub</span>
+				<Icon name="social/github" />
+			</a>
+		</li>
+		<li>
+			<a
+				target="_blank"
+				href="https://www.linkedin.com/in/daniel-rodr%C3%ADguez-criado-phd-6967626a/"
+				rel="me"
+			>
+				<span class="sr-only visually-hidden">LinkedIn</span>
+				<Icon name="social/linkedin" />
+			</a>
+		</li>
+		<li>
+			<a target="_blank" href="https://orcid.org/0000-0003-0562-531X" rel="me">
+				<span class="sr-only visually-hidden">OrcID</span>
+				<Icon name="social/orcid" />
+			</a>
+		</li>
+		<li>
+			<a
+				target="_blank"
+				href="https://www.researchgate.net/profile/Daniel-Rodriguez-Criado"
+				rel="me"
+			>
+				<span class="sr-only visually-hidden">ResearchGate</span>
+				<Icon name="social/researchgate" />
+			</a>
+		</li>
+		<li>
+			<a target="_blank" href="https://twitter.com/danirocri" rel="me">
+				<span class="sr-only visually-hidden">X</span>
+				<Icon name="social/square-x-twitter" />
+			</a>
+		</li>
+	</ul>
 </nav>
 
 <style define:vars={{ color, fontSize, gap }}>
@@ -47,13 +59,14 @@ const { color, fontSize, gap } = Astro.props;
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--gap, 1em);
-		a {
+		list-style: none;
+		li {
 			color: var(--color, var(--sl-color-text-accent));
 			padding: 0.5em;
 			margin: -0.5em;
 			font-size: var(--fontSize, 1.3rem);
 		}
-		a:hover {
+		li:hover {
 			filter: contrast(60%);
 			animation: bounce 2s ease 1;
 		}

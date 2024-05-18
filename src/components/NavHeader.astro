@@ -128,7 +128,7 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 
 		.active,
 		a:hover,
-		a:focus {
+		a:focus-visible {
 			background: oklch(var(--clr-accent));
 			color: oklch(var(--clr-text-invert));
 		}

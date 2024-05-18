@@ -5,15 +5,25 @@ interface Props {
 	target?: boolean;
 }
 
+const submit: boolean = Astro.props.reference === "submit";
 const { reference, fontSize, target = false } = Astro.props;
 ---
 
-<a href={reference} target={target ? "_blank" : ""}>
-	<slot />
-</a>
+{
+	submit ? (
+		<button type="submit">
+			<slot />
+		</button>
+	) : (
+		<a href={reference} target={target ? "_blank" : ""}>
+			<slot />
+		</a>
+	)
+}
 
 <style define:vars={{ fontSize }}>
-	a {
+	a,
+	button {
 		display: inline-block;
 		font-size: var(--fontSize, inherited);
 		line-height: 2em;
