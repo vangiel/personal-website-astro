@@ -1,21 +1,22 @@
 ---
 interface Props {
 	reference: string;
+	className?: string;
 	fontSize?: string;
 	target?: boolean;
 }
 
 const submit: boolean = Astro.props.reference === "submit";
-const { reference, fontSize, target = false } = Astro.props;
+const { reference, className, fontSize, target = false } = Astro.props;
 ---
 
 {
 	submit ? (
-		<button type="submit">
+		<button class={className} type="submit">
 			<slot />
 		</button>
 	) : (
-		<a href={reference} target={target ? "_blank" : ""}>
+		<a class={className} href={reference} target={target ? "_blank" : ""}>
 			<slot />
 		</a>
 	)

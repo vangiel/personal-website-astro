@@ -1,0 +1,193 @@
+---
+import SocialIcons from "@/components/SocialIcons.astro";
+import PrimaryButton from "@/components/buttons/PrimaryButton.astro";
+import BannerImage from "@/images/contact/bannerImg.jpg";
+import "@/styles/animations.css";
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+
+if (Astro.request.method === "POST") {
+	try {
+		const data = await Astro.request.formData();
+		const name = data.get("name");
+		const email = data.get("email");
+		const subject = data.get("subject");
+		const phone = data.get("phone");
+		const message = data.get("message");
+
+		// Do something with the data
+		const hostName = Astro.url.origin;
+		const res: Response = await fetch(hostName + "/api/sendEmail.json", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				name: name,
+				email: email,
+				subject: subject,
+				phone: phone,
+				message: message,
+			}),
+		});
+		const resData = await res.json();
+		//TODO: Show a success message and handdle error messages
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error.message);
+		}
+	}
+}
+---
+
+<section class="contact-page-section">
+	<!-- TODO: <h2>Send me a message:</h2> -->
+	<!--Info Column-->
+	<div class="info-column">
+		<Image class="info-image" src={BannerImage} alt="Contact" />
+		<h2>Contact Info:</h2>
+		<ul class="list-info">
+			<li><Icon name="contact/location" />Málaga, Spain.</li>
+			<li><Icon name="contact/email" />dani1610@hotmail.com</li>
+		</ul>
+		<h2>Follow me on:</h2>
+		<SocialIcons fontSize="2.4rem" gap="0.5rem" />
+	</div>
+	<!--Form Column-->
+	<div class="form-column">
+		<!--Contact Form-->
+		<form method="POST">
+			<label>
+				<input type="text" name="name" value="" required />
+				<span>Name</span>
+			</label>
+			<label>
+				<input type="email" name="email" value="" required />
+				<span>Email</span>
+			</label>
+			<label>
+				<input type="text" name="subject" value="" required />
+				<span>Subject</span>
+			</label>
+			<label>
+				<input type="text" name="phone" value="" required />
+				<span>Phone</span>
+			</label>
+			<label>
+				<textarea name="message" required></textarea>
+				<span>Mesage</span>
+			</label>
+			<PrimaryButton className="submit-button" reference="submit"> Send Now </PrimaryButton>
+		</form>
+		<!--End Contact Form-->
+	</div>
+</section>
+
+<style>
+	section {
+		display: grid;
+		place-content: center;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+
+		width: fit-content;
+		margin-inline: auto;
+
+		@media screen and (--media-tablet) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.form-column form {
+		display: flex;
+		height: 100%;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: stretch;
+
+		@media screen and (--media-tablet) {
+			padding-block-start: 25vh;
+			gap: 1.4rem;
+		}
+
+		label {
+			--_input-padding: 10px;
+			position: relative;
+			transition: all 0.5s;
+
+			input,
+			textarea {
+				width: 100%;
+				padding: var(--_input-padding);
+				border-radius: 0.5rem;
+
+				border: 2px solid oklch(var(--clr-accent) / 0.6);
+				outline: none;
+				font-size: 1em;
+				background-color: oklch(var(--clr-background));
+			}
+			span {
+				margin: 0;
+				position: absolute;
+				left: 0;
+				padding: var(--_input-padding);
+				pointer-events: none;
+				font-size: 1em;
+				color: oklch(var(--clr-accent) / 0.6);
+				text-transform: uppercase;
+			}
+
+			input:valid ~ span,
+			input:focus ~ span,
+			textarea:valid ~ span,
+			textarea:focus ~ span {
+				color: oklch(var(--clr-accent));
+				transform: translateX(var(--_input-padding)) translateY(-7px);
+				font-size: 0.65em;
+				padding-inline: var(--_input-padding);
+				padding-block-start: 2px;
+				padding-block-end: 0;
+				background-color: oklch(var(--clr-background));
+				border-left: 2px solid oklch(var(--clr-accent));
+				border-right: 2px solid oklch(var(--clr-accent));
+				letter-spacing: 0.2em;
+			}
+		}
+	}
+
+	.info-column {
+		background-color: oklch(var(--clr-yellow-200));
+		color: oklch(var(--clr-neutral-800));
+		padding: 2em;
+		border-radius: 1em;
+
+		.info-image {
+			width: 100%;
+			height: 15em;
+			object-fit: cover;
+			border-radius: 0.5rem;
+			margin-block-end: 1.5rem;
+			line-height: 0;
+		}
+		h2 {
+			font-size: var(--fs-500);
+			font-weight: var(--fw-bold);
+		}
+		:global(ul) {
+			padding-inline-start: 0.5em;
+			padding-block: 0.3em;
+
+			li {
+				display: flex;
+				gap: 0.5em;
+				align-items: center;
+				[data-icon] {
+					font-size: 1.1em;
+				}
+			}
+		}
+		@media screen and (--media-tablet) {
+			grid-row: 2/3;
+		}
+	}
+</style>
