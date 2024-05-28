@@ -1,22 +1,24 @@
 ---
-interface Props {
-	reference: string;
-	className?: string;
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"button"> {
+	reference: string | "submit";
+	classes?: string;
 	fontSize?: string;
 	target?: boolean;
 }
 
 const submit: boolean = Astro.props.reference === "submit";
-const { reference, className, fontSize, target = false } = Astro.props;
+const { reference, classes, fontSize, target = false, ...rest } = Astro.props;
 ---
 
 {
 	submit ? (
-		<button class={className} type="submit">
+		<button class:list={[classes]} type="submit" {...rest}>
 			<slot />
 		</button>
 	) : (
-		<a class={className} href={reference} target={target ? "_blank" : ""}>
+		<a class:list={[classes]} href={reference} target={target ? "_blank" : ""} {...rest}>
 			<slot />
 		</a>
 	)

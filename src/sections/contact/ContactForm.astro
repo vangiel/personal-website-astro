@@ -2,46 +2,13 @@
 import SocialIcons from "@/components/SocialIcons.astro";
 import PrimaryButton from "@/components/buttons/PrimaryButton.astro";
 import BannerImage from "@/images/contact/bannerImg.jpg";
+import BounceImage from "@/images/contact/bounce.svg";
 import "@/styles/animations.css";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
-
-if (Astro.request.method === "POST") {
-	try {
-		const data = await Astro.request.formData();
-		const name = data.get("name");
-		const email = data.get("email");
-		const subject = data.get("subject");
-		const phone = data.get("phone");
-		const message = data.get("message");
-
-		// Do something with the data
-		const hostName = Astro.url.origin;
-		const res: Response = await fetch(hostName + "/api/sendEmail.json", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				name: name,
-				email: email,
-				subject: subject,
-				phone: phone,
-				message: message,
-			}),
-		});
-		const resData = await res.json();
-		//TODO: Show a success message and handdle error messages
-	} catch (error) {
-		if (error instanceof Error) {
-			console.error(error.message);
-		}
-	}
-}
 ---
 
 <section class="contact-page-section">
-	<!-- TODO: <h2>Send me a message:</h2> -->
 	<!--Info Column-->
 	<div class="info-column">
 		<Image class="info-image" src={BannerImage} alt="Contact" />
@@ -55,8 +22,9 @@ if (Astro.request.method === "POST") {
 	</div>
 	<!--Form Column-->
 	<div class="form-column">
+		<Image class="form-decoration" src={BounceImage} alt="" />
 		<!--Contact Form-->
-		<form method="POST">
+		<form>
 			<label>
 				<input type="text" name="name" value="" required />
 				<span>Name</span>
@@ -77,7 +45,15 @@ if (Astro.request.method === "POST") {
 				<textarea name="message" required></textarea>
 				<span>Mesage</span>
 			</label>
-			<PrimaryButton className="submit-button" reference="submit"> Send Now </PrimaryButton>
+			<PrimaryButton
+				classes="submit-button g-recaptcha"
+				data-sitekey="6LfeZOopAAAAAImpk65HKm6m0sJo8N7ZMYaaGFfy"
+				reference="submit"
+				data-callback="onSubmit"
+				data-action="submit"
+			>
+				Send Now
+			</PrimaryButton>
 		</form>
 		<!--End Contact Form-->
 	</div>
@@ -97,6 +73,14 @@ if (Astro.request.method === "POST") {
 			grid-template-columns: 1fr;
 		}
 	}
+	.form-column {
+		position: relative;
+		.form-decoration {
+			position: absolute;
+			top: -100px;
+			right: 0;
+		}
+	}
 
 	.form-column form {
 		display: flex;
@@ -104,6 +88,7 @@ if (Astro.request.method === "POST") {
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: stretch;
+		gap: 1.4em;
 
 		@media screen and (--media-tablet) {
 			padding-block-start: 25vh;
@@ -113,7 +98,6 @@ if (Astro.request.method === "POST") {
 		label {
 			--_input-padding: 10px;
 			position: relative;
-			transition: all 0.5s;
 
 			input,
 			textarea {
@@ -135,6 +119,11 @@ if (Astro.request.method === "POST") {
 				font-size: 1em;
 				color: oklch(var(--clr-accent) / 0.6);
 				text-transform: uppercase;
+				transition: all 0.3s;
+			}
+
+			textarea {
+				resize: vertical;
 			}
 
 			input:valid ~ span,
@@ -160,6 +149,7 @@ if (Astro.request.method === "POST") {
 		color: oklch(var(--clr-neutral-800));
 		padding: 2em;
 		border-radius: 1em;
+		height: fit-content;
 
 		.info-image {
 			width: 100%;
@@ -191,3 +181,59 @@ if (Astro.request.method === "POST") {
 		}
 	}
 </style>
+
+<script is:inline>
+	const $form = document.querySelector("form");
+	async function sendEmail(captcha, data) {
+		if (captcha.success) {
+			const res = await fetch("/api/sendEmail.json", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: data.get("name"),
+					email: data.get("email"),
+					subject: data.get("subject"),
+					phone: data.get("phone"),
+					message: data.get("message"),
+				}),
+			});
+			const resData = await res.json();
+			return {
+				success: true,
+				...resData,
+			};
+		} else {
+			return {
+				success: false,
+				message: "Captcha not valid",
+			};
+		}
+	}
+
+	function onSubmit(token) {
+		const data = new FormData($form);
+
+		fetch("/api/recaptcha", {
+			method: "POST",
+			body: JSON.stringify({ recaptcha: token }),
+		})
+			.then((response) => response.json())
+			.then((gResponse) => sendEmail(gResponse, data))
+			.then((resData) => {
+				if (resData.success) {
+					const $submitButton = document.querySelector(".submit-button");
+					console.log("Form submission successful!");
+					$submitButton.disabled = true;
+					$submitButton.textContent = "Sent!";
+					$form.reset();
+				} else {
+					console.log("Form submission failed!");
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+</script>

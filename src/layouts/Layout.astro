@@ -26,6 +26,7 @@ const { title } = Astro.props;
 		<meta name="color-schmeme" content="light dark" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Dr Daniel | {title}</title>
+		<slot name="head" />
 		<ViewTransitions />
 	</head>
 	<body>

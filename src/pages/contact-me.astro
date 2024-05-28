@@ -6,7 +6,9 @@ export const prerender = false;
 ---
 
 <Layout title="Contact me">
+	<script is:inline src="https://www.google.com/recaptcha/api.js" slot="head"></script>
 	<main>
+		<h2>Send me a message:</h2>
 		<ContactForm />
 	</main>
 </Layout>
@@ -19,6 +21,11 @@ export const prerender = false;
 
 		display: grid;
 		place-content: center;
+	}
+	h2 {
+		text-align: center;
+		font-size: var(--fs-700);
+		color: oklch(var(--clr-accent));
 	}
 
 	:global(section) {
