@@ -41,8 +41,18 @@ html {
 		margin-inline: auto;
 	}
 
-	.MathJax > svg {
-		margin-inline: auto;
+	.MathJax {
+		display: block;
+		width: 100%;
+		& > svg {
+			display: block;
+			margin-inline: auto;
+		}
+	}
+
+	p:has(> .MathJax) {
+		display: flex;
+		justify-content: space-between;
 	}
 
 	strong:has(> .MathJax) {

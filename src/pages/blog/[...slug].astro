@@ -1,5 +1,6 @@
 ---
 import BlogPost from "@/layouts/BlogPost.astro";
+import "@/styles/starlight-styles.css";
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 
@@ -20,3 +21,30 @@ const { Content } = await post.render();
 <BlogPost {...post.data}>
 	<Content />
 </BlogPost>
+
+<style>
+	:global(p) {
+		font-size: var(--fs-500);
+		line-height: 1.5em;
+		text-wrap: stable;
+	}
+	:global(img) {
+		max-width: 100%;
+		height: fit-content;
+		object-fit: contain;
+	}
+
+	:global(em) {
+		font-style: italic;
+	}
+
+	:global(a) {
+		color: oklch(var(--clr-accent));
+		font-weight: var(--fw-bold);
+	}
+
+	:global(sup > a) {
+		font-size: var(--fs-400);
+		font-weight: var(--fw-regular);
+	}
+</style>
