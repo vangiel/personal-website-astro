@@ -23,27 +23,35 @@ const { Content } = await post.render();
 </BlogPost>
 
 <style>
-	:global(p) {
+	:global(.text p) {
 		font-size: var(--fs-500);
 		line-height: 1.5em;
 		text-wrap: stable;
 	}
-	:global(img) {
+	:global(.text img) {
 		max-width: 100%;
 		height: fit-content;
 		object-fit: contain;
 	}
 
-	:global(em) {
+	:global(.text em) {
 		font-style: italic;
 	}
 
-	:global(a) {
+	:global(.text strong) {
 		color: oklch(var(--clr-accent));
-		font-weight: var(--fw-bold);
 	}
 
-	:global(sup > a) {
+	:global(p strong > .MathJax) {
+		color: oklch(var(--clr-text));
+	}
+
+	:global(.text a) {
+		color: oklch(var(--clr-accent));
+		font-style: italic;
+	}
+
+	:global(.text sup > a) {
 		font-size: var(--fs-400);
 		font-weight: var(--fw-regular);
 	}

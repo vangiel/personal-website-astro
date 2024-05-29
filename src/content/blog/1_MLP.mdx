@@ -9,15 +9,16 @@ slug: "mlp"
 
 import MLPSchemeImg from "@/images/blog/1_MLP/MLP_scheme.png";
 import { Image } from "astro:assets";
+import Caption from "@/components/starlight/Caption.astro";
 
 This first section will guide the reader through the basic concept of DNNs using the Multi-Layer Perceptron (MLP) as the explanation baseline. MLP's simplicity makes it easier to understand the structure and elementary processes within Artificial Neural Networks (ANN) and the definitions here can be extrapolated to more complex DNNs. This section does not intend to provide an exhaustive explanation of the training and optimisation of processes but to introduce the key ideas that will help understand the rest of the thesis.
 
-The **Multi-layer Perceptron (MLP)** was one of the first ANNs to appear in the machine learning community. It is an extension of the Perceptron developed by Rosenblatt in 1958 **citation here**. This kind of network, in theory, can ``learn'' to approximate any kind of linear or non-linear functions. Thereupon, we will dip into the MLP structure to understand how it computes its outputs.
+The **Multi-layer Perceptron (MLP)** was one of the first ANNs to appear in the machine learning community. It is an extension of the Perceptron developed by [Rosenblatt in 1958](https://en.wikipedia.org/wiki/Perceptron). This kind of network, in theory, can ``learn'' to approximate any kind of linear or non-linear functions. Thereupon, we will dip into the MLP structure to understand how it computes its outputs.
 
 The building block of the MLP is the **Perceptron** referred to as an artificial neuron.
 It is inspired by biological neurons, sharing some similarities as depicted in in the header image. It aggregates information from different inputs (dendrites) and generates a single output (axon) that is triggered using an activation function.
 
-$$a = \sigma (\sum_\{i\} w_\{i\}x_\{i\} + b)$$ (1)
+$$a = \sigma (\sum_\{i\} w_\{i\}x_\{i\} + b)$$ <span id="eq-1">(1)</span>
 
 The equation describes how the Perceptron calculates its output.
 The values **$x_{i}$** from the different **$i$** inputs are aggregated by performing a weighted sum across all inputs multiplied by some weights **$w_{i}$** and adding a bias term **$b$**.
@@ -26,16 +27,16 @@ It is worth noting that the bias term allows the Perceptron to learn functions t
 As the reader might have noticed, this is the same equation as a logistic regression where the weights play the same role as the coefficient in the regression.
 
 <Image src={MLPSchemeImg} alt="Scheme of an MLP" />
-<p class="caption"> **Fig 1.** _Multi-Layer Perceptron scheme._ </p>
+<Caption number="1"> Multi-Layer Perceptron scheme.</Caption>
 
 Although the Perceptron by itself is a good approximator for simple linear functions, the real power of the MLP comes from the connection in layers of many of these neurons forming a network.
-Moreover, the result of **Eq. 1** is passed through a non-linear operation **$\sigma(\cdot)$**, also called **activation function**, that modules the intensity and range of the values at the output, thereby enabling the MLP to approximate non-linear functions.
+Moreover, the result of [Eq. 1](#eq-1) is passed through a non-linear operation **$\sigma(\cdot)$**, also called **activation function**, that modules the intensity and range of the values at the output, thereby enabling the MLP to approximate non-linear functions.
 Further information on these activation functions and the most commonly employed variants can be found in [this article](/blog/activation-functions).
 
-**Fig. 1** shows how several Perceptrons are connected to form the Multi-Layer Perceptron.
+[Fig. 1](#fig-1) shows how several Perceptrons are connected to form the Multi-Layer Perceptron.
 Each row of neurons is called a **layer** and networks can have different numbers of layers.
 All the outputs of the neurons of the previous layer are connected to the inputs of each of the neurons of the second layer, which is why MLPs are also known as fully connected networks.
-Conventionally, these layers are separated into three parts as shown in **Fig 1**: the input layer, the hidden layers and the output layers.
+Conventionally, these layers are separated into three parts as shown in [Fig. 1](#fig-1): the input layer, the hidden layers and the output layers.
 We see that an ANN is nothing more than a parametrised composition of affine and non-linear functions **$G(\theta ; x) = y$** where **$\theta_{i} = \{W_{i}, b_{i}\}$**.
 
 Historically, if there is more than one hidden layer the ANN is considered a **Deep Neural Network (DNN)**.
@@ -47,42 +48,43 @@ However, experience tells us that deeper ANNs lead to better results, generalisi
 import depthVSAccuracy from "@/images/blog/1_MLP/depthvsaccuracy.png";
 
 <Image src={depthVSAccuracy} alt="Graph showing the effect of network depth on accuracy" />
-<p class="caption"> **Fig 2.** _Relation between the number of layers and accuracy of a model trained to transcribe multi-digit numbers from photographs of addresses by [Deep Learning book](https://www.deeplearningbook.org/)_ </p>
+<Caption number="2"> Relation between the number of layers and accuracy of a model trained to transcribe multi-digit numbers from photographs of addresses by [Deep Learning book](https://www.deeplearningbook.org/) </Caption>
 
 The MLP can learn how to approximate functions after a training process where numerous pairs of inputs and expected outputs are presented to the network.
 The set of all these pairs used for training the network is called **training dataset** or training set.
-During the training process, the weights (or parameters) of the network are updated to minimise the error between the predicted output and the expected output. 
+During the training process, the weights (or parameters) of the network are updated to minimise the error between the predicted output and the expected output.
 The most widely known and used mechanism to perform this training process is called **stochastic gradient descent**. There is a [full article](/blog/learning) in this blog about this training process.
 
 Next, let us see how the MLP performs a forward pass using vectorised notation.
-The input layer (most left-hand side in **Fig. 1**) takes the data to be processed by the network.
-We can express the input values of the network as a vector **$\vec{x} = (x_{0}, x_{1} ... x_{m})^{T}$**. 
-We can now transform the equation of the computation of a single Perceptron (**Eq. 1**) in its vectorised version:
+The input layer (most left-hand side in [Fig. 1](#fig-1)) takes the data to be processed by the network.
+We can express the input values of the network as a vector **$\vec{x} = (x_{0}, x_{1} ... x_{m})^{T}$**.
+We can now transform the equation of the computation of a single Perceptron ([Eq. 1](#eq-1)) in its vectorised version:
 
-$$z^{(l)}_{i} = \vec{w}^{(l)T}_{i}\vec{x} + b^{(l)}_{i} $$ (2)
 
-$$a^{(l)}_{i} = \sigma(z^{(l)}_{i})$$ (3)
+
+$$z^{(l)}_{i} = \vec{w}^{(l)T}_{i}\vec{x} + b^{(l)}_{i} $$ <span id="eq-2">(2)</span>
+
+$$a^{(l)}_{i} = \sigma(z^{(l)}_{i})$$ <span id="eq-3">(3)</span>
 
 The subscript **$i$** refers to the neuron's index in the layer and the superscript **$l$** to the index of the layer.
 The weights vector **$\vec{w}$** must have the same length as the input vector **$\vec{x}$** (output of the previous layer) and the final activation value **$a$** is yielded by the activation function **$\sigma(\cdot)$**.
 The equation of the computation for the whole layer can be written as follows in the vectorised form:
 
-$$\vec{z}^{(l)} = W^{(l)}\vec{x} + \vec{b}^{(l)}$$ (4)
+$$\vec{z}^{(l)} = W^{(l)}\vec{x} + \vec{b}^{(l)}$$ <span id="eq-4">(4)</span>
 
-$$\vec{a^{(l)}} = \sigma(\vec{z}^{(l)})$$ (5)
+$$\vec{a^{(l)}} = \sigma(\vec{z}^{(l)})$$ <span id="eq-5">(5)</span>
 
 Where **$W$** is now a two-dimensional matrix with the number of rows equal to the number of neurons in layer **$l$** and the number of rows equal to the number of neurons in layer **$l-1$**, and **$\vec{b}$** is a vector of the same size as the neurons in the layer **$l$**.
-Finally, if we want to do a forward pass through a dataset with **$m$** samples we can write **Eq. 1** as:
+Finally, if we want to do a forward pass through a dataset with **$m$** samples we can write [Eq. 1](#eq-1) as:
 
-$$Z^{(l)} = W^{(l)}X + B^{(l)}$$   (6)
+$$Z^{(l)} = W^{(l)}X + B^{(l)}$$ <span id="eq-6">(6)</span>
 
-$$A^{(l)} = \sigma(Z^{(l)})$$ (7)
+$$A^{(l)} = \sigma(Z^{(l)})$$ <span id="eq-7">(7)</span>
 
 In this case, **$B$**, **$Z$** and **$A$** are matrices of dimension **$(n_{l}, m)$**, **$W$** has dimensions **$(m, n_{l}, n_{l-1})$** and the input matrix **$X$** has dimensions **$(n_{l-1}, m)$**.
 Where **$n_{l-1}$** is the dimension of the input and **$n_{l}$** is the dimension of the output for that layer.
 
 When these equations are translated into code run by a program, using the vectorised version instead of loops makes it run much faster.
 The vector operations can be parallelised taking advantage of the graphic card's power.
-
 
 [^1]: That assertion is extracted from Ian Goodfellos et al. book [Deep Learning](https://www.deeplearningbook.org/)

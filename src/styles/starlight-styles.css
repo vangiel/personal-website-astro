@@ -31,10 +31,8 @@
 }
 
 html {
-	.caption {
-		text-align: center;
-		width: 90%;
-		margin-inline: auto;
+	span[id] {
+		scroll-margin-block-start: 40dvh;
 	}
 
 	.centered {

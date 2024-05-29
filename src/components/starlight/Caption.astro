@@ -1,0 +1,26 @@
+---
+interface Props {
+	number: string;
+}
+
+const { number } = Astro.props;
+---
+
+<p class="caption"><span id=`fig-${number}`>Fig. {number}</span> <em><slot /></em></p>
+
+<style>
+	.caption {
+		text-align: center;
+		width: 90%;
+		margin-inline: auto;
+
+		span {
+			font-weight: bold;
+			color: oklch(var(--clr-accent));
+		}
+
+		em {
+			font-style: italic;
+		}
+	}
+</style>
