@@ -1,0 +1,26 @@
+---
+title: "Most used activation functions in deep learning"
+pubDate: "Oct 09 2023"
+heroImage: "@/images/blog/2_Activation/activation_functions.png"
+imageAlt: "Comparison of common activation functions used in deep learning"
+tags: ["AI", "Basic concept"]
+slug: "activation-functions"
+---
+
+import { Image } from "astro:assets";
+
+The activation function regulates when and with what intensity the neuron fires. 
+These functions are essential for allowing the network to approximate non-linearities.
+In the case of not using a non-linear activation, the Multi-layer Perceptron would be nothing but a succession of linear operations that results in a linear function approximator.
+
+import activationFunctions from "@/images/blog/2_Activation/activation_functions.png";
+
+<Image src={activationFunctions} alt="Comparison of common activation functions used in deep learning" />
+<p class="caption"> **Fig 1.** _Different plots of the most relevant activation functions used in deep learning._ </p>
+
+
+It is worth noting that the activation functions of the hidden layers and the one of the output layer can be different. 
+Depending on the requirements of the network and the expected output, can be beneficial to use one function instead of another.
+This section goes through the activation functions explaining their pros and cons and the criteria for using them in the models in this thesis.
+**Fig. 1** shows the graph for each of the activation functions listed below:
+
