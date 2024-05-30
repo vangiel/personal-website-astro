@@ -1,13 +1,15 @@
 import cloudflare from "@astrojs/cloudflare";
+import starlight from "@astrojs/starlight";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 import rehypeMathJax from "rehype-mathjax";
 import remarkMath from "remark-math";
 
-import starlight from "@astrojs/starlight";
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
+	site: "https://danielrodriguezcriado.es",
 	integrations: [
 		icon(),
 		starlight({
@@ -22,18 +24,26 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: "Human-Aware Navigation (HAN)",
-					autogenerate: { directory: "navigation", collapsed: false },
+					autogenerate: {
+						directory: "navigation",
+						collapsed: false,
+					},
 				},
 				{
 					label: "3D Human Pose Estimation (HPE)",
-					autogenerate: { directory: "pose-estimation" },
+					autogenerate: {
+						directory: "pose-estimation",
+					},
 				},
 				{
 					label: "Image Generation",
-					autogenerate: { directory: "image-generation" },
+					autogenerate: {
+						directory: "image-generation",
+					},
 				},
 			],
 		}),
+		sitemap(),
 	],
 	output: "hybrid",
 	adapter: cloudflare({
