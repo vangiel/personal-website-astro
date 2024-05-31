@@ -31,7 +31,8 @@
 }
 
 html {
-	span[id] {
+	span[id],
+	sup > a[id] {
 		scroll-margin-block-start: 40dvh;
 	}
 
@@ -51,6 +52,7 @@ html {
 	p:has(> .MathJax) {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 	}
 
 	strong:has(> .MathJax) {

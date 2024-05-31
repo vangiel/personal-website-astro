@@ -1,12 +1,13 @@
 ---
 title: "Most used activation functions in deep learning"
-pubDate: "Oct 09 2023"
+pubDate: "Jan 09 2024"
 heroImage: "@/images/blog/2_Activation/activation_functions.png"
 imageAlt: "Comparison of common activation functions used in deep learning"
 tags: ["AI", "Basic concept"]
 slug: "activation-functions"
 ---
 
+import Caption from "@/components/starlight/Caption.astro";
 import { Image } from "astro:assets";
 
 The activation function regulates when and with what intensity the neuron fires. 
@@ -16,11 +17,58 @@ In the case of not using a non-linear activation, the Multi-layer Perceptron wou
 import activationFunctions from "@/images/blog/2_Activation/activation_functions.png";
 
 <Image src={activationFunctions} alt="Comparison of common activation functions used in deep learning" />
-<p class="caption"> **Fig 1.** _Different plots of the most relevant activation functions used in deep learning._ </p>
+<Caption number="1"> Different plots of the most relevant activation functions used in deep learning. </Caption>
 
 
 It is worth noting that the activation functions of the hidden layers and the one of the output layer can be different. 
 Depending on the requirements of the network and the expected output, can be beneficial to use one function instead of another.
-This section goes through the activation functions explaining their pros and cons and the criteria for using them in the models in this thesis.
-**Fig. 1** shows the graph for each of the activation functions listed below:
+This post goes through the activation functions explaining their pros and cons.
+[Fig. 1](#fig-1) shows the graph for each of the activation functions listed below:
 
+* The family of **Sigmoid** functions are also used in logistic regression.
+Their mean is **$0.5$** and they only return positive numbers since their outputs go in the range **$[0, 1]$**. 
+They usually perform worse than the rest of the activation functions in this list as activation for the hidden layers [^1].
+For this reason, they are usually used as activation of the output layer in the cases of binary classification or regression when the values are expected to be in the range **$[0, 1]$**.
+
+$$sigmoid(z)=\frac{1}{1+e^{-z}}$$  <span id="eq-1">(1)</span>
+
+* The **Hyperbolic tangent** is a shifted and stretched version of the sigmoid function where the output values are in the range **$[-1, 1]$**, having a mean for the outputs in zero.
+In most applications, it works better than the sigmoid function for the hidden layers since convergence is faster if the average of the input of each layer is close to zero, reducing the bias shift effect[^2]. 
+
+$$tanh(z)=\frac{e^{z}-e^{-z}}{e^{z}+e^{-z}}$$ <span id="eq-2">(2)</span>
+
+* The **Rectified Linear Unit** or **ReLU**[^3] is one of the most popular activations for DNNs.
+The derivative of the points of this function on the positive side is greater in comparison with the sigmoid and the hyperbolic tangent making the network learn faster in most cases.
+The simplicity of its derivative makes it computationally efficient and it is a non-saturating activation function preventing gradient vanishing, which is a problem when training the network as explained in [this post](/blog/learning).
+
+$$ReLU(z) = \pmb{max}(0, z)$$ <span id="eq-3">(3)</span>
+
+
+* The **Leaky Rectified Linear Unit** or **Leaky ReLU**[^4] is a type of activation function based on a ReLU, but it has a small slope for negative values instead of a flat slope.
+The slope coefficient is a hyperparameter that can be adjusted, with [Eq. 4](#eq-4) exemplifying a value of **$0.1$**. 
+This activation function does not suffer from a ReLU problem known as "dying ReLUs", where some neurons die out, meaning they keep on throwing 0 as outputs with the advancement in training.
+It also has the advantage of pushing mean unit activations closer to zero.
+In my modest personal experience, this activation function alongside the hyperbolic tangent, usually delivers the best performance.
+
+$$leakyReLU(z) = \pmb{max}(0.1z,z)$$ <span id="eq-4">(4)</span>
+
+* The **Exponential Linear Unit (ELU)**[^5] is similar to the leaky ReLU. 
+The difference is that the negative part is softened by a parameter **$\alpha$** as you can see in [Eq. 5](#eq-5).
+ELUs saturate to a negative value with smaller inputs and thereby decrease the forward propagated variation and information.
+
+$$ELU(z) = \left\{\begin{matrix} z & z \geq 0\\ \alpha (e^{z}-1) & z<0 \end{matrix}\right.$$ <span id="eq-5">(5)</span>
+
+:::note
+It is worth noting that if we want the network output to be in the range of the real numbers **$x\in\mathbb{R}$**, it is possible to not use any activation function in the output layer or it can also be called **linear activation function**.
+:::
+
+
+[^1]: Nwankpa, Chigozie, et al. "Activation functions: Comparison of trends in practice and research for deep learning." arXiv preprint [arXiv:1811.03378](https://arxiv.org/pdf/1811.03378) (2018).
+
+[^2]: LeCun, Y.A., Bottou, L., Orr, G.B., Müller, KR. (2012). Efficient BackProp. In: Montavon, G., Orr, G.B., Müller, KR. (eds) Neural Networks: Tricks of the Trade. Lecture Notes in Computer Science, vol 7700. Springer, Berlin, Heidelberg. [https://doi.org/10.1007/978-3-642-35289-8_3](https://doi.org/10.1007/978-3-642-35289-8_3)
+
+[^3]: Glorot, X., Bordes, A. &; Bengio, Y.. (2011). Deep Sparse Rectifier Neural Networks. Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statistics, in Proceedings of Machine Learning Research 15:315-323 Available from [https://proceedings.mlr.press/v15/glorot11a.html](https://proceedings.mlr.press/v15/glorot11a.html).
+
+[^4]: Maas, A. L., Hannun, A. Y., & Ng, A. Y. (2013, June). Rectifier nonlinearities improve neural network acoustic models. In Proc. icml (Vol. 30, No. 1, p. 3). ([paper](http://robotics.stanford.edu/~amaas/papers/relu_hybrid_icml2013_final.pdf))
+
+[^5]: Clevert, D. A., Unterthiner, T., & Hochreiter, S. (2020). Fast and accurate deep network learning by exponential linear units (elus). arXiv 2015. arXiv preprint [arXiv:1511.07289](https://arxiv.org/abs/1511.07289).

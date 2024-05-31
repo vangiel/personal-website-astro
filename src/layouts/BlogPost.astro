@@ -1,6 +1,8 @@
 ---
 import FormattedDate from "@/components/FormattedDate.astro";
 import Layout from "@/layouts/Layout.astro";
+import "@/styles/blog-asides.css";
+import "@/styles/starlight-styles.css";
 import { Image } from "astro:assets";
 
 import { type CollectionEntry } from "astro:content";
@@ -96,22 +98,90 @@ const { title, heroImage, imageAlt, pubDate } = Astro.props;
 				font-style: italic;
 			}
 		}
+	}
 
-		.text {
-			:global(h2) {
-				font-size: var(--fs-600);
-				color: var(--clr-accent);
+	.text {
+		padding-block-end: 5rem;
+
+		:global(h2) {
+			font-size: var(--fs-600);
+			color: var(--clr-accent);
+		}
+		:global(p) {
+			margin-block-end: 2em;
+			font-size: var(--fs-500);
+			line-height: 1.5em;
+			text-wrap: stable;
+		}
+
+		:global(a) {
+			color: oklch(var(--clr-accent));
+			font-style: italic;
+		}
+
+		:global(img) {
+			margin-block-end: 2em;
+			max-width: 100%;
+			height: fit-content;
+			object-fit: contain;
+		}
+
+		:global(strong) {
+			font-weight: var(--fw-bold);
+			color: oklch(var(--clr-accent));
+		}
+
+		:global(.text em) {
+			font-style: italic;
+		}
+
+		:global(strong > .MathJax) {
+			color: oklch(var(--clr-text));
+		}
+
+		:global(sup > a) {
+			font-size: var(--fs-400);
+			font-weight: var(--fw-regular);
+		}
+
+		:global(ul) {
+			list-style: disc;
+			padding-inline-start: 1.5rem;
+		}
+
+		:global(ol) {
+			list-style: decimal;
+			padding-inline-start: 1.5rem;
+		}
+
+		:global(li) {
+			margin-block-end: 2.5rem;
+			padding-inline-start: 1.3rem;
+		}
+
+		:global(.footnotes ol) {
+			:global(li) {
+				margin-block: 1em 0;
 			}
 			:global(p) {
-				margin-block-end: 2em;
+				margin: 0;
 			}
+		}
 
-			:global(img) {
-				margin-block-end: 2em;
-			}
+		:global(.footnotes h2::after) {
+			content: "";
+			display: block;
+			height: 2px;
+			width: 100%;
+			background-color: oklch(var(--clr-text));
+		}
 
-			:global(strong) {
-				font-weight: var(--fw-bold);
+		:global(.expressive-code) {
+			padding-block-end: 3rem;
+			font-size: var(--fs-400);
+
+			:global(.frame pre code) {
+				font-size: var(--fs-300);
 			}
 		}
 	}
