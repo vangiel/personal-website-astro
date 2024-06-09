@@ -1,5 +1,37 @@
 [
   {
+    "year": "2024",
+    "title": "Deep Learning in Graph Domains for Sensorised Environments",
+    "author": ["Daniel Rodriguez-Criado"],
+    "in": "PhD, Thesis. Aston University, Birmingham, United Kingdom, 2024.",
+    "school": "School of Industrial Engineering, Aston University.",
+    "type": "phdthesis",
+    "download": "/documents/theses/RODRIGUEZ CRIADO, DANIEL-PhDTesis-2023.pdf",
+    "abstract": "As our society moves swiftly towards an era where technology seamlessly integrates into our daily lives, our homes and cities are becoming increasingly sensorised. This change is fueled by advancements in artificial intelligence that facilitate harnessing the potential of smart environments. The main focus of this thesis is to investigate how Graph Neural Networks (GNNs) can be effectively applied to these environments, with a focus on those where humans and robots share the space. In these scenarios, integrating and exploiting data from multiple sources and analysing interactions between individuals, objects, sensors and robots is paramount. As the literature shows, GNNs have advantageous properties to process this kind of data when compared to more established deep learning approaches.",
+    "key": "rodriguez2024gnns"
+  },
+  {
+    "title": "Multi-person 3D pose estimation from unlabelled data",
+    "author": [
+      "Daniel Rodriguez-Criado",
+      "Pilar Bachiller-Burgos",
+      "George Vogiatzis",
+      "Luis J. Manso"
+    ],
+    "year": "2024",
+    "journal": "Machine Vision and Applications",
+    "volume": "35",
+    "number": "3",
+    "pages": "1--18",
+    "in": "Machine Vision and Applications 35 (3), 1-18",
+    "publisher": "Springer",
+    "abstract": "Its numerous applications make multi-human 3D pose estimation a remarkably impactful area of research. Nevertheless, it presents several challenges, especially when approached using multiple views and regular RGB cameras as the only input. First, each person must be uniquely identified in the different views. Secondly, it must be robust to noise, partial occlusions, and views where a person may not be detected. Thirdly, many pose estimation approaches rely on environment-specific annotated datasets that are frequently prohibitively expensive and/or require specialised hardware. Specifically, this is the first multi-camera, multi-person data-driven approach that does not require an annotated dataset. In this work, we address these three challenges with the help of self-supervised learning. In particular, we present a three-staged pipeline and a rigorous evaluation providing evidence that our approach performs faster than other state-of-the-art algorithms, with comparable accuracy, and most importantly, does not require annotated datasets. The pipeline is composed of a 2D skeleton detection step, followed by a Graph Neural Network to estimate cross-view correspondences of the people in the scenario, and a Multi-Layer Perceptron that transforms the 2D information into 3D pose estimations. Our proposal comprises the last two steps, and it is compatible with any 2D skeleton detector as input. These two models are trained in a self-supervised manner, thus avoiding the need for datasets annotated with 3D ground-truth poses.",
+    "type": "jpaper",
+    "key": "rodriguez2024multi",
+    "url": "https://link.springer.com/article/10.1007/s00138-024-01530-6",
+    "download": "https://link.springer.com/content/pdf/10.1007/s00138-024-01530-6.pdf"
+  },
+  {
     "title": "Synthesizing Traffic Datasets using Graph Neural Networks",
     "author": ["Daniel Rodriguez-Criado", "Maria Chli", "Luis J. Manso", "George Vogiatzis"],
     "year": "2023",
@@ -105,7 +137,7 @@
     "in": "Master in Industrial Engineerings. University of Málaga.",
     "school": "School of Industrial Engineering, University of Málaga",
     "type": "masterthesis",
-    "download": "../documents/theses/thesisIndustriales.pdf",
+    "download": "/documents/theses/thesisIndustriales.pdf",
     "abstract": "Este trabajo describe el desarrollo del diseño y la implementación de un algoritmo capaz de detectar el deslizamiento con los datos recogidos por una matriz de sensores táctiles. El principal objetivo es el de identificar las etapas tempranas de este deslizamiento para que una vez instalado en un mano robótica funcional, se pueda reaccionar con antelación a la caida del objeto sujetado. Todo esto usando MATLAB para el diseño del algoritmo y el análisis de los datos; el sistema de FPGA y matriz de sensores táctiles para implementar la lógica; y una aplicación en LabVIEW para la representación en tiempo real de los datos arrojados por la FPGA.",
     "key": "rodriguez2019tactilFPGA"
   },
@@ -116,7 +148,7 @@
     "in": "Master in Electronic Systmes for Smart Environments. University of Málaga in collaboration with Hong Kong University of Science and Technology.",
     "school": "School of Industrial Engineering, University of Málaga.",
     "type": "masterthesis",
-    "download": "../documents/theses/thesisHK.pdf",
+    "download": "/documents/theses/thesisHK.pdf",
     "abstract": "Recently, there has been significant concern regarding the widesprea prolifera ion of biological hazards and thus, it is necessary to adapt novel solutions to this matter. This project has developed a differential robot for simultaneously performing automatic cleaning and disinfection on table surfaces. This system has a body with two motion wheels and a castor wheel what allows it to move in any direction. Also included are IR sensors to detect the edges of the table, and an obstacle detecting sensor facing forward for detecting an object located ahead of its travelling direction. The microcontroller system located within the robot controls all of its movements, which allows for a safe path to be navigated on the table surface when combined with the mentioned sensors. The disinfection system is made up of three LEDs (two blue light sources and one UV emitter) that eliminate pathogens or mi crobes from the irradiated surface. Finally, the robot includes a broom at the rear in order to sweep the dust and waste from the table.",
     "key": "rodriguez2019difrobot"
   }

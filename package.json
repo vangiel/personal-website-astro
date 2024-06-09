@@ -26,6 +26,7 @@
     "rehype-mathjax": "^6.0.0",
     "remark-math": "^6.0.0",
     "resend": "^3.2.0",
+    "serpapi": "^2.1.0",
     "swiper": "^11.0.7"
   },
   "devDependencies": {
