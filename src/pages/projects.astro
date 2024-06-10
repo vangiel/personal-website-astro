@@ -7,7 +7,6 @@ import BannerImg from "@/images/projects/projects-banner.png";
 
 import { getCollection } from "astro:content";
 
-// TODO: sort the projects by the order parameter
 const docs = (await getCollection("docs")).sort((a, b) => {
 	const aDate = a.data.lastUpdated ? a.data.lastUpdated.valueOf() : 0;
 	const bDate = b.data.lastUpdated ? b.data.lastUpdated.valueOf() : 0;

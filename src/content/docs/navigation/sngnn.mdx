@@ -11,6 +11,7 @@ sidebar:
 
 import Header from "@/components/starlight/ProjectHeader.astro";
 import GMMImage from "@/images/projects/sngnn/GMMs.png";
+import Caption from "@/components/starlight/Caption.astro";
 import { Image } from "astro:assets";
 
 <Header
@@ -31,14 +32,14 @@ I didn't participate in the development of this project. However, I deemed impor
 
 SNGNN is a Graph Neural Network to model adherence to social-navigation conventions for robots. Given a particular scenario composed of a room with any number of walls, objects and people (who can be interacting with each other) the network provides a social adherence ratio from 0 to 1. This information can be used to plan paths for human-aware navigation.
 
-As most researchers working on human-aware navigation, we used to handcraft the proxemics models our robots used for navigation. For instance, in our paper "Socially Acceptable Robot Navigation over Groups of People" (link) we used Gaussian Mixture Models to generate estimations of how irritating the presence of robots is in the different locations of any given environment (see **Fig. 1**).
+As most researchers working on human-aware navigation, we used to handcraft the proxemics models our robots used for navigation. For instance, in our paper "Socially Acceptable Robot Navigation over Groups of People" (link) we used Gaussian Mixture Models to generate estimations of how irritating the presence of robots is in the different locations of any given environment (see [Fig. 1](#fig-1)).
 
 <Image
 	style="margin-inline:auto;width:50%;"
 	src={GMMImage}
 	alt="Example of Gaussian Mixture Models to model proxemics"
 />
-<p class="caption"> **Fig 1.** Example of the use of Gaussian Mixture Models to model proxemics (2017). </p>
+<Caption number="1"> Example of the use of Gaussian Mixture Models to model proxemics (2017). </Caption>
 
 It worked quite well, but it had limitations regarding scalability with respect to the number of factors to consider. The models becoming slower was not the biggest of our problems. The complexity of the code, the number of bugs to deal with and the time necessary to develop these new features made the process hard and expensive. At some point we realised that following a (hybrid) data-driven approach would probably be a good idea, especially more cost-efficient than hand-engineering the models. Additionally, it would allow us to investigate into aspects which we did not consider because we were aware of their importance.
 
@@ -65,7 +66,7 @@ Using GNNs for human-aware navigation allows us to improve accuracy of other ML 
 - Control robot's movements
 - Detect & predict behaviours/events
 
-We were able to obtain labels from 0 to 100 for 9280 randomly generated scenarios comprising scenarios with varying data as described in the previous paragraphs. The tool used to generate the data is shown in **Fig. 2.** Even though the results we obtained are good, we are aware of some limitations that will be addressed in future datasets: a) humans are static, b) there is only one type of interaction, c) we are told "how people think they would feel", not how they actually felt in the situation.
+We were able to obtain labels from 0 to 100 for 9280 randomly generated scenarios comprising scenarios with varying data as described in the previous paragraphs. The tool used to generate the data is shown in [Fig. 2](#fig-2). Even though the results we obtained are good, we are aware of some limitations that will be addressed in future datasets: a) humans are static, b) there is only one type of interaction, c) we are told "how people think they would feel", not how they actually felt in the situation.
 
 The mean squared error (**MSE**) achieved for the dataset is **0.03173**. Humans' MSE is 0.02929.
 
@@ -74,7 +75,7 @@ The mean squared error (**MSE**) achieved for the dataset is **0.03173**. Humans
 	src={scenarioImage}
 	alt="Example of the tool developed in SocNav1 dataset to adquire data"
 />
-<p class="caption">	**Fig 2.** Example of the tool developed in SocNav1 dataset to adquire data. </p>
+<Caption number="2"> Example of the tool developed in _SocNav1_ dataset to adquire data. </Caption>
 
 ## Results
 

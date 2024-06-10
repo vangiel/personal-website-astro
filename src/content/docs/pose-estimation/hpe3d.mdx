@@ -129,7 +129,7 @@ cd skeleton_matching
 python3 train_skeleton_matching.py --trainset training_jsons --devset dev_jsons --testset test_jsons
 ```
 
-The lists of JSON files specified for each option should contain more than $1$ file. The number of files in the training set determine the number of people the model will learn to distinguish.
+The lists of JSON files specified for each option should contain more than **$1$** file. The number of files in the training set determine the number of people the model will learn to distinguish.
 
 #### Commands for training the pose estimator network
 
@@ -138,7 +138,7 @@ cd pose_estimator
 python3 train_pose_estimator.py --trainset training_jsons --devset dev_jsons
 ```
 
-For each set, $1$ or more JSON files can be specified. For simplicity, a single file can be created from several JSON files using the script `merge_jsons.py` in _utils_.
+For each set, **$1$** or more JSON files can be specified. For simplicity, a single file can be created from several JSON files using the script `merge_jsons.py` in _utils_.
 
 ## Testing
 
@@ -193,14 +193,15 @@ If the files to test include a ground truth, that ground truth can be displayed 
 ## Citation
 
 ```bibtex
-@misc{https://doi.org/10.48550/arxiv.2212.08731,
-  doi = {10.48550/ARXIV.2212.08731},
-  url = {https://arxiv.org/abs/2212.08731},
-  author = {Rodriguez-Criado, Daniel and Bachiller, Pilar and Vogiatzis, George and Manso, Luis J.},
-  title = {Multi-person 3D pose estimation from unlabelled data},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {Creative Commons Attribution 4.0 International}
+@article{rodriguez2024multi,
+  title={Multi-person 3D pose estimation from unlabelled data},
+  author={Rodriguez-Criado, Daniel and Bachiller-Burgos, Pilar and Vogiatzis, George and Manso, Luis J},
+  journal={Machine Vision and Applications},
+  volume={35},
+  number={3},
+  pages={1--18},
+  year={2024},
+  publisher={Springer}
 }
 
 ```

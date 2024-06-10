@@ -10,6 +10,7 @@ sidebar:
 ---
 
 import Header from "@/components/starlight/ProjectHeader.astro";
+import Caption from "@/components/starlight/Caption.astro";
 import { Image } from "astro:assets";
 
 <Header
@@ -47,9 +48,9 @@ The first strategy employs a machine learning model (see [SONATA](/navigation/da
 import sceneImage from "@/images/projects/datasets/socnav2/socnav2_scene.png";
 
 <Image class="centered" src={sceneImage} alt="Four frames of a sequence in SocNav2 dataset" />
-<p class="caption">**Fig 1.** A _SocNav2_ sequence. The shaded images correspond to the first 3 seconds of the sequence, which are also shown to subjects to provide context. The last image corresponds to the second that the users score. During the whole sequence, the robot is moving forwards.</p>
+<Caption number="1">A _SocNav2_ sequence. The shaded images correspond to the first 3 seconds of the sequence, which are also shown to subjects to provide context. The last image corresponds to the second that the users score. During the whole sequence, the robot is moving forwards.</Caption>
 
-Subjects providing scores for _SocNav2_ were presented with 4-second sequences and asked to evaluate the robot's behaviour during the final second. The video was shaded during the initial three seconds to facilitate the identification of the specific time slice to be assessed (see **Fig. 1.**). The geometrical and relational data of the sequences were stored in JSON files. After watching the video (as many times as necessary), subjects were asked to provide a score for `Q1` and `Q2` based on the reference values provided. Although some guidelines were given, subjects were encouraged to freely express their opinions. The guidelines included:
+Subjects providing scores for _SocNav2_ were presented with 4-second sequences and asked to evaluate the robot's behaviour during the final second. The video was shaded during the initial three seconds to facilitate the identification of the specific time slice to be assessed (see [Fig. 1](#fig-1)). The geometrical and relational data of the sequences were stored in JSON files. After watching the video (as many times as necessary), subjects were asked to provide a score for `Q1` and `Q2` based on the reference values provided. Although some guidelines were given, subjects were encouraged to freely express their opinions. The guidelines included:
 
 	* Disregard the goal when answering `Q1`. It should only be considered when answering `Q2`.
 	* The closer the robot gets to people, the more it can be considered disturbing.
@@ -76,7 +77,7 @@ Six subjects participated in scoring the dataset, yielding a total of 13,406 sco
 | **Subject4** | 0.57         | 0.63         | 0.64         | 0.73         |
 
 
-To analyse the consistency of the dataset's scoring, the inter-rater and intra-rater agreements were computed for four subjects using the linearly weighted kappa coefficient ([J. Cohen](https://doi.org/10.1037/h0026256)). For the inter-rater consistency, common samples scored by each pair of subjects were considered, with a minimum of $609$ common samples for which this coefficient was obtained. To measure the intra-rater reliability, each user scored 200 duplicate samples. The tables above display the inter-rater and intra-rater consistency for the scores of Q1 and Q2, respectively (intra-rater in the diagonal cells, inter-rater in the remaining cells).
+To analyse the consistency of the dataset's scoring, the inter-rater and intra-rater agreements were computed for four subjects using the linearly weighted kappa coefficient ([J. Cohen](https://doi.org/10.1037/h0026256)). For the inter-rater consistency, common samples scored by each pair of subjects were considered, with a minimum of **$609$** common samples for which this coefficient was obtained. To measure the intra-rater reliability, each user scored 200 duplicate samples. The tables above display the inter-rater and intra-rater consistency for the scores of Q1 and Q2, respectively (intra-rater in the diagonal cells, inter-rater in the remaining cells).
 
 As demonstrated in the first table, the intra-rater consistency for Q1 is "almost perfec" according to the scale defined in [R. Landis et al](https://doi.org/10.2307/2529310). The inter-rater agreement for Q1 can be considered substantial in most cases, with only subjects 1 and 4 having a lower agreement, which still falls within the high "moderate" range. The second table reveals that the consistency for Q2 is generally lower than for Q1. This decrease can be attributed to the question's nature, as subjects may vary significantly in their opinions about how the robot should "efficiently" reach the goal position. Nonetheless, the inter-rater and intra-rater consistency remains "substantial", except for subjects 1 and 4, which are considered high "moderate".
 

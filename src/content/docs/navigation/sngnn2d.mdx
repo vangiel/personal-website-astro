@@ -10,6 +10,7 @@ sidebar:
 ---
 
 import Header from "@/components/starlight/ProjectHeader.astro";
+import Caption from "@/components/starlight/Caption.astro";
 import { Image } from "astro:assets";
 import { Steps } from "@astrojs/starlight/components";
 
@@ -54,10 +55,10 @@ Their inclination and motivation to stay engaged in the task would also be a cha
 import bootstrappingImg from "@/images/projects/sngnn2d/bootstrapping.png";
 
 <Image class="centered" src={bootstrappingImg} alt="Visualization of the dataset bootstrapping process" />
-<p class="caption">**Fig 1.** _The process used to bootstrap the two-dimensional dataset. The expected 2D outputs are generated performing multiple queries to SNGNN, shifting the scenario around the robot._</p>
+<Caption number="1"> The process used to bootstrap the two-dimensional dataset. The expected 2D outputs are generated performing multiple queries to SNGNN, shifting the scenario around the robot.</Caption>
 
 A dataset containing scalars as output data cannot directly be used to train a model which provides a two-dimensional output, so the approach followed in this case is to use a model which provides single value estimations ([SNGNN](/navigation/sngnn)) and sample its output shifting the robot's position, bootstrapping this way a two-dimensional dataset.
-The process of sampling is depicted in *Fig. 1* and in more detail in the cover video.
+The process of sampling is depicted in [Fig. 1](#fig-1) and in more detail in the cover video.
 For each scenario in the bootstrapped dataset a matrix of **$73 \times 73$** samples is generated.
 A total of **$37,131$** scenarios were randomly generated following the same strategy of [SocNav1](/navigation/datasets/socnav1).
 The dataset split for training, development and test is of **$31,191$**, **$2,970$** and **$2,970$** scenarios, respectively.
@@ -71,12 +72,12 @@ The first part of the graph (scenario graph), which coincides with _SNGNN_ repre
 The walls are split into segments, creating a node for each of these segments.
 A global _room_ node connects to every other node in the graph to facilitate the use of global information in the room using fewer layers.
 The human-to-human and human-to-object interactions (if they exist) are represented as edges among the respective nodes.
-The scenario graph can be seen on the top half of **Fig. 2**.
+The scenario graph can be seen on the top half of [Fig. 2](#fig-2).
 
 import graphImg from "@/images/projects/sngnn2d/graph.png";
 
 <Image class="centered" src={graphImg} alt="Final graph used by SNGNN2D" />
-<p class="caption">**Fig 2.** _Representation of the graph corresponding to a specific scene. On the left image, the top side shows the entity graph while the bottom side depicts the grid graph._</p>
+<Caption number="2"> Representation of the graph corresponding to a specific scene. On the left image, the top side shows the entity graph while the bottom side depicts the grid graph.</Caption>
 
 The grid is a lattice of interconnected nodes, structured to represent the area of the room surrounding the robot by associating them to 2D coordinates.
 The number of nodes of this grid and the area they cover are hyperparameters that can be tuned to reach a trade-off between performance, computation time, and area coverage.
