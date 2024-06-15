@@ -7,7 +7,7 @@ import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 ---
 
-<header>
+<section>
 	<article class="hero-section">
 		<div class="hero__text">
 			<h1>Hey I am Dr Daniel!</h1>
@@ -39,10 +39,10 @@ import { Image } from "astro:assets";
 			<Icon name="home/arrow-down" />
 		</a>
 	</div>
-</header>
+</section>
 
 <style>
-	header {
+	section {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -149,10 +149,9 @@ import { Image } from "astro:assets";
 			padding-block-start: 1rem;
 			padding-block-end: 2rem;
 			font-size: 5.5rem;
-			transform: scaleX(3);
 
 			cursor: pointer;
-			animation: bounce 2s ease infinite;
+			animation: bounce-arrow 2s ease infinite;
 		}
 
 		@media (--media-tablet) {

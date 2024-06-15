@@ -1,16 +1,16 @@
-@keyframes bounce {
+@keyframes bounce-arrow {
 	0%,
 	20%,
 	50%,
 	80%,
 	100% {
-		transform: translateY(0);
+		transform: translateY(0) scaleX(3);
 	}
 	40% {
-		transform: translateY(-13px);
+		transform: translateY(-13px) scaleX(2);
 	}
 	60% {
-		transform: translateY(-7px);
+		transform: translateY(-7px) scaleX(3);
 	}
 }
 

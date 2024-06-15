@@ -3,12 +3,12 @@ import Layout from "@/layouts/Layout.astro";
 
 import Education from "@/sections/home/Education.astro";
 import Experience from "@/sections/home/Experience.astro";
-import Header from "@/sections/home/Header.astro";
+import Hero from "@/sections/home/Hero.astro";
 import Projects from "@/sections/home/Projects.astro";
 ---
 
 <Layout title="Home">
-	<Header />
+	<Hero />
 	<main>
 		<Projects />
 		<Experience />
@@ -17,6 +17,19 @@ import Projects from "@/sections/home/Projects.astro";
 </Layout>
 
 <style>
+	html {
+		scroll-snap-type: block mandatory;
+
+		@media screen and (--media-tablet) {
+			scroll-snap-type: block none;
+		}
+	}
+
+	:global(section) {
+		scroll-snap-align: start;
+		min-height: 100dvh;
+	}
+
 	:global(h2.section__title) {
 		font-size: var(--fs-700);
 		font-weight: var(--fw-bold);

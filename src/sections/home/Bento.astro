@@ -6,7 +6,7 @@ import astonLogo from "@/icons/home/aston-logo.png";
 import googleLogo from "@/icons/home/google-logo.svg";
 ---
 
-<section class="bento">
+<div class="bento">
 	<article class="bento__item work-experience">
 		<h3 class="bento__item__title">Work experience</h3>
 		<div class="bento__item__content">
@@ -18,7 +18,7 @@ import googleLogo from "@/icons/home/google-logo.svg";
 				</div>
 				<p class="copy">
 					Four years of full time researcher that gave me the skills of critical thinking, team
-					work, project and time management
+					work, project and time management.
 				</p>
 			</div>
 			<div class="work">
@@ -67,6 +67,7 @@ import googleLogo from "@/icons/home/google-logo.svg";
 					<li>Human-Aware Navigation (HAN) with robots</li>
 					<li>Human Pose Estimation 3D (HPE)</li>
 					<li>Image Generation</li>
+					<li>Natural Language Processing</li>
 				</ul>
 			</article>
 		</div>
@@ -98,6 +99,10 @@ import googleLogo from "@/icons/home/google-logo.svg";
 				<Icon name="home/bento/matlab" />
 				<h4>Matlab</h4>
 			</div>
+			<div class="language">
+				<Icon name="home/bento/sql" />
+				<h4>SQL</h4>
+			</div>
 		</div>
 	</article>
 	<article class="bento__item frameworks">
@@ -119,15 +124,34 @@ import googleLogo from "@/icons/home/google-logo.svg";
 				<Icon name="home/bento/qt" />
 				<h4>Qt</h4>
 			</div>
+			<div class="framework">
+				<Icon name="home/bento/cuda" />
+				<h4>CUDA</h4>
+			</div>
+			<div class="framework">
+				<Icon name="home/bento/git" />
+				<h4>Git</h4>
+			</div>
 		</div>
 	</article>
 	<article class="bento__item learning">
 		<h3 class="bento__item__title">Learning</h3>
 		<div class="bento__item__content">
-			<p>Amazon web services, s4 models, diffusion models</p>
+			<div class="framework">
+				<Icon name="home/bento/nlp" />
+				<h4>LLMs</h4>
+			</div>
+			<div class="framework">
+				<Icon name="home/bento/aws" />
+				<h4>AWS</h4>
+			</div>
+			<div class="framework">
+				<Icon name="home/bento/astrojs" />
+				<h4>Astro JS</h4>
+			</div>
 		</div>
 	</article>
-</section>
+</div>
 
 <style>
 	.bento {
@@ -135,6 +159,10 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		grid-auto-flow: dense;
 		gap: 2rem;
 		grid-template-columns: repeat(4, 1fr);
+		height: 100vh;
+		place-content: center;
+		min-height: 0;
+		min-width: 0;
 
 		max-width: clamp(90rem, 90vw, 150rem);
 		margin: auto;
@@ -156,6 +184,11 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		backdrop-filter: blur(10px);
 		box-shadow: 0 0 10px oklch(var(--clr-shadow));
 		transition: all 0.2s ease-in-out;
+
+		[data-icon] {
+			font-size: 6rem;
+			max-width: 5rem;
+		}
 
 		&:hover {
 			transform: translateY(-10px);
@@ -263,39 +296,19 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		@media (--media-tablet) {
 			grid-column: span 2;
 		}
-		.bento__item__content {
-			display: grid;
-			gap: 0.5rem;
-			grid-template-columns: repeat(3, 1fr);
-
-			.language {
-				min-width: 5rem;
-				text-align: center;
-				[data-icon] {
-					font-size: 6rem;
-				}
-			}
-
-			.language:nth-of-type(4) [data-icon] {
-				color: black;
-			}
-		}
 	}
 
+	.programming-languages,
 	.frameworks,
 	.learning {
 		.bento__item__content {
 			display: grid;
 			gap: 0.5rem;
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(3, 1fr);
 
-			.framework {
+			div {
 				min-width: 5rem;
 				text-align: center;
-				[data-icon] {
-					font-size: 4rem;
-					height: auto;
-				}
 			}
 		}
 	}
