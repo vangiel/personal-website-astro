@@ -123,36 +123,35 @@ import "swiper/css/effect-coverflow";
 	import Swiper from "swiper";
 
 	import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
-	document.addEventListener("astro:page-load", () => {
-		var swiper = new Swiper(".swiper", {
-			modules: [Navigation, Pagination, EffectCoverflow],
 
-			slidesPerView: 1,
-			spaceBetween: 0,
-			centeredSlides: true,
-			grabCursor: true,
-			loop: true,
-			effect: "coverflow",
-			coverflowEffect: {
-				rotate: 10,
-				stretch: 20,
-				depth: 210,
-				modifier: 3,
-				slideShadows: true,
-			},
-			navigation: {
-				nextEl: ".swiper-button-next",
-				prevEl: ".swiper-button-prev",
-			},
+	var swiper = new Swiper(".swiper", {
+		modules: [Navigation, Pagination, EffectCoverflow],
 
-			breakpoints: {
-				// when window width is >= 480px
-				650: {
-					slidesPerView: 2,
-					spaceBetween: 0,
-				},
+		slidesPerView: 1,
+		spaceBetween: 0,
+		centeredSlides: true,
+		grabCursor: true,
+		loop: true,
+		effect: "coverflow",
+		coverflowEffect: {
+			rotate: 10,
+			stretch: 20,
+			depth: 210,
+			modifier: 3,
+			slideShadows: true,
+		},
+		navigation: {
+			nextEl: ".swiper-button-next",
+			prevEl: ".swiper-button-prev",
+		},
+
+		breakpoints: {
+			// when window width is >= 480px
+			650: {
+				slidesPerView: 2,
+				spaceBetween: 0,
 			},
-		});
-		swiper.animating = true;
+		},
 	});
+	swiper.animating = true;
 </script>
