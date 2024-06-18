@@ -29,8 +29,8 @@ import googleLogo from "@/icons/home/google-logo.svg";
 				</div>
 				<p class="copy">
 					This role gave me the oportunity to teach students at undergraduate level. Giving me the
-					confidence and . I teached moduels in computing systems, batch scripting and web
-					technologies.
+					confidence and skills to share my knowledge about any subject. I teached moduels in
+					computing systems, batch scripting and web technologies.
 				</p>
 			</div>
 			<div class="work">
@@ -186,8 +186,8 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		transition: all 0.2s ease-in-out;
 
 		[data-icon] {
-			font-size: 6rem;
-			max-width: 5rem;
+			font-size: 5rem;
+			max-width: 1.5em;
 		}
 
 		&:hover {
@@ -304,7 +304,8 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		.bento__item__content {
 			display: grid;
 			gap: 0.5rem;
-			grid-template-columns: repeat(3, 1fr);
+			grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+			grid-template-rows: repeat(auto-fit, fit-content);
 
 			div {
 				min-width: 5rem;

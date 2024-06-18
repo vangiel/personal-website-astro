@@ -10,7 +10,7 @@ import astonLogo from "@/icons/home/aston-logo.png";
 <section class="education">
 	<h2 class="section__title">Education</h2>
 
-	<section class="education-timeline timeline">
+	<article class="education-timeline timeline">
 		<div class="timeline__row">
 			<div class="timeline__element">
 				<header class="timeline__header">
@@ -116,14 +116,14 @@ import astonLogo from "@/icons/home/aston-logo.png";
 				<h3 class="date">Sep 2010 - Jun 2015</h3>
 			</div>
 		</div>
-	</section>
+	</article>
 </section>
 
 <style>
 	.education {
-		padding-block-start: var(--navbar-height);
-		scroll-padding-top: 0;
+		padding-block-start: calc(var(--navbar-height) + 2rem);
 		min-height: 100dvh;
+		margin-block: 2rem;
 
 		.section__title {
 			margin-block-end: 5rem;
@@ -137,7 +137,6 @@ import astonLogo from "@/icons/home/aston-logo.png";
 
 	/* Global timeline container */
 	.timeline {
-		margin-block: 2rem;
 		padding: 0 0.5em;
 		position: relative;
 		width: 100%;
