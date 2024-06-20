@@ -1,10 +1,19 @@
 ---
+interface Props {
+	id: string;
+}
 
+const { id } = Astro.props;
 ---
 
-<input aria-controls="main-nav" type="checkbox" name="menu-toggle" id="menu-toggle" />
-<label for="menu-toggle" class="hamburger-wrapper">
-	<svg class="ham" viewBox="0 0 100 100" width="80" fill="currentColor">
+<button
+	id={id}
+	aria-expanded="false"
+	aria-controls="main-nav"
+	class="hamburgerButton"
+	aria-label="It opens the navigation menu"
+>
+	<svg class="ham" viewBox="26 26 49 49" width="80" fill="currentColor">
 		<path
 			fill="currentColor"
 			class="line top"
@@ -17,29 +26,22 @@
 			d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40"
 		></path>
 	</svg>
-</label>
+</button>
 
 <style>
-	#menu-toggle {
-		display: none;
-	}
-
-	.hamburger-wrapper {
-		position: fixed;
-		top: 1.5rem;
-		right: 8%;
+	.hamburgerButton {
+		position: relative;
 		z-index: 9999;
-		width: fit-content;
+		width: 4rem;
 		display: none;
 		@media (--media-tablet) {
-			display: block;
+			display: flex;
+			align-items: center;
 		}
 	}
 
 	.ham {
-		cursor: pointer;
 		tap-highlight-color: transparent;
-		transition: all 400ms;
 		user-select: none;
 
 		.line {
@@ -61,7 +63,7 @@
 		}
 	}
 
-	#menu-toggle:checked ~ label > .ham {
+	.open > .ham {
 		transform: rotate(45deg);
 
 		.top {
@@ -73,3 +75,31 @@
 		}
 	}
 </style>
+
+<script>
+	import { $, $$ } from "@/lib/dom-selector";
+
+	const DISPLAY = {
+		hamburgerMenuClass: ".hamburgerButton",
+		open: "open",
+		hamburgerButtonClicked: "hamburgerButtonClicked",
+	} as const;
+
+	document.addEventListener("astro:page-load", () => {
+		const $hamburgerButton = $(DISPLAY.hamburgerMenuClass);
+
+		$hamburgerButton.addEventListener("click", () => {
+			$hamburgerButton.classList.toggle(DISPLAY.open);
+			const isMenuOpen = $hamburgerButton.classList.contains(DISPLAY.open);
+			$hamburgerButton.setAttribute("aria-expanded", String(isMenuOpen));
+			$hamburgerButton.setAttribute(
+				"aria-label",
+				isMenuOpen ? "Close navigation menu" : "Open navigation menu"
+			);
+			const hamburgerButtonClick = new CustomEvent(DISPLAY.hamburgerButtonClicked);
+			$hamburgerButton.dispatchEvent(hamburgerButtonClick);
+		});
+		if ($hamburgerButton?.classList?.contains(DISPLAY.open))
+			$hamburgerButton?.classList?.remove(DISPLAY.open);
+	});
+</script>

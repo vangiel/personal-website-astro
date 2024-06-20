@@ -1,10 +1,11 @@
 ---
 import NavHeader from "@/components/NavHeader.astro";
+import Footer from "@/sections/Footer.astro";
 import "@/styles/global-variables.css";
 import "@/styles/reset.css";
 import "@fontsource-variable/roboto-flex";
 import "@fontsource/merienda";
-// import { ViewTransitions } from "astro:transitions";
+import { ViewTransitions } from "astro:transitions";
 
 interface Props {
 	title: string;
@@ -25,13 +26,16 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=4" />
 		<meta name="color-schmeme" content="light dark" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="author" content="Daniel Rodriguez Criado" />
+		<meta name="description" content="Personal website and portfolio of Daniel Rodriguez Criado" />
 		<title>Dr Daniel | {title}</title>
 		<slot name="head" />
-		<!-- <ViewTransitions /> -->
+		<ViewTransitions />
 	</head>
 	<body>
-		<NavHeader pageActive={title} />
+		<NavHeader/>
 		<slot />
+		<Footer />
 	</body>
 </html>
 
@@ -95,22 +99,9 @@ const { title } = Astro.props;
 		white-space: nowrap;
 		width: 1px;
 	}
-	/*Stop animations on resize of the browser window*/
 
-	.resize-animation-stopper * {
-		transition: none !important;
-		animation: none !important;
+	.overflow-hidden {
+		overflow: hidden;
 	}
 </style>
 
-<script is:inline>
-	/*Stop animations on resize of the browser window*/
-	let resizeTimer;
-	window.addEventListener("resize", () => {
-		document.body.classList.add("resize-animation-stopper");
-		clearTimeout(resizeTimer);
-		resizeTimer = setTimeout(() => {
-			document.body.classList.remove("resize-animation-stopper");
-		}, 400);
-	});
-</script>

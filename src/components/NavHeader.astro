@@ -5,76 +5,54 @@ import Hamburger from "@/components/buttons/Hamburger.astro";
 import Logo from "@/icons/logo.astro";
 import "@/styles/animations.css";
 
-interface Props {
-	pageActive: string;
-}
-
-const { pageActive } = Astro.props;
-
 let primaryColor: string = "oklch(var(--clr-primary))";
 let accentColor: string = "oklch(var(--clr-accent))";
 
-let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
+const { pathname } = Astro.url;
+const normalizedPathName =
+	pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+
+const pages = [
+	{ name: "Home", href: "/" },
+	{ name: "Projects", href: "/projects" },
+	{ name: "Publications", href: "/publications" },
+	{ name: "Blog", href: "/blog", active: normalizedPathName.startsWith("/blog") },
+	{ name: "Contact me", href: "/contact-me" },
+].map((page) => ({
+	...page,
+	active: page.active ?? normalizedPathName === page.href,
+}));
 ---
 
-<Hamburger />
-
-<div class="nav-container">
+<header class="main-header">
 	<div class="logo-theme">
 		<a href="/">
 			<Logo className="logo__img" gradFrom={primaryColor} gradTo={accentColor} />
 		</a>
 		<ThemeToggle />
 	</div>
-	<nav id="main-nav">
+	<Hamburger id="menuButton" />
+	<nav id="main-nav" role="navigation">
+		<a href="/">
+			<Logo className="inner-logo__img" gradFrom={primaryColor} gradTo={accentColor} />
+		</a>
 		<ul role="menubar">
-			<li role="none">
-				<a class:list={["menu-item", { active: pageActive === "Home" }]} href="/" role="menuitem">
-					<Icon name="nav-icons/home" />
-					Home
-				</a>
-			</li>
-			<li role="none">
-				<a
-					class:list={["menu-item", { active: pageActive === "Projects" }]}
-					href="/projects/"
-					role="menuitem"
-					><Icon name="nav-icons/projects" />
-					Projects
-				</a>
-			</li>
-			<li role="none">
-				<a
-					class:list={["menu-item", { active: pageActive === "Publications" }]}
-					href="/publications/"
-					role="menuitem"
-				>
-					<Icon name="nav-icons/publications" />
-					Publications
-				</a>
-			</li>
-			<li role="none">
-				<a class:list={["menu-item", { active: activeBlog }]} href="/blog/" role="menuitem">
-					<Icon name="nav-icons/blog" />
-					Blog
-				</a>
-			</li>
-			<li role="none">
-				<a
-					class:list={["menu-item", { active: pageActive === "Contact me" }]}
-					href="/contact-me/"
-					role="menuitem"
-				>
-					<Icon name="nav-icons/contact" />
-					Contact me
-				</a>
-			</li>
+			{
+				pages.map(({ name, href, active }) => (
+					<li role="none">
+						<a class:list={["menu-item", { "current-page": active }]} href={href} role="menuitem">
+							<Icon name={`nav-icons/${name.split(" ")[0].toLowerCase()}`} />
+							{name}
+						</a>
+					</li>
+				))
+			}
 		</ul>
 	</nav>
-</div>
+</header>
 
 <style>
-	.nav-container {
+	.main-header {
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
@@ -107,6 +85,10 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 				width: 5rem;
 			}
 		}
+
+		a:has(> .inner-logo__img) {
+			display: none;
+		}
 	}
 
 	#main-nav > ul {
@@ -126,7 +108,7 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 			font-weight: var(--fw-bold);
 		}
 
-		.active,
+		.current-page,
 		a:hover,
 		a:focus-visible {
 			background: oklch(var(--clr-accent));
@@ -135,92 +117,92 @@ let activeBlog: boolean = Astro.url.pathname.startsWith("/blog/");
 	}
 
 	@media (--media-tablet) {
-		.nav-container {
-			--_menu-width: 80vw;
+		.main-header {
+			justify-content: space-between;
+			padding-inline: 10vw;
 
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			padding-block-start: 7rem;
+			#main-nav {
+				position: absolute;
+				inset: 0;
+				height: 100dvh;
+				width: 100dvw;
 
-			background-color: oklch(var(--clr-background) / 0.5);
-			backdrop-filter: blur(8px);
-			color: oklch(var(--clr-text));
+				display: grid;
+				justify-items: center;
+				place-content: center;
 
-			position: fixed;
-			height: 100vh;
-			width: var(--_menu-width);
-			top: 0;
-			bottom: 0;
-			left: calc(100vw + (100vw - var(--_menu-width)));
+				transform: translateX(150%);
+				transition: transform 0.5s ease-in-out;
 
-			animation: none;
-			transition: transform 0.3s ease-in-out;
+				background-color: oklch(var(--clr-background) / 0.5);
+				backdrop-filter: blur(8px);
 
-			#main-nav > ul {
-				flex-direction: column;
-				gap: 1rem;
-				align-items: center;
+				& > ul {
+					flex-direction: column;
+					gap: 1rem;
+					align-items: center;
 
-				a {
-					line-height: 2em;
-					font-size: var(--fs-600);
+					a {
+						line-height: 2em;
+						font-size: var(--fs-600);
+					}
 				}
-			}
 
-			.logo-theme {
-				margin-block-end: 5rem;
-
-				:global(.logo__img) {
-					width: 10rem;
+				a:has(> .inner-logo__img) {
+					display: block;
 					height: 10rem;
+					width: 10rem;
+					position: relative;
+					z-index: 200;
+				}
+
+				&.open {
+					transform: translateX(0);
 				}
 			}
-		}
-
-		body:has(> #menu-toggle:checked) {
-			overflow: hidden;
-		}
-
-		:global(#menu-toggle:checked) ~ .nav-container {
-			transform: translateX(-100vw);
-		}
-
-		:global(.themeToggle) {
-			position: fixed;
-			top: 4rem;
-			left: 10%;
-			z-index: 30;
+			.logo-theme > a {
+				display: none;
+			}
 		}
 	}
 
 	@media (--media-mobile) {
-		.nav-container {
+		.main-header {
 			--_menu-width: 100vw;
 		}
 	}
 </style>
 
 <script>
-	const menuItems = document.querySelectorAll(".menu-item");
-	const activeElement = document.querySelector(".active");
-	const mainNav = document.querySelector("#main-nav");
+	import { $, $$ } from "@/lib/dom-selector";
 
-	menuItems.forEach((element) => {
-		element.addEventListener("mouseover", () => {
-			menuItems.forEach((item) => {
-				if (item.classList.contains("active")) {
-					item.classList.remove("active");
-				}
+	const $menuItems = $$(".menu-item");
+	const $activeElement = $(".current-page");
+	const $mainNav = $("#main-nav");
+	const $hamburgerButton = $("#menuButton");
+
+	document.addEventListener("astro:page-load", () => {
+		$menuItems.forEach(($element) => {
+			$element.addEventListener("mouseover", () => {
+				$menuItems.forEach((item) => {
+					if (item.classList.contains("current-page")) {
+						item.classList.remove("current-page");
+					}
+				});
 			});
 		});
-	});
 
-	if (mainNav != null) {
-		mainNav.addEventListener("mouseleave", () => {
-			if (activeElement != null) {
-				activeElement.classList.add("active");
-			}
+		if ($mainNav != null) {
+			$mainNav.addEventListener("mouseleave", () => {
+				if ($activeElement != null) {
+					$activeElement.classList.add("current-page");
+				}
+			});
+		}
+
+		$hamburgerButton?.addEventListener("hamburgerButtonClicked", () => {
+			$mainNav?.classList.toggle("open");
+			document.body.classList.toggle("overflow-hidden");
 		});
-	}
+	});
 </script>

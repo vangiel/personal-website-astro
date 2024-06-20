@@ -1,2 +1,8 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Host
+Host: https://danielrodriguezcriado.es
+
+# Sitemaps
+Sitemap: https://danielrodriguezcriado.es/sitemap-index.xml
