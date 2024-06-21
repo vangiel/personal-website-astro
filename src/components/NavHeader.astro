@@ -97,7 +97,7 @@ const pages = [
 		align-items: center;
 		justify-content: center;
 
-		a {
+		.menu-item {
 			display: flex;
 			align-items: center;
 			gap: 0.5rem;
@@ -124,18 +124,20 @@ const pages = [
 			#main-nav {
 				position: absolute;
 				inset: 0;
+				z-index: 200;
 				height: 100dvh;
 				width: 100dvw;
 
 				display: grid;
 				justify-items: center;
 				place-content: center;
+				gap: 5rem;
+
+				background-color: oklch(var(--clr-background) / 0.5);
+				backdrop-filter: blur(10px);
 
 				transform: translateX(150%);
 				transition: transform 0.5s ease-in-out;
-
-				background-color: oklch(var(--clr-background) / 0.5);
-				backdrop-filter: blur(8px);
 
 				& > ul {
 					flex-direction: column;
@@ -150,10 +152,10 @@ const pages = [
 
 				a:has(> .inner-logo__img) {
 					display: block;
-					height: 10rem;
-					width: 10rem;
-					position: relative;
-					z-index: 200;
+					:global(.inner-logo__img) {
+						height: 10rem;
+						width: 10rem;
+					}
 				}
 
 				&.open {
@@ -176,12 +178,13 @@ const pages = [
 <script>
 	import { $, $$ } from "@/lib/dom-selector";
 
-	const $menuItems = $$(".menu-item");
-	const $activeElement = $(".current-page");
-	const $mainNav = $("#main-nav");
-	const $hamburgerButton = $("#menuButton");
-
 	document.addEventListener("astro:page-load", () => {
+		const $menuItems = $$(".menu-item");
+		const $activeElement = $(".current-page");
+		const $mainNav = $("#main-nav");
+		const $hamburgerButton = $("#menuButton");
+
+		// This code is to change the hover effect of the menu items when the mouse is over the menu items. (only big sizes)
 		$menuItems.forEach(($element) => {
 			$element.addEventListener("mouseover", () => {
 				$menuItems.forEach((item) => {
@@ -200,9 +203,14 @@ const pages = [
 			});
 		}
 
+		// This code is to toggle the menu when the hamburger button is clicked. (only small sizes)
 		$hamburgerButton?.addEventListener("hamburgerButtonClicked", () => {
 			$mainNav?.classList.toggle("open");
 			document.body.classList.toggle("overflow-hidden");
 		});
+
+		if ($mainNav?.classList?.contains("open")) {
+			$mainNav?.classList?.remove("open");
+		}
 	});
 </script>

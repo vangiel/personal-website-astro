@@ -7,13 +7,25 @@ interface Props {
 	image: ImageMetadata;
 	title: string;
 	description: string;
+	smallImage?: ImageMetadata;
 }
 
-const { image, title, description } = Astro.props;
+const { image, title, description, smallImage } = Astro.props;
 ---
 
 <header>
-	<Image class="image" src={image} alt="banner background" />
+	{
+		smallImage ? (
+			<picture>
+				<source media="(max-width: 799px)" srcset={smallImage.src} />
+				<source media="(max-width: 800px)" srcset={image.src} />
+				<img class="image" src={image.src} alt="Banner background" />
+			</picture>
+		) : (
+			<Image class="image" src={image} alt="Banner background" />
+		)
+	}
+
 	<WaveBanner className="wave" color="oklch(var(--clr-background))" />
 	<div class="copy">
 		<h1>{title}</h1>
@@ -38,7 +50,7 @@ const { image, title, description } = Astro.props;
 			height: 100%;
 			width: 100%;
 		}
-		/* TODO: Replace this before element with border-image */
+
 		&::before {
 			content: "";
 			position: absolute;

@@ -3,7 +3,8 @@ import ProjectCard from "@/components/cards/ProjectCard.astro";
 import Layout from "@/layouts/Layout.astro";
 import PageBanner from "@/sections/PageBanner.astro";
 
-import BannerImg from "@/images/projects/projects-banner.png";
+import BannerImageSmall from "@/images/projects/projects-banner-small.png";
+import BannerImgBig from "@/images/projects/projects-banner.png";
 
 import { getCollection } from "astro:content";
 
@@ -44,7 +45,12 @@ for (let i = 0; i < titles.length; i++) {
 ---
 
 <Layout title="Projects">
-	<PageBanner image={BannerImg} title="Projects" description="A list of my projects" />
+	<PageBanner
+		image={BannerImgBig}
+		smallImage={BannerImageSmall}
+		title="Projects"
+		description="A list of my projects"
+	/>
 	<main>
 		<section>
 			{
@@ -70,7 +76,7 @@ for (let i = 0; i < titles.length; i++) {
 
 <style>
 	section {
-		max-width: clamp(20rem, 90vw, 150rem);
+		width: min(90vw, 150rem);
 		margin-inline: auto;
 		padding-block-end: 5rem;
 
@@ -85,6 +91,10 @@ for (let i = 0; i < titles.length; i++) {
 			display: grid;
 			gap: 1.5rem;
 			grid-template-columns: repeat(auto-fill, minmax(40rem, 1fr));
+
+			@media screen and (--media-tablet) {
+				grid-template-columns: 1fr;
+			}
 		}
 	}
 </style>
