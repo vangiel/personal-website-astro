@@ -7,23 +7,89 @@ tags: ["AI", "Basic concept"]
 slug: "lerarning"
 ---
 
-working on it
+import Caption from "@/components/starlight/Caption.astro";
+import { Image } from "astro:assets";
 
-```python
-# Python program to swap two variables
+The learning process of a DNN is formulated as an optimisation problem.
+It is an iterative method where the parameters of the network are updated to better approximate the function matching the input space to the output space of the dataset.
+To evaluate how good the prediction of the network is in comparison to the expected value in the training dataset, a **loss function** is used to provide a score for this approximation.
+The lower the score, the better the prediction by the network.
+Therefore, the learning method aims to obtain the parameter values that minimise the result of the loss function, or in other words, find the global minimum of the loss function.
+In reality, in a multidimensional problem, it is almost impossible to reach this global minimum and reaching a local minimum is a good enough result for the neural network training.
+The optimisation process consists in backpropagating the gradient of the loss function and updating the weights in the opposite direction of the gradient.
 
-x = 5
-y = 10
+## Intuition of gradient descent
 
-# To take inputs from the user
-#x = input('Enter value of x: ')
-#y = input('Enter value of y: ')
+As an intuition on how gradient descent works, we can think of a one-dimensional loss function, for example, the quadratic function **$\mathcal{L} = x\theta^{2}$**.
+Where **$\theta$** represents the single parameter of the network, and **$x$** is the input that will have the value one for this example.
+Evaluating the function derivative for any value of **$\theta$** gives the function slope at that point, or in other words, the change rate of the function.
+The sign of the derivative also tells us the change in direction.
+If the function is increasing, the derivative will be positive and vice-versa.
+If we move the parameter **$\theta$** in the direction of the decreasing function, an amount proportional to its derivative value, we will eventually reach the local minimum.
+Figure [Fig. 1](#fig-1) visually exemplifies this optimisation process.
 
-# create a temporary variable and swap the values
-temp = x
-x = y
-y = temp
+import activationFunctions from "@/images/blog/3_Learning/quadratic_graph.png";
 
-print('The value of x after swapping: {}'.format(x))
-print('The value of y after swapping: {}'.format(y))
-```
+<Image src={activationFunctions} alt="Intuition for gradient descent with one-dimensional function." />
+<Caption number="1"> Intuition for gradient descent with one-dimensional function. The red arrows indicate the leaps during the optimisation process, leading to the global minimum. </Caption>
+
+Each leap in the figure represents an update in the **$\theta$** value calculated in the following manner:
+
+
+$$\theta := \theta - \alpha\frac{d\mathcal{L}}{d\theta} \; ; \; where \; \frac{d\mathcal{L}}{d\theta} = 2\theta $$ <span id="eq-1">(1)</span>
+
+
+The **$alpha$** value in [Eq. 1](#eq-1) is called **learning rate**, and it regulates the amount of the update of the parameters in the network.
+An extremely low learning rate will make the learning process slow, while a high value can cause the network training to be unstable and fail to converge.
+Typical values for the learning rate are lower than **$1$** and greater than **$1e-6$**[^1].
+
+## Cost functions
+
+In the previous paragraphs, we have seen an intuition of how gradient descent works for a network with a single parameter. 
+Real networks can have thousands of parameters, increasing the dimensionality of the problem.
+However, the same principles can be applied, in this case calculating the gradient instead of the derivatives and evaluating the network with a batch of data despite a single point.
+When the loss function is calculated for a batch of data it is called **cost function** (**$\mathcal{J}$**) by convention. 
+Here, the two cost functions used in the projects of this thesis are explained depending on the application.
+For regression problems, the **mean square error (MSE)** is the usual way to go:
+
+
+$$\mathcal{J}_{MSE} = \frac{1}{m}\sum_{m}^{i=1}\begin{Vmatrix} \vec{y}_{i}-\vec{\hat{y}}_{i} \end{Vmatrix}$$ <span id="eq-2">(2)</span>
+
+
+On the other hand, for classification problems, the output of the network is passed by a **softmax** ([Eq. 3](#eq-3)) layer that calculates the normalised vector of classes probabilities and then we apply the **cross entropy loss (CE)** ([Eq. 4](#eq-4)) function.
+This function gives sparse values for different output classes that have similar inputs, which is the main reason why it is preferred over the MSE for classification problems.
+
+
+$$\mathbb{P}(\vec{x} \in class \; j) = \hat{y}_{ij} = \frac{\pmb{exp}(z_{ij})}{\sum _{k=1}^{K}\pmb{exp}(z_{ik})}$$ <span id="eq-3">(3)</span>
+
+
+$$\mathcal{J}_{CE} = \frac{1}{m} \sum_{i=1}^{m} \sum_{j=1}^{K} y_{ij}\pmb{log}(\hat{y}_{ij})$$ <span id="eq-4">(4)</span>
+
+Both the CE and MSE loss functions have smooth gradients that are simple to compute, thereby facilitating the training process and its convergence.
+
+
+## Calculating the gradients
+
+As mentioned, the optimization algorithm computes the gradient of the cost function updating the parameters of the network in the process.
+Continuing with the MLP example, the first step is to do a forward pass to calculate the outputs for a set of inputs following the MLP equations that you can find in [this post](/blog/mlp). 
+Then the result of the loss function is calculated using the outputs of the network and the expected outputs in the dataset.
+Using the chain rule the gradients are calculated as follows from the cost function:
+
+
+
+$$\begin{gathered} \nabla_{\pmb{Z}}\mathcal{J}^{(l)} = \nabla_{\pmb{A}}\mathcal{J}^{(l)} \odot \sigma^{(l)}(\pmb{Z}^{(l)}) \\ \nabla_{\pmb{W}}\mathcal{J}^{(l)} = \frac{1}{m}\nabla_{\pmb{Z}}\mathcal{J}^{(l)} \pmb{A}^{(l-1)} \\ \nabla_{\pmb{B}}\mathcal{J}^{(l)} = \frac{1}{m} \sum^{m}\nabla_{\pmb{Z}}\mathcal{J}^{(l)}  \\  \nabla_{\pmb{A}}\mathcal{J}^{(l-1)} = \pmb{W}^{(l)T}\nabla_{\pmb{Z}}\mathcal{J}^{(l)} \end{gathered}$$ <span id="eq-5">(5)</span>
+
+
+And the parameters of each layer are updated as follows:
+
+$$\begin{gathered} \pmb{W}^{(l)} := \pmb{W}^{(l)} - \alpha \nabla_{\pmb{W}}\mathcal{J}^{(l)} \\  \pmb{B}^{(l)} := \pmb{B}^{(l)} - \alpha \nabla_{\pmb{B}}\mathcal{J}^{(l)} \end{gathered}$$ <span id="eq-6">(6)</span>
+
+
+In the example explained above, we have assumed that the dataset contains the expected outputs for the corresponding inputs and the training process is called **supervised learning**.
+Most models that we use nowadays are trained using a supervised learning approach.
+However, due to the difficulty of gathering data for some specific applications, we often do not have labels (or expected outputs) in our dataset. 
+Therefore, there are other learning approaches such as self-supervised learning or reinforcement learning.
+You can find an example of a project using self-supervised learning in the [projects](/pose-estimation/hpe3d/) page for training a model for 3D human pose estimation.
+
+
+[^1]: Bengio, Yoshua. "Practical recommendations for gradient-based training of deep architectures." Neural networks: Tricks of the trade: Second edition. Berlin, Heidelberg: Springer Berlin Heidelberg, 2012. 437-478.
