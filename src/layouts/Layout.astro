@@ -33,7 +33,7 @@ const { title } = Astro.props;
 		<ViewTransitions />
 	</head>
 	<body>
-		<NavHeader/>
+		<NavHeader />
 		<slot />
 		<Footer />
 	</body>
@@ -103,5 +103,21 @@ const { title } = Astro.props;
 	.overflow-hidden {
 		overflow: hidden;
 	}
+
+	/* Stop animations on resize */
+	.resize-animation-stopper * {
+		transition: none !important;
+		animation: none !important;
+	}
 </style>
 
+<script>
+	let resizeTimer: ReturnType<typeof setTimeout>;
+	window.addEventListener("resize", () => {
+		document.body.classList.add("resize-animation-stopper");
+		clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(() => {
+			document.body.classList.remove("resize-animation-stopper");
+		}, 400);
+	});
+</script>

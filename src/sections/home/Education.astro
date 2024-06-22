@@ -19,10 +19,10 @@ import astonLogo from "@/icons/home/aston-logo.png";
 					<h3 class="university">Aston University</h3>
 				</header>
 				<p class="copy">
-					My doctoral thesis at Aston University explored the intersection of deep learning and
-					graph neural networks (GNNs) in sensorized environments. I focused on three key
-					application areas: Human-Aware Navigation for robots, Human Pose Estimation, and Traffic
-					Image Generation.
+					My doctoral research at Aston University explored the exciting intersection of deep
+					learning and graph neural networks (GNNs) in sensorized environments. This thesis
+					investigated three key areas: human-aware robot navigation, human pose estimation, and
+					traffic image generation using GNNs.
 				</p>
 				<h3 class="date">Oct 2019 - Dec 2023</h3>
 			</div>
@@ -180,14 +180,14 @@ import astonLogo from "@/icons/home/aston-logo.png";
 			/* Even elements to the right */
 			&:nth-child(even) {
 				justify-content: flex-end;
-				animation: slide-left 1s linear;
+				/* animation: slide-left 1s linear; */
 				.date {
 					right: auto;
 					left: -30rem;
 				}
 			}
 			&:nth-child(odd) {
-				animation: slide-right 1s linear;
+				/* animation: slide-right 1s linear; */
 				.date {
 					right: -30rem;
 					left: auto;
@@ -253,6 +253,7 @@ import astonLogo from "@/icons/home/aston-logo.png";
 
 		.copy {
 			color: oklch(var(--clr-neutral-800));
+			padding-block-end: 3rem;
 		}
 	}
 
@@ -288,7 +289,7 @@ import astonLogo from "@/icons/home/aston-logo.png";
 			min-width: 95%;
 
 			&__row {
-				animation: none !important;
+				/* animation: none !important; */
 			}
 		}
 		.timeline__element {

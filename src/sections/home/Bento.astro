@@ -17,8 +17,8 @@ import googleLogo from "@/icons/home/google-logo.svg";
 					<h3 class="subtitle">Aston university <span>2019 - 2023</span></h3>
 				</div>
 				<p class="copy">
-					Four years of full time researcher that gave me the skills of critical thinking, team
-					work, project and time management.
+					Four years honing my skills as a researcher through critical thinking, teamwork, and
+					effective project and time management.
 				</p>
 			</div>
 			<div class="work">
@@ -28,9 +28,8 @@ import googleLogo from "@/icons/home/google-logo.svg";
 					<h3 class="subtitle">Aston university <span>2020 - 2022</span></h3>
 				</div>
 				<p class="copy">
-					This role gave me the oportunity to teach students at undergraduate level. Giving me the
-					confidence and skills to share my knowledge about any subject. I teached moduels in
-					computing systems, batch scripting and web technologies.
+					Taught undergraduate computing courses (systems, scripting, web technologies), fostering
+					my ability to share knowledge confidently.
 				</p>
 			</div>
 			<div class="work">
@@ -40,8 +39,8 @@ import googleLogo from "@/icons/home/google-logo.svg";
 					<h3 class="subtitle">Google <span>Summer 2020 and 2021</span></h3>
 				</div>
 				<p class="copy">
-					During this work time, I mentoriced two students online in a projects in robotics and
-					reinforcement learning.
+					Guided two online students through robotics and reinforcement learning projects, fostering
+					their development in these exciting fields.
 				</p>
 			</div>
 		</div>
@@ -160,12 +159,17 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		gap: 2rem;
 		grid-template-columns: repeat(4, 1fr);
 		place-content: center;
-		padding-block: 5rem;
 
 		max-width: clamp(90rem, 90vw, 150rem);
-		margin: auto;
+		margin-inline: auto;
 		position: relative;
 		z-index: 10;
+
+		@media screen and (--media-tablet) {
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-rows: repeat(2, 1fr);
+			grid-auto-flow: row;
+		}
 	}
 
 	@media (--media-mobile) {
@@ -184,7 +188,7 @@ import googleLogo from "@/icons/home/google-logo.svg";
 		transition: all 0.2s ease-in-out;
 
 		[data-icon] {
-			font-size: 5rem;
+			font-size: clamp(3rem, 4vw, 5rem);
 			max-width: 1.5em;
 		}
 
@@ -257,6 +261,7 @@ import googleLogo from "@/icons/home/google-logo.svg";
 
 	.deep-learning {
 		grid-row: span 2;
+		padding-inline: 5rem;
 		@media (--media-tablet) {
 			grid-column: span 4;
 			grid-row: span 1;
@@ -287,12 +292,6 @@ import googleLogo from "@/icons/home/google-logo.svg";
 			font-size: var(--fs-400);
 			padding: 0.4rem;
 			margin-inline-start: 0.7rem;
-		}
-	}
-
-	.programming-languages {
-		@media (--media-tablet) {
-			grid-column: span 2;
 		}
 	}
 

@@ -18,8 +18,8 @@ import "swiper/css/effect-coverflow";
 			<div class="slide__text">
 				<h3 class="slide__title">Human Pose Estimation</h3>
 				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
-					neque quidem quibusdam.
+					A series of two projects on multi-person 3D pose estimation in a room using multiple
+					cameras and self-supervised learning.
 				</p>
 			</div>
 		</div>
@@ -28,8 +28,8 @@ import "swiper/css/effect-coverflow";
 			<div class="slide__text">
 				<h3 class="slide__title">Image generation</h3>
 				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
-					neque quidem quibusdam.
+					This project focuses on generating traffic images with a conditional GAN model conditioned
+					by a Graph Neural Network (GNN).
 				</p>
 			</div>
 		</div>
@@ -38,8 +38,8 @@ import "swiper/css/effect-coverflow";
 			<div class="slide__text">
 				<h3 class="slide__title">Human-aware navigation with robots</h3>
 				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
-					neque quidem quibusdam.
+					The core of my work lies in Human-aware robot navigation. This area is explored through a
+					series of projects on datasets and models.
 				</p>
 			</div>
 		</div>
@@ -49,8 +49,8 @@ import "swiper/css/effect-coverflow";
 			<div class="slide__text">
 				<h3 class="slide__title">Human Pose Estimation</h3>
 				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
-					neque quidem quibusdam.
+					A series of two projects on multi-person 3D pose estimation in a room using multiple
+					cameras and self-supervised learning.
 				</p>
 			</div>
 		</div>
@@ -59,8 +59,8 @@ import "swiper/css/effect-coverflow";
 			<div class="slide__text">
 				<h3 class="slide__title">Image generation</h3>
 				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
-					neque quidem quibusdam.
+					This project focuses on generating traffic images with a conditional GAN model conditioned
+					by a Graph Neural Network (GNN).
 				</p>
 			</div>
 		</div>
@@ -69,8 +69,8 @@ import "swiper/css/effect-coverflow";
 			<div class="slide__text">
 				<h3 class="slide__title">Human-aware navigation with robots</h3>
 				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quos. Quod, odit. Quae
-					neque quidem quibusdam.
+					The core of my work lies in Human-aware robot navigation. This area is explored through a
+					series of projects on datasets and models.
 				</p>
 			</div>
 		</div>
@@ -124,34 +124,36 @@ import "swiper/css/effect-coverflow";
 
 	import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 
-	var swiper = new Swiper(".swiper", {
-		modules: [Navigation, Pagination, EffectCoverflow],
+	document.addEventListener("astro:page-load", () => {
+		var swiper = new Swiper(".swiper", {
+			modules: [Navigation, Pagination, EffectCoverflow],
 
-		slidesPerView: 1,
-		spaceBetween: 0,
-		centeredSlides: true,
-		grabCursor: true,
-		loop: true,
-		effect: "coverflow",
-		coverflowEffect: {
-			rotate: 10,
-			stretch: 20,
-			depth: 210,
-			modifier: 3,
-			slideShadows: true,
-		},
-		navigation: {
-			nextEl: ".swiper-button-next",
-			prevEl: ".swiper-button-prev",
-		},
-
-		breakpoints: {
-			// when window width is >= 480px
-			650: {
-				slidesPerView: 2,
-				spaceBetween: 0,
+			slidesPerView: 1,
+			spaceBetween: 0,
+			centeredSlides: true,
+			grabCursor: true,
+			loop: true,
+			effect: "coverflow",
+			coverflowEffect: {
+				rotate: 10,
+				stretch: 30,
+				depth: 300,
+				modifier: 2,
+				slideShadows: true,
 			},
-		},
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
+
+			breakpoints: {
+				// when window width is >= 480px
+				650: {
+					slidesPerView: 2,
+					spaceBetween: 0,
+				},
+			},
+		});
+		swiper.animating = true;
 	});
-	swiper.animating = true;
 </script>
