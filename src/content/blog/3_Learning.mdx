@@ -4,7 +4,7 @@ pubDate: "May 29 2024"
 heroImage: "@/images/blog/3_Learning/quadratic_graph.png"
 imageAlt: "Graph of how the minimum of a quadratic function is found"
 tags: ["AI", "Basic concept"]
-slug: "lerarning"
+slug: "learning"
 ---
 
 import Caption from "@/components/starlight/Caption.astro";
@@ -43,7 +43,7 @@ The **$alpha$** value in [Eq. 1](#eq-1) is called **learning rate**, and it regu
 An extremely low learning rate will make the learning process slow, while a high value can cause the network training to be unstable and fail to converge.
 Typical values for the learning rate are lower than **$1$** and greater than **$1e-6$**[^1].
 
-## Cost functions
+### Cost functions
 
 In the previous paragraphs, we have seen an intuition of how gradient descent works for a network with a single parameter. 
 Real networks can have thousands of parameters, increasing the dimensionality of the problem.
@@ -68,7 +68,7 @@ $$\mathcal{J}_{CE} = \frac{1}{m} \sum_{i=1}^{m} \sum_{j=1}^{K} y_{ij}\pmb{log}(\
 Both the CE and MSE loss functions have smooth gradients that are simple to compute, thereby facilitating the training process and its convergence.
 
 
-## Calculating the gradients
+### Calculating the gradients
 
 As mentioned, the optimization algorithm computes the gradient of the cost function updating the parameters of the network in the process.
 Continuing with the MLP example, the first step is to do a forward pass to calculate the outputs for a set of inputs following the MLP equations that you can find in [this post](/blog/mlp). 
@@ -91,5 +91,83 @@ However, due to the difficulty of gathering data for some specific applications,
 Therefore, there are other learning approaches such as self-supervised learning or reinforcement learning.
 You can find an example of a project using self-supervised learning in the [projects](/pose-estimation/hpe3d/) page for training a model for 3D human pose estimation.
 
+## Initialisation and normalisation
+
+Before plunging into the optimisation of gradient descent, it is crucial to underscore the importance of correctly initialising the network weights and normalising the input.
+Regarding the **initialisation** of the learnable parameters, one possibility is to set all of them to the same value.
+However, this is not a favourable option, as it results in all neurons performing identical operations and processing the same gradients, therefore leading to the so-called **symmetry problem**. 
+In such a configuration, the network will not be able to learn and update its parameters, making it useless to have more than one neuron per layer.
+For this reason, the initial weight values are sampled from a random distribution.
+However, the choice of the distribution must be done carefully to avoid vanishing/exploding gradient problems or falling into the aforementioned symmetry problem.
+Gradients vanishing become too small to have any effect and exploding become too large,  leading to numerical instability.
+The selection of the distribution is often based on the number of inputs or fan in, the number of outputs or fan out, the type of activation and the type of network.
+The three most common initialisation techniques in deep learning are listed here:
+
+* The LeCun initialisation [^2] normalises the variance of the sampling distribution to avoid it growing with the number of inputs.
+This allows the neurons have a significant output variance.
+The weights are drawn i.i.d. with zero mean and a normalised variance with the number of inputs **$n_{in}$**:
+
+$$\pmb{W} \sim \mathcal{N}(0, k) \; where \; k=\frac{1}{n_{in}}$$ <span id="eq-7">(7)</span>
+
+
+* Xavier initialisation [^3] also takes into account the fan out $n_{out}$ for a more efficient performance during backpropagation.
+It works better with sigmoid and hyperbolic tangent activations.
+
+
+$$\pmb{W} \sim \mathcal{N}(0, k) \; where \; k=\frac{2}{n_{in}+n_{out}}$$ <span id="eq-8">(8)</span>
+
+* Finally, He initialisation [^4] introduces a slight modification and it works better with ReLU or LeakyReLU activation types.
+
+$$\pmb{W} \sim \mathcal{N}(0, k) \; where \; k=\frac{2}{n_{in}}$$ <span id="eq-9">(9)</span>
+
+In practice, all the frameworks utilised throughout this thesis offer a default initialisation for each type of layer.
+Based on my experience, employing these default initialisations has proven effective, and I have not encountered the need to alter or fine-tune them.
+For instance, the default initialisation for the weights of a fully connected layer in PyTorch[^5] is:
+
+$$\pmb{W} \sim \mathcal{U}(-\sqrt{k}, \sqrt{k}) \; where \; k=\frac{1}{n_{in}}$$ <span id="eq-10">(10)</span>
+
+Turning now to the **normalisation** topic, it is also a crucial step before training the network.
+The normalisation step sets the inputs to have zero mean and the variance to 1, this way all the input variables are in a similar range.
+The normalisation of the input creates a more symmetric cost function, which helps to stabilise the gradient descent step, allowing us to use larger learning rates or help models converge faster for a given learning rate.
+[Fig. 2](#fig-2) depicts an intuition of how the normalisation can affect the shape of the cost function for a hypothetical network with two parameters.
+Normalising the input data can also help the model to generalise better to new data. 
+This is because the model is less sensitive to the scale of the input data, and is, therefore, less likely to overfit the training data.
+Normalised inputs also prevent the problem of exploding and vanishing gradients.
+
+import normalisationImg from "@/images/blog/3_Learning/normalization.png";
+
+<Image src={normalisationImg} alt="An illustrative example of how the normalisation of the input can make the loss function more symmetric, which speeds up and stabilise the learning process." />
+<Caption number="2"> An illustrative example of how the normalisation of the input can make the loss function more symmetric, which speeds up and stabilise the learning process. </Caption>
+
+
+It is important to include in this post the **batch normalisation** technique[^6].
+It follows similar principles of normalising the input data but in this case, it normalises the activations **$\vec{z}$** of the previous layer at each batch before the activation function is applied by subtracting the batch mean **$\mu$** and dividing by the batch standard deviation **$\vec{\sigma}^{2}$**.
+[Eq. 11](#eq-11) show how the activation vector is normalised across the length of the batch **$m$**.
+
+$$\vec{\mu} = \frac{1}{m}\sum_{i=1}^{m}\vec{z}_{i}  \hspace{1cm}  \vec{\sigma}^{2} = \frac{1}{m}\sum_{i=1}^{m}(\vec{z}_{i}-\vec{\mu})^{2} \hspace{1cm} \vec{z}_{norm}^{i} = \frac{\vec{z}^{i}-\mu}{\sqrt{\sigma^{2}+\epsilon}} $$ <span id="eq-11">(11)</span>
+
+
+After the activation vector is normalised the activations are updated as follows:
+
+$$\vec{\hat{z}}^{i} = \gamma \vec{z}_{norm}^{i} + \beta$$ <span id="eq-12">(12)</span>
+
+Where **$\gamma$** and **$\beta$** are learnable parameters, **$\epsilon$** is a constant added for numerical stability.
+This has the effect of stabilising the distribution of activations and reducing the covariate shift, which is the change in the distribution of inputs to a layer caused by the change in the distribution of outputs from the previous layer.
+
+There are several benefits to using batch normalisation:
+
+1.  Batch normalisation has been shown to significantly improve the performance of neural networks, especially when the network is deep or has a lot of layers[^6]. 
+It speeds up and stabilises the training following the same intuition seen earlier with the normalisation of the input data.
+
+2. In some cases, batch normalisation can reduce the need for dropout, a regularisation technique (explained in [this post](/blog/regularisation)) used to prevent overfitting since it also adds a slight regularisation effect.
+
+3. Batch normalisation can make it easier to tune the hyperparameters of a neural network, such as the learning rate because it helps to stabilise the activations and gradients.
+This can make the network more robust to changes in the hyperparameters and allow for more efficient training.
+
 
 [^1]: Bengio, Yoshua. "Practical recommendations for gradient-based training of deep architectures." Neural networks: Tricks of the trade: Second edition. Berlin, Heidelberg: Springer Berlin Heidelberg, 2012. 437-478.
+[^2]: LeCun, Yann, Léon Bottou, Genevieve B. Orr, and Klaus-Robert Müller. "Efficient backprop." In Neural networks: Tricks of the trade, pp. 9-50. Berlin, Heidelberg: Springer Berlin Heidelberg, 2002.
+[^3]: Glorot, Xavier, and Yoshua Bengio. "Understanding the difficulty of training deep feedforward neural networks." In Proceedings of the thirteenth international conference on artificial intelligence and statistics, pp. 249-256. JMLR Workshop and Conference Proceedings, 2010.
+[^4]: He, Kaiming, Xiangyu Zhang, Shaoqing Ren, and Jian Sun. "Delving deep into rectifiers: Surpassing human-level performance on imagenet classification." In Proceedings of the IEEE international conference on computer vision, pp. 1026-1034. 2015.
+[^5]: Documentation for a fully connected layer in the framework PyTorch: [https://pytorch.org/docs/stable/generated/torch.nn.Linear.html](https://pytorch.org/docs/stable/nn.html#torch.nn.init).
+[^6]: Ioffe, Sergey, and Christian Szegedy. "Batch normalization: Accelerating deep network training by reducing internal covariate shift." In International conference on machine learning, pp. 448-456. pmlr, 2015.
