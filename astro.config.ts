@@ -2,6 +2,7 @@ import cloudflare from "@astrojs/cloudflare";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
 import icon from "astro-icon";
+import pagefind from "astro-pagefind";
 import { defineConfig } from "astro/config";
 import rehypeMathJax from "rehype-mathjax";
 import remarkMath from "remark-math";
@@ -11,6 +12,7 @@ export default defineConfig({
 	site: "https://danielrodriguezcriado.es",
 	integrations: [
 		icon(),
+		pagefind(),
 		starlight({
 			title: "Dr Daniel projects",
 			expressiveCode: { themes: ["dracula", "github-light"] },

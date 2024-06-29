@@ -16,17 +16,17 @@
   "dependencies": {
     "@astrojs/check": "0.5.6",
     "@astrojs/cloudflare": "9.1.0",
-    "@astrojs/sitemap": "^3.1.5",
-    "@astrojs/starlight": "^0.21.1",
+    "@astrojs/sitemap": "3.1.5",
+    "@astrojs/starlight": "0.21.1",
     "@fontsource-variable/roboto-flex": "5.0.12",
-    "@fontsource/merienda": "^5.0.12",
-    "astro": "^4.6.1",
+    "@fontsource/merienda": "5.0.12",
+    "astro": "4.6.1",
     "astro-icon": "1.1.0",
-    "rehype-mathjax": "^6.0.0",
-    "remark-math": "^6.0.0",
-    "resend": "^3.2.0",
-    "serpapi": "^2.1.0",
-    "swiper": "^11.0.7"
+    "rehype-mathjax": "6.0.0",
+    "remark-math": "6.0.0",
+    "resend": "3.2.0",
+    "serpapi": "2.1.0",
+    "swiper": "11.0.7"
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "2.1.1",
