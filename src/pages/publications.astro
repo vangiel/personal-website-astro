@@ -2,7 +2,6 @@
 import PublicationCard from "@/components/cards/PublicationCard.astro";
 import Layout from "@/layouts/Layout.astro";
 import PageBanner from "@/sections/PageBanner.astro";
-import Search from "astro-pagefind/components/Search";
 
 import publications from "@/data/publications.json";
 import BannerImage from "@/images/publications/publications-banner.jpg";
@@ -31,8 +30,7 @@ import BannerImage from "@/images/publications/publications-banner.jpg";
 		title="Publications"
 		description="A record of my research output during my doctoral studies, including publications in peer-reviewed journals and conferences."
 	/>
-	<Search id="search" className="pagefind-ui" uiOptions={{ showImages: false }} />
-	<main data-pagefind-body>
+	<main>
 		<section class="publications-section">
 			<ul class="publications-list">
 				{
