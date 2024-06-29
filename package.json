@@ -22,6 +22,7 @@
     "@fontsource/merienda": "5.0.12",
     "astro": "4.6.1",
     "astro-icon": "1.1.0",
+    "astro-pagefind": "1.5.0",
     "rehype-mathjax": "6.0.0",
     "remark-math": "6.0.0",
     "resend": "3.2.0",
