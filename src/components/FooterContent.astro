@@ -1,8 +1,7 @@
 <div class="content">
-	&copy; {new Date().getFullYear()} Daniel Rodriguez Criado <span
-		aria-hidden="true"
-		class="hidden md:inline">|</span
-	><br aria-hidden="true" class="block md:hidden" /> Almost all rights reserved :).
+	<span>&copy; {new Date().getFullYear()} Daniel Rodriguez Criado </span>
+	<span aria-hidden="true" class="bar">|</span>
+	<span>All rights reserved.</span>
 </div>
 
 <style>
@@ -10,5 +9,15 @@
 		display: flex;
 		gap: 1em;
 		flex-wrap: wrap;
+		justify-content: center;
+	}
+	@media screen and (--media-tablet) {
+		.content span:first-child {
+			flex-basis: 100%;
+			text-align: center;
+		}
+		.bar {
+			display: none;
+		}
 	}
 </style>

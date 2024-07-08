@@ -5,32 +5,47 @@ import SocialIcons from "@/components/SocialIcons.astro";
 
 <footer>
 	<hr />
-	<div class="content">
-		<FooterContent />
-		<SocialIcons fontSize="3rem" gap="1.2rem" />
-	</div>
+	<FooterContent />
+	<hr />
+	<SocialIcons fontSize="3rem" gap="1.2rem" />
 </footer>
 
 <style>
 	footer {
-		max-width: calc(var(--max-main-width) + 10rem);
+		max-width: min(calc(var(--max-main-width) + 10rem), 90vw);
 		margin-inline: auto;
 	}
 
 	hr {
-		color: oklch(var(--clr-accent) / 0.5);
+		border: 0;
+		background: linear-gradient(
+			to left,
+			transparent 5%,
+			oklch(var(--clr-accent)) 50%,
+			transparent 95%
+		);
+		height: 2px;
+		width: 100%;
+		&:nth-child(3) {
+			display: none;
+		}
 	}
 
-	footer .content {
+	footer {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: center;
+		gap: 2rem;
 		padding-block: 3rem;
 	}
 
 	@media screen and (--media-tablet) {
 		footer {
-			display: none;
+			justify-content: center;
+		}
+		hr:nth-child(3) {
+			display: block;
 		}
 	}
 </style>

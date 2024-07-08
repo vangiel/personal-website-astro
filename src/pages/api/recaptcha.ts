@@ -9,6 +9,7 @@ export async function POST({ request }: { request: Request }) {
 	};
 	const requestBody = new URLSearchParams({
 		secret: import.meta.env.RECAPTCHA_SECRET_KEY, // This can be an environment variable
+		// @ts-ignore
 		response: data.recaptcha, // The token passed in from the client
 	});
 

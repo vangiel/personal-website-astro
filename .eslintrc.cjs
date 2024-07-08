@@ -1,4 +1,4 @@
-process.env.ESLINT_TSCONFIG = "tsconfig.json"
+process.env.ESLINT_TSCONFIG = "tsconfig.json";
 
 /**
  * @type {import("eslint").Linter.Config}
@@ -55,4 +55,4 @@ module.exports = {
 			},
 		},
 	],
-}
+};

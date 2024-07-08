@@ -14,9 +14,14 @@ export const prerender = false;
 </Layout>
 
 <style>
+	:global(body) {
+		display: flex;
+		flex-direction: column;
+	}
 	main {
+		margin-block-start: var(--navbar-height);
 		max-width: 80%;
-		height: 100dvh;
+		flex-grow: 1;
 		margin-inline: auto;
 
 		display: grid;
