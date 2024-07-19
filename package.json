@@ -3,25 +3,28 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "wrangler types && astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
+    "build": "wrangler types && astro check && astro build",
+    "preview": "wrangler types && astro build && wrangler pages dev",
+    "deploy": "astro build && wrangler pages deploy",
     "astro": "astro",
     "lint": "eslint --ext .astro,.ts,.js,.tsx .",
     "lint:fix": "eslint --ext .astro,.ts,.js,.tsx . --fix",
     "format": "prettier --write src",
-    "format:check": "prettier --check src"
+    "format:check": "prettier --check src",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@astrojs/check": "0.5.6",
-    "@astrojs/cloudflare": "9.1.0",
-    "@astrojs/sitemap": "3.1.5",
-    "@astrojs/starlight": "0.21.1",
+    "@astrojs/check": "^0.8.0",
+    "@astrojs/cloudflare": "^11.0.1",
+    "@astrojs/sitemap": "^3.1.6",
+    "@astrojs/starlight": "^0.25.0",
     "@fontsource-variable/roboto-flex": "5.0.12",
     "@fontsource/merienda": "5.0.12",
-    "astro": "4.6.1",
+    "astro": "^4.11.5",
     "astro-icon": "1.1.0",
+    "marked": "^13.0.2",
     "rehype-mathjax": "6.0.0",
     "remark-math": "6.0.0",
     "resend": "3.2.0",
@@ -29,6 +32,7 @@
     "swiper": "11.0.7"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240620.0",
     "@csstools/postcss-global-data": "2.1.1",
     "@typescript-eslint/eslint-plugin": "7.1.0",
     "@typescript-eslint/parser": "7.1.0",
@@ -44,6 +48,7 @@
     "postcss-preset-env": "9.4.0",
     "prettier": "3.2.5",
     "prettier-plugin-astro": "0.13.0",
-    "typescript": "5.4.2"
+    "typescript": "5.4.2",
+    "wrangler": "^3.63.1"
   }
 }

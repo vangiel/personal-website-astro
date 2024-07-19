@@ -1,0 +1,127 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+	postPath: String;
+}
+
+type PaginationButton = {
+	label: string;
+	href: string;
+};
+
+let prev: PaginationButton | undefined;
+let next: PaginationButton | undefined;
+let pagination: Boolean;
+
+const directoryPath = Astro.props.postPath.split("/").slice(0, -1).join("/");
+const allPages = await Astro.glob("../../content/blog/**/*.{md,mdx}");
+
+const pages = allPages.filter((page) => page.default.moduleId.includes(directoryPath));
+const currentPageIndex = pages.findIndex((page) =>
+	page.default.moduleId.includes(Astro.props.postPath)
+);
+
+if (pages.length <= 1) {
+	prev = undefined;
+	next = undefined;
+	pagination = false;
+} else if (currentPageIndex === 0) {
+	prev = undefined;
+	next = {
+		label: pages[currentPageIndex + 1].frontmatter.title,
+		href: "/blog/" + pages[currentPageIndex + 1].frontmatter.slug,
+	};
+	pagination = true;
+} else if (currentPageIndex === pages.length - 1) {
+	prev = {
+		label: pages[currentPageIndex - 1].frontmatter.title,
+		href: "/blog/" + pages[currentPageIndex - 1].frontmatter.slug,
+	};
+	next = undefined;
+	pagination = true;
+} else {
+	prev = {
+		label: pages[currentPageIndex - 1].frontmatter.title,
+		href: "/blog/" + pages[currentPageIndex - 1].frontmatter.slug,
+	};
+	next = {
+		label: pages[currentPageIndex + 1].frontmatter.title,
+		href: "/blog/" + pages[currentPageIndex + 1].frontmatter.slug,
+	};
+	pagination = true;
+}
+---
+
+{
+	pagination && (
+		<div class="pagination-links">
+			{prev && (
+				<a href={prev.href} rel="prev">
+					<Icon name="pagination/arrow-left" />
+					<span>
+						Previous
+						<br />
+						<span class="link-title">{prev.label}</span>
+					</span>
+				</a>
+			)}
+			{next && (
+				<a href={next.href} rel="next">
+					<Icon name="pagination/arrow-right" />
+					<span>
+						Next
+						<br />
+						<span class="link-title">{next.label}</span>
+					</span>
+				</a>
+			)}
+		</div>
+	)
+}
+
+<style>
+	.pagination-links {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+		gap: 1rem;
+	}
+
+	a[rel] {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 0.5rem;
+		width: 100%;
+		flex-basis: calc(50% - 0.5rem);
+		flex-grow: 1;
+
+		border: 1px solid #aaa;
+		border-radius: 0.5rem;
+		padding: 1rem;
+
+		color: oklch(var(--clr-accent));
+		box-shadow: 0px 10px 10px -7px oklch(var(--clr-text) / 0.75);
+		overflow-wrap: anywhere;
+
+		[data-icon] {
+			font-size: 3rem;
+		}
+	}
+	[rel="next"] {
+		justify-content: flex-end;
+		text-align: end;
+		flex-direction: row-reverse;
+	}
+	a:hover {
+		border-color: oklch(var(--clr-text));
+	}
+
+	.link-title {
+		color: oklch(var(--clr-text));
+	}
+
+	svg {
+		flex-shrink: 0;
+	}
+</style>

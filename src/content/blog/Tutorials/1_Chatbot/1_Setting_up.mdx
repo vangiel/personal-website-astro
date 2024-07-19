@@ -1,0 +1,100 @@
+---
+title: "Chatbot tutorial (Part 1) - Setting up the environment"
+pubDate: "Jul 17 2024"
+heroImage: "@/images/blog/Tutorials/1_Chatbot/frontmatter.png"
+imageAlt: "Frontmatter of the page which consists of an AI generated image of a chatbot."
+tags: ["Tutorials", "Web Development", "AI"]
+slug: "tutorials/chatbot-part1"
+---
+
+In this tutorial, we will see how to create a chatbot using the [Cloudflare adapter](https://www.cloudflare.com/) in an [AstroJS](https://astro.build/) project.
+This first part of the tutorial focuses on setting up the environment from scratch.
+
+:::tip[Prerequisites]
+Before starting this tutorial, you should have completed the following steps:
+
+- Sing up for a [Cludflare account](https://dash.cloudflare.com/sign-up/workers-and-pages)
+- Install [npm](https://docs.npmjs.com/getting-started)
+- Install [Node.js](https://nodejs.org/en/)
+  :::
+
+## 1. Start a new AstroJS project with Cloudflare adapter
+
+Astro make starting a new project really easy with just one command that will guide you through the creation of the project:
+
+```bash
+npm create cloudflare@latest my-astro-app -- --framework=astro
+```
+
+Where `my-astro-app` will be the name of your project. The terminal will ask you a few questions about the project, such as the project name, the project description, the project author, etc. These are examples of my answers:
+
+- Ok to proceed? (y): **y**
+- How would you like to start your new project?: **Include sample files**
+- Do you plan to write TypeScript?: **Yes**
+- How strict should TypeScript be?: **Strict**
+- Initialize a new git repository?: **Yes**
+- Do you want to deploy your applications?: **No**
+
+After this process, a directory named `my-astro-app` will be created with all the necessary files to get started. Your project structure should look something like this:
+
+import { FileTree } from "@astrojs/starlight/components";
+
+<FileTree>
+
+- node_modules/
+- public/
+- src
+  - components/
+  - pages/
+  - env.d.ts
+  - …
+- astro.config.mjs
+- package.json
+- package-lock.json
+- tsconfig.json
+- README.md
+- wrangler.toml This file is added by CloudFlare.
+
+</FileTree>
+
+Note that the only difference with the default AstroJS project is that it has a `wrangler.toml` file. This file is added by CloudFlare to the project so we can add CloudFlare bindings to our projects and declare environment variables as we will see in the next step.
+
+:::note
+If you already have an Astro project and want to integrate Cloudflare you need to run the following command:
+
+```bash
+cd ai-chat-cf-worker
+```
+
+:::
+
+## 2. Connect your CloudFlare page to CloudFlare Workers AI
+
+You must create an AI binding for your Worker to connect to Workers AI. [Bindings](https://developers.cloudflare.com/workers/runtime-apis/bindings/) allow your Workers to interact with resources, like Workers AI, on the Cloudflare Developer Platform.
+To bind Workers AI to your Worker, add (or uncomment) the following to the end of your `wrangler.toml` file that was created in the previous step:
+
+```toml
+// wrangler.toml
+[ai]
+binding = "AI"
+```
+
+Your binding is [available in your Worker code](https://developers.cloudflare.com/workers/reference/migrate-to-module-workers/#bindings-in-es-modules-format) on [`env.AI`](https://developers.cloudflare.com/workers/runtime-apis/handlers/fetch/).
+You can also bind Workers AI to a Pages Function. For more information, refer to [Functions Bindings](https://developers.cloudflare.com/pages/functions/bindings/#workers-ai).
+
+Besides that you have to change the `package.json` file to add the wrangler build options to your build scripts if they are not automatically added by the CloudFlare package when initializing the project:
+
+```json
+// package.json
+{
+	"scripts": {
+		"dev": "wrangler types && astro dev",
+		"start": "astro dev",
+		"build": "wrangler types && astro check && astro build",
+		"preview": "wrangler types && astro build && wrangler pages dev",
+		"deploy": "astro build && wrangler pages deploy",
+		"astro": "astro",
+		"cf-typegen": "wrangler types"
+	}
+}
+```

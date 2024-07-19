@@ -1,13 +1,13 @@
 ---
 title: "Basics of Machine Learning, the Multi-Layer Perceptron"
 pubDate: "Jul 08 2022"
-heroImage: "@/images/blog/1_MLP/neuron_perceptron.png"
+heroImage: "@/images/blog/Concepts/Basic_AI/1_MLP/neuron_perceptron.png"
 imageAlt: "Diagram of a neuron and a perceptron"
 tags: ["AI", "Basic concept"]
-slug: "mlp"
+slug: "concepts/mlp"
 ---
 
-import MLPSchemeImg from "@/images/blog/1_MLP/MLP_scheme.png";
+import MLPSchemeImg from "@/images/blog/Concepts/Basic_AI/1_MLP/MLP_scheme.png";
 import { Image } from "astro:assets";
 import Caption from "@/components/starlight/Caption.astro";
 
@@ -45,7 +45,7 @@ Then why add more than one layer?
 The answer to this question is not clear from a theoretical point of view since there aren't convincingly demonstrations of the possible explanations.
 However, experience tells us that deeper ANNs lead to better results, generalising better over unseen input data [^1].
 
-import depthVSAccuracy from "@/images/blog/1_MLP/depthvsaccuracy.png";
+import depthVSAccuracy from "@/images/blog/Concepts/Basic_AI/1_MLP/depthvsaccuracy.png";
 
 <Image src={depthVSAccuracy} alt="Graph showing the effect of network depth on accuracy" />
 <Caption number="2"> Relation between the number of layers and accuracy of a model trained to transcribe multi-digit numbers from photographs of addresses by [Deep Learning book](https://www.deeplearningbook.org/) </Caption>

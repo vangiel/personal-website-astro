@@ -48,9 +48,18 @@ export default defineConfig({
 	output: "hybrid",
 	adapter: cloudflare({
 		imageService: "passthrough",
+		platformProxy: {
+			enabled: true,
+			persist: true,
+		},
 	}),
 	markdown: {
 		remarkPlugins: [remarkMath],
 		rehypePlugins: [rehypeMathJax],
+	},
+	vite: {
+		ssr: {
+			external: ["node:url", "node:path", "node:child_process"],
+		},
 	},
 });

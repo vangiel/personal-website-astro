@@ -27,5 +27,7 @@
   },
   "prettier.documentSelectors": ["**/*.astro"],
   "prettier.trailingComma": "all",
-  "prettier.requireConfig": true
+  "prettier.requireConfig": true,
+  "mdx.server.enable": false,
+  "mdx.validate.ignoreLinks": ["$$"]
 }

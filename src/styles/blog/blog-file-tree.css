@@ -1,0 +1,55 @@
+starlight-file-tree.not-content {
+	margin-block: 3rem;
+	ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	ul li {
+		margin-block: 0.5rem;
+
+		svg.tree-icon {
+			--_icon-size: 0.8em;
+			width: var(--_icon-size);
+			height: var(--_icon-size);
+		}
+	}
+
+	.sr-only {
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		height: 1px;
+		overflow: hidden;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+
+	span.highlight {
+		background-color: oklch(var(--clr-neutral-500));
+		border-radius: 0.25rem;
+		padding: 0.2em;
+		padding-inline-end: 0.5em;
+		strong {
+			color: oklch(var(--clr-text));
+		}
+	}
+
+	.directory {
+		summary:hover,
+		summary:focus-visible {
+			color: oklch(var(--clr-primary));
+			svg {
+				color: oklch(var(--clr-primary));
+				fill: oklch(var(--clr-primary));
+			}
+		}
+		ul {
+			margin-inline-start: 15px;
+		}
+	}
+
+	.tree-entry .comment {
+		max-width: 40em;
+	}
+}

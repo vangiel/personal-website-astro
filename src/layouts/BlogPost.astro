@@ -1,16 +1,17 @@
 ---
+import Pagination from "@/components/blog/Pagination.astro";
+import PostComments from "@/components/blog/PostComments.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
-import PostComments from "@/components/PostComments.astro";
 import Layout from "@/layouts/Layout.astro";
-import "@/styles/blog-asides.css";
+import "@/styles/blog/blog-asides.css";
+import "@/styles/blog/blog-file-tree.css";
 import "@/styles/starlight-styles.css";
 import { Image } from "astro:assets";
 
 import { type CollectionEntry } from "astro:content";
 
-type Props = CollectionEntry<"blog">["data"];
-
-const { title, heroImage, imageAlt, pubDate } = Astro.props;
+type Props = CollectionEntry<"blog">["data"] & { postId: string };
+const { title, heroImage, imageAlt, pubDate, postId } = Astro.props;
 ---
 
 <Layout title={title}>
@@ -43,6 +44,7 @@ const { title, heroImage, imageAlt, pubDate } = Astro.props;
 					<slot />
 				</div>
 			</article>
+			<Pagination postPath={postId} />
 		</section>
 		<PostComments />
 	</main>
@@ -72,6 +74,10 @@ const { title, heroImage, imageAlt, pubDate } = Astro.props;
 		max-width: min(90%, calc(var(--max-main-width) + 10rem));
 		margin-inline: auto;
 		margin-block-end: 2rem;
+
+		section {
+			margin-block-end: 4rem;
+		}
 	}
 
 	article {
@@ -112,7 +118,7 @@ const { title, heroImage, imageAlt, pubDate } = Astro.props;
 	}
 
 	.text {
-		padding-block-end: 5rem;
+		margin-block-end: 5rem;
 		word-wrap: break-word;
 
 		:global(h2, h3, h4) {
@@ -178,8 +184,11 @@ const { title, heroImage, imageAlt, pubDate } = Astro.props;
 		}
 
 		:global(li) {
-			margin-block-end: 2.5rem;
+			margin-block-end: 1.5rem;
 			padding-inline-start: 1.3rem;
+			&:last-child {
+				margin-block-end: 2.5rem;
+			}
 		}
 
 		:global(.footnotes ol) {
@@ -204,7 +213,7 @@ const { title, heroImage, imageAlt, pubDate } = Astro.props;
 			font-size: var(--fs-400);
 
 			:global(.frame pre code) {
-				font-size: var(--fs-300);
+				font-size: 1.4rem;
 			}
 		}
 	}

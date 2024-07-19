@@ -21,6 +21,11 @@
 		margin: 3rem 0;
 		border-inline-start: 0.25rem solid;
 		color: white;
+
+		ul li,
+		ol li {
+			margin: 0.5rem 0;
+		}
 	}
 
 	.starlight-aside--note {

@@ -9,6 +9,13 @@ import BannerImage from "@/images/blog/blog-banner.png";
 const posts = (await getCollection("blog")).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+// Remove all the post from each tutorial except the first one.
+const filteredPosts = posts.filter(
+	(post) => !post.id.match("Tutorials/([A-Za-z0-9]+(_[A-Za-z0-9]+)+)/[2-9]_")
+);
+
+console.log(posts);
 ---
 
 <Layout title="Blog">
@@ -21,7 +28,7 @@ const posts = (await getCollection("blog")).sort(
 		<section>
 			<ul>
 				{
-					posts.map((post) => (
+					filteredPosts.map((post) => (
 						<li>
 							<ArticleCard {...post.data} slug={post.slug} />
 						</li>

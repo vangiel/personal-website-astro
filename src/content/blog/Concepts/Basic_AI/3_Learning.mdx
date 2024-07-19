@@ -1,10 +1,10 @@
 ---
 title: "How the Multi-Layer Perceptron Learns"
 pubDate: "May 29 2024"
-heroImage: "@/images/blog/3_Learning/quadratic_graph.png"
+heroImage: "@/images/blog/Concepts/Basic_AI/3_Learning/quadratic_graph.png"
 imageAlt: "Graph of how the minimum of a quadratic function is found"
 tags: ["AI", "Basic concept"]
-slug: "learning"
+slug: "concepts/ann-learning"
 ---
 
 import Caption from "@/components/starlight/Caption.astro";
@@ -28,7 +28,7 @@ If the function is increasing, the derivative will be positive and vice-versa.
 If we move the parameter **$\theta$** in the direction of the decreasing function, an amount proportional to its derivative value, we will eventually reach the local minimum.
 Figure [Fig. 1](#fig-1) visually exemplifies this optimisation process.
 
-import activationFunctions from "@/images/blog/3_Learning/quadratic_graph.png";
+import activationFunctions from "@/images/blog/Concepts/Basic_AI/3_Learning/quadratic_graph.png";
 
 <Image src={activationFunctions} alt="Intuition for gradient descent with one-dimensional function." />
 <Caption number="1"> Intuition for gradient descent with one-dimensional function. The red arrows indicate the leaps during the optimisation process, leading to the global minimum. </Caption>
@@ -134,7 +134,7 @@ Normalising the input data can also help the model to generalise better to new d
 This is because the model is less sensitive to the scale of the input data, and is, therefore, less likely to overfit the training data.
 Normalised inputs also prevent the problem of exploding and vanishing gradients.
 
-import normalisationImg from "@/images/blog/3_Learning/normalization.png";
+import normalisationImg from "@/images/blog/Concepts/Basic_AI/3_Learning/normalization.png";
 
 <Image src={normalisationImg} alt="An illustrative example of how the normalisation of the input can make the loss function more symmetric, which speeds up and stabilise the learning process." />
 <Caption number="2"> An illustrative example of how the normalisation of the input can make the loss function more symmetric, which speeds up and stabilise the learning process. </Caption>
