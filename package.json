@@ -16,13 +16,13 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@astrojs/check": "^0.8.0",
+    "@astrojs/check": "^0.8.2",
     "@astrojs/cloudflare": "^11.0.1",
     "@astrojs/sitemap": "^3.1.6",
-    "@astrojs/starlight": "^0.25.0",
+    "@astrojs/starlight": "^0.25.1",
     "@fontsource-variable/roboto-flex": "5.0.12",
     "@fontsource/merienda": "5.0.12",
-    "astro": "^4.11.5",
+    "astro": "^4.12.2",
     "astro-icon": "1.1.0",
     "marked": "^13.0.2",
     "rehype-mathjax": "6.0.0",
@@ -49,6 +49,6 @@
     "prettier": "3.2.5",
     "prettier-plugin-astro": "0.13.0",
     "typescript": "5.4.2",
-    "wrangler": "^3.63.1"
+    "wrangler": "^3.65.1"
   }
 }
