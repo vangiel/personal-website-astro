@@ -46,7 +46,7 @@ const { title, heroImage, imageAlt, pubDate, postId } = Astro.props;
 			</article>
 			<Pagination postPath={postId} />
 		</section>
-		<PostComments />
+		<PostComments server:defer />
 	</main>
 </Layout>
 

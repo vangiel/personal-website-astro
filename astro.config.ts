@@ -50,9 +50,11 @@ export default defineConfig({
 		imageService: "passthrough",
 		platformProxy: {
 			enabled: true,
-			persist: true,
 		},
 	}),
+	experimental: {
+		serverIslands: true,
+	},
 	markdown: {
 		remarkPlugins: [remarkMath],
 		rehypePlugins: [rehypeMathJax],
