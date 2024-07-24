@@ -75,27 +75,31 @@ function createChatMessageElement(msg: RoleScopedChatInput) {
 	// The structure is li>(header>h3+span)+p
 	const $li = document.createElement("li");
 	const $header = document.createElement("header");
-	const $p = document.createElement("p");
-	const $loader = document.createElement("span");
-	$loader.classList.add("loader");
-	$p.textContent = msg.content;
+	const $text = document.createElement("div");
+	$text.classList.add("text");
 	const timestamp = `${date.getHours()}:${("00" + date.getMinutes()).slice(-2)}`;
+
 	if (msg.role === "assistant") {
 		$li.classList.add("bot");
 		$header.innerHTML = `<h3>Assistant</h3><span>${timestamp}</span>`;
 		if (msg.content === "") {
-			$p.appendChild($loader);
+			const $loader = document.createElement("span");
+			$loader.classList.add("loader");
+			$text.appendChild($loader);
+		} else {
+			$text.innerHTML = marked.parse(msg.content) as string;
 		}
 	} else if (msg.role === "user") {
 		$li.classList.add("user");
 		$header.innerHTML = `<h3>User</h3><span>${timestamp}</span>`;
+		$text.innerHTML = `<p>${msg.content}</p>`;
 	} else {
 		$header.innerHTML = `<h3>System</h3><span>${timestamp}</span>`;
-		$p.textContent = "Error, no role identified";
+		$text.innerHTML = "<p>Error, no role identified</p>";
 	}
 	$li.appendChild($header);
-	$li.appendChild($p);
-	return { chatElement: $li, text: $p };
+	$li.appendChild($text);
+	return { chatElement: $li, text: $text };
 }
 
 function retrieveMessages() {

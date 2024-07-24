@@ -1,5 +1,6 @@
 ---
-import chatBackground from "@/icons/chat/background.svg";
+import chatBackgroundLight from "@/icons/chat/background_light.svg";
+import chatBackgroundDark from "@/icons/chat/background_dark.svg";
 import { Icon } from "astro-icon/components";
 
 const date = new Date();
@@ -40,9 +41,11 @@ const date = new Date();
 		const $chat = $(".chat") as HTMLElement;
 		const $openChat = $("#openChat") as HTMLElement;
 		const $closeChat = $("#closeChat") as HTMLElement;
+		const $messages = $("#messages") as HTMLElement;
 
 		$openChat.addEventListener("click", () => {
 			$chat.classList.remove("closed");
+			$messages.scrollTop = $messages.scrollHeight;
 		});
 
 		$closeChat.addEventListener("click", () => {
@@ -51,7 +54,7 @@ const date = new Date();
 	});
 </script>
 
-<style define:vars={{ chatBackground: `url(${chatBackground.src})` }}>
+<style>
 	:global(ul#messages),
 	ul#messages > :global(li) {
 		list-style: none;
@@ -114,18 +117,9 @@ const date = new Date();
 			padding: 1.2rem;
 			height: min(55rem, 90vh);
 			overflow-y: scroll;
-			background-color: oklch(var(--clr-text-invert));
 
-			&::before {
-				content: "";
-				display: block;
-				position: absolute;
-				inset: 0;
-				width: 100%;
-				height: 100%;
-				background-color: oklch(var(--clr-text));
-				mask: var(--chatBackground);
-			}
+			background-color: oklch(var(--clr-background));
+			background-image: var(--chat-background);
 
 			:global(li) {
 				--_clr-background: var(--clr-neutral-200);
@@ -135,12 +129,18 @@ const date = new Date();
 				background-color: oklch(var(--_clr-background));
 				padding: 1rem;
 
-				:global(p) {
-					margin: 0;
-					font-size: var(--fs-400);
+				:global(.text) {
+					:global(p) {
+						margin: 0;
+						font-size: var(--fs-400);
+					}
+					:global(ul > li) {
+						margin: 0;
+					}
 
-					:global(.code) {
-						background-color: #aaa;
+					:global(pre:has(> code), code) {
+						background-color: #bbb;
+						overflow-wrap: anywhere;
 					}
 				}
 			}
