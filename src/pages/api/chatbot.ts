@@ -50,11 +50,12 @@ export async function POST({ request, locals }: APIContext) {
 								controller.close();
 								break;
 							}
+							console.log(line);
 							try {
 								const data = JSON.parse(line.split("data: ")[1]);
-								controller.enqueue(data.response);
+								controller.enqueue(new TextEncoder().encode(data.response));
 							} catch (err) {
-								console.error(err);
+								console.error("Could not parse response", err);
 							}
 						}
 					},
