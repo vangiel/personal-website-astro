@@ -3,7 +3,6 @@ import chatBackground from "@/icons/chat/background.svg";
 import { Icon } from "astro-icon/components";
 
 const date = new Date();
-export const prerender = false;
 ---
 
 <aside class="chat closed">
@@ -18,19 +17,39 @@ export const prerender = false;
 		</button>
 	</header>
 	<ul id="messages">
-		<li class="bot">
-			<header>
-				<h3>BOT</h3>
-				<span>{date.getHours()}:{("00" + date.getMinutes()).slice(-2)}</span>
-			</header>
-			<p>Hi, welcome to my chat! I am a friendly assistant. Go ahead and send me a message. 😄</p>
-		</li>
+		<!-- Here are the history of messgaes -->
 	</ul>
 	<form id="chatForm">
 		<input id="message" type="text" autocomplete="off" />
 		<button id="submitButton" type="submit">Send</button>
 	</form>
 </aside>
+
+<script>
+	import { initChat, sendMessage } from "@/lib/chatbot_utils";
+	import { $ } from "@/lib/dom-selector";
+
+	document.addEventListener("astro:page-load", () => {
+		initChat();
+		document.getElementById("chatForm")?.addEventListener("submit", async function (e) {
+			e.preventDefault();
+			await sendMessage();
+		});
+
+		// Logic to open and close the chat
+		const $chat = $(".chat") as HTMLElement;
+		const $openChat = $("#openChat") as HTMLElement;
+		const $closeChat = $("#closeChat") as HTMLElement;
+
+		$openChat.addEventListener("click", () => {
+			$chat.classList.remove("closed");
+		});
+
+		$closeChat.addEventListener("click", () => {
+			$chat.classList.add("closed");
+		});
+	});
+</script>
 
 <style define:vars={{ chatBackground: `url(${chatBackground.src})` }}>
 	:global(ul#messages),
@@ -274,117 +293,47 @@ export const prerender = false;
 			bottom: 4rem;
 		}
 	}
+
+	:global(span.loader) {
+		width: 100%;
+		height: 65px;
+		display: block;
+		background-image: linear-gradient(
+				100deg,
+				transparent,
+				oklch(var(--clr-neutral-200)) 50%,
+				transparent 80%
+			),
+			linear-gradient(#fff 20px, transparent 0), linear-gradient(#fff 20px, transparent 0),
+			linear-gradient(#fff 20px, transparent 0);
+		background-repeat: no-repeat;
+		background-size:
+			75px 65px,
+			50% 15px,
+			100% 15px,
+			100% 15px;
+		background-position:
+			-50% 0,
+			0px 0px,
+			0px 25px,
+			0px 50px;
+		animation: animloader 1s linear infinite;
+	}
+
+	@keyframes animloader {
+		0% {
+			background-position:
+				0% 0,
+				0px 0px,
+				0px 25px,
+				0px 45px;
+		}
+		100% {
+			background-position:
+				100% 0,
+				0px 0px,
+				0px 25px,
+				0px 45px;
+		}
+	}
 </style>
-
-<script>
-	import { $ } from "@/lib/dom-selector";
-	import type { ChatbotPayload } from "@/types/chatbot";
-	import { marked } from "marked";
-
-	const date = new Date();
-
-	document.addEventListener("astro:page-load", () => {
-		// Send new messages to the API chatbot that queries the AI model
-		const $form: HTMLFormElement = $("#chatForm") as HTMLFormElement;
-		const $input: HTMLInputElement = $("#message") as HTMLInputElement;
-		const $messages = $("#messages") as HTMLElement;
-		const $submitButton: HTMLButtonElement = $("#submitButton") as HTMLButtonElement;
-		const messaggesMemory: ChatbotPayload[] = [
-			{
-				message: {
-					content:
-						"Hi, welcome to my chat! I am a friendly assistant. Go ahead and send me a message. 😄",
-					role: "assistant",
-				},
-			},
-		];
-
-		$form.addEventListener("submit", (e) => {
-			e.preventDefault();
-
-			// Update de chat
-			// With the user input
-			const $liUser = document.createElement("li");
-			const $headerUser = document.createElement("header");
-			const $pUser = document.createElement("p");
-			const $liBot = document.createElement("li");
-			const $headerBot = document.createElement("header");
-			const $pBot = document.createElement("p");
-
-			$headerUser.innerHTML = `<h3>User</h3><span>${date.getHours()}:${("00" + date.getMinutes()).slice(-2)}</span>`;
-			$pUser.textContent = $input.value;
-
-			$liUser.appendChild($headerUser);
-			$liUser.appendChild($pUser);
-			$liUser.classList.add("user");
-			$messages.appendChild($liUser);
-
-			// Send the user input to the API chatbot that queries the AI model
-			const payload: ChatbotPayload = {
-				message: {
-					content: $input.value,
-					role: "user",
-				},
-			};
-			messaggesMemory.push(payload);
-
-			fetch("/api/chatbot", {
-				method: "POST",
-				body: JSON.stringify(messaggesMemory),
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-			$input.value = "";
-			$input.disabled = true;
-			$submitButton.disabled = true;
-
-			// Witht the bot response
-			$headerBot.innerHTML = `<h3>BOT</h3><span>${date.getHours()}:${("00" + date.getMinutes()).slice(-2)}</span>`;
-
-			$liBot.appendChild($headerBot);
-			$liBot.appendChild($pBot);
-			$liBot.classList.add("bot");
-			$messages.appendChild($liBot);
-
-			// Logic to read the stream from the AI model nad update the chat with the response
-			const source = new EventSource("/api/chatbot");
-			let botResponse = "";
-			source.onmessage = (event) => {
-				if (event.data == "[DONE]") {
-					messaggesMemory.push({
-						message: {
-							content: botResponse,
-							role: "assistant",
-						},
-					});
-					$input.disabled = false;
-					$submitButton.disabled = false;
-					source.close();
-					return;
-				}
-				const data = JSON.parse(event.data);
-				botResponse += data.response;
-				$pBot.innerHTML = marked.parseInline(botResponse) as string;
-			};
-		});
-
-		// Logic to open and close the chat
-		const $chat = $(".chat") as HTMLElement;
-		const $openChat = $("#openChat") as HTMLElement;
-		const $closeChat = $("#closeChat") as HTMLElement;
-
-		$openChat.addEventListener("click", () => {
-			$chat.classList.remove("closed");
-		});
-
-		$closeChat.addEventListener("click", () => {
-			$chat.classList.add("closed");
-		});
-
-		// Logic to get scroll down when new messages are added
-		$messages.addEventListener("DOMSubtreeModified", () => {
-			$messages.scrollTop = $messages.scrollHeight;
-		});
-	});
-</script>

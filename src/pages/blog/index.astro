@@ -14,8 +14,6 @@ const posts = (await getCollection("blog")).sort(
 const filteredPosts = posts.filter(
 	(post) => !post.id.match("Tutorials/([A-Za-z0-9]+(_[A-Za-z0-9]+)+)/[2-9]_")
 );
-
-console.log(posts);
 ---
 
 <Layout title="Blog">

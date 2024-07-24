@@ -1,32 +1,78 @@
-import type { ChatbotConfig, ChatbotPayload } from "@/types/chatbot";
 import type { APIContext } from "astro";
 export const prerender = false;
 
-let messagesFromUser: RoleScopedChatInput[] = [];
-let config: ChatbotConfig = {
-	model: "@cf/meta/llama-3-8b-instruct-awq", // Default model
-};
-
-export async function POST({ request }: APIContext) {
-	messagesFromUser = [{ role: "system", content: "You are a friendly assistant" }];
-	const payloads = (await request.json()) as ChatbotPayload[];
-
-	messagesFromUser = messagesFromUser.concat(payloads.map((p) => p.message));
-	config = payloads[0].config || config;
-
-	return new Response(null, { status: 204 });
-}
-
-export async function GET({ locals }: APIContext) {
+export async function POST({ request, locals }: APIContext) {
 	const { AI } = locals.runtime.env;
-	const messages = messagesFromUser;
+	const payload = (await request.json()) as RoleScopedChatInput[];
 
-	const stream = (await AI.run(config.model, {
-		stream: true,
-		messages,
-	})) as ReadableStream<Uint8Array>;
+	let messages: RoleScopedChatInput[] = [
+		{ role: "system", content: "You are a friendly assistant" },
+	];
+	messages = messages.concat(payload);
 
-	return new Response(stream, {
-		headers: { "content-type": "text/event-stream" },
+	let eventSourceStream: ReadableStream<Uint8Array> | undefined;
+	let retryCount = 0;
+	let successfulInference = false;
+	let lastError;
+	const MAX_RETRIES = 3;
+	while (successfulInference === false && retryCount < MAX_RETRIES) {
+		try {
+			eventSourceStream = (await AI.run("@cf/meta/llama-3-8b-instruct-awq", {
+				stream: true,
+				messages,
+			})) as ReadableStream<Uint8Array>;
+			successfulInference = true;
+		} catch (err) {
+			lastError = err;
+			retryCount++;
+			console.error(err);
+			console.log(`Retrying #${retryCount}...`);
+		}
+	}
+	if (eventSourceStream === undefined) {
+		if (lastError) {
+			throw lastError;
+		}
+		throw new Error(`Problem with model`);
+	}
+
+	const response: ReadableStream = new ReadableStream({
+		start(controller) {
+			eventSourceStream.pipeTo(
+				new WritableStream({
+					write(chunk) {
+						const text = new TextDecoder().decode(chunk);
+						for (const line of text.split("\n")) {
+							if (!line.includes("data: ")) {
+								continue;
+							}
+							if (line.includes("[DONE]")) {
+								controller.close();
+								break;
+							}
+							try {
+								const data = JSON.parse(line.split("data: ")[1]);
+								controller.enqueue(data.response);
+							} catch (err) {
+								console.error(err);
+							}
+						}
+					},
+				})
+			);
+
+			request.signal.addEventListener("abort", () => {
+				controller.close();
+			});
+		},
+	});
+
+	return new Response(response, {
+		headers: {
+			"content-type": "text/event-stream",
+			"Cache-Control": "no-cache",
+			"Access-Control-Allow-Origin": "*",
+			"Connection": "keep-alive",
+		},
 	});
 }
