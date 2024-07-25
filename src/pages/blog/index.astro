@@ -14,6 +14,13 @@ const posts = (await getCollection("blog")).sort(
 const filteredPosts = posts.filter(
 	(post) => !post.id.match("Tutorials/([A-Za-z0-9]+(_[A-Za-z0-9]+)+)/[2-9]_")
 );
+
+// Change the title of the tutorials posts that have more than one part.
+filteredPosts.forEach((post) => {
+	if (post.data.title.includes("(Part ")) {
+		post.data.title = post.data.title.split("(Part ")[0];
+	}
+});
 ---
 
 <Layout title="Blog">

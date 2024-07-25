@@ -1,9 +1,5 @@
 ---
-import chatBackgroundLight from "@/icons/chat/background_light.svg";
-import chatBackgroundDark from "@/icons/chat/background_dark.svg";
 import { Icon } from "astro-icon/components";
-
-const date = new Date();
 ---
 
 <aside class="chat closed">
@@ -32,7 +28,7 @@ const date = new Date();
 
 	document.addEventListener("astro:page-load", () => {
 		initChat();
-		document.getElementById("chatForm")?.addEventListener("submit", async function (e) {
+		$("#chatForm")?.addEventListener("submit", async function (e) {
 			e.preventDefault();
 			await sendMessage();
 		});

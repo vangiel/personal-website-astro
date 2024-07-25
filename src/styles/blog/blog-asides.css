@@ -18,7 +18,8 @@
 		--sl-color-red-high: hsl(var(--sl-hue-red), 82%, 87%);
 
 		padding: 2rem;
-		margin: 3rem 0;
+		margin: 0;
+		margin-block-end: 3rem;
 		border-inline-start: 0.25rem solid;
 		color: white;
 
@@ -70,7 +71,8 @@
 		margin-top: 0.5rem;
 	}
 
-	section p {
-		margin: 0;
+	section > *:last-child {
+		margin-block-end: 0;
+		padding-block-end: 0;
 	}
 }

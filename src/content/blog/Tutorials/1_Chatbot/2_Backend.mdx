@@ -1,0 +1,138 @@
+---
+title: "Tutorial: Chatbot in AstroJS with CloudFlare Workers AI (Part 2) - Coding the backend"
+pubDate: "Jul 20 2024"
+heroImage: "@/images/blog/Tutorials/1_Chatbot/frontmatter.png"
+imageAlt: "Frontmatter of the page which consists of an AI generated image of a chatbot."
+tags: ["Tutorials", "Web Development", "AI"]
+slug: "tutorials/chatbot-part2"
+---
+
+In this part of the tutorial, we will create a new API route in AstroJS to handle the requests from the client.
+To streamline the process, we'll create a single endpoint that accepts HTTP POST requests. This endpoint will receive the user's message, forward it to the AI model, process the AI's response, and return it to the client as a `ReadableStream`.
+
+Let's create a new file named `chatbot.ts` within the `src/pages/api/` directory.
+To begin, we'll define the POST endpoint and handle the incoming client request:
+
+```ts
+// src/pages/api/chatbot.ts
+import type { APIContext } from "astro";
+export const prerender = false;
+
+export async function POST({ request, locals }: APIContext) {
+	const payload = (await request.json()) as RoleScopedChatInput[];
+
+	let messages: RoleScopedChatInput[] = [
+		{ role: "system", content: "You are a friendly assistant" },
+	];
+	messages = messages.concat(payload);
+	...
+};
+```
+
+:::note
+To ensure server-side execution, the `prerender` property is set to false. This is necessary when using the `hybrid` output adapter. If your project uses the `server` adapter, this step can be omitted. ([More info here.](https://docs.astro.build/en/guides/integrations-guide/cloudflare/))
+:::
+
+We'll extract the messages from the incoming request, parse them as a JSON object, and combine them with a system message (e.g., "You are a friendly assistant"). These messages will be formatted as a `RoleScopedChatInput[]` array, a CloudFlare-specific type for model interactions.
+This type should be available to you if you correctly configured the project as specified in the previous part of this tutorial.
+
+To interact with the CloudFlare Model API, we'll execute the following code:
+
+```ts {12-15}
+// src/pages/api/chatbot.ts
+export async function POST({ request, locals }: APIContext) {
+	...
+	const { AI } = locals.runtime.env;
+	let eventSourceStream: ReadableStream<Uint8Array> | undefined;
+	let retryCount = 0;
+	let successfulInference = false;
+	let lastError;
+	const MAX_RETRIES = 3;
+	while (successfulInference === false && retryCount < MAX_RETRIES) {
+		try {
+			eventSourceStream = (await AI.run("@cf/meta/llama-3-8b-instruct-awq", {
+				stream: true,
+				messages,
+			})) as ReadableStream<Uint8Array>;
+			successfulInference = true;
+		} catch (err) {
+			lastError = err;
+			retryCount++;
+			console.error(err);
+			console.log(`Retrying #${retryCount}...`);
+		}
+	}
+	if (eventSourceStream === undefined) {
+		if (lastError) {
+			throw lastError;
+		}
+		throw new Error(`Problem with model`);
+	}
+	...
+}
+```
+
+To access the AI model we follow the next steps:
+
+1. **Environment Variable Retrieval**: We leverage the `locals` object to access the previously configured environment variable named `AI` (refer to the prior tutorial section for setup details). This variable allows us to connect to the CloudFlare AI model.
+
+2. **Error Handling**: The code incorporates error-catching mechanisms to handle potential issues during AI model invocation. This is specially relevant when using a _beta_ CloudFlare AI model.
+
+3. **Query to the model (Lines 11-14)**: These crucial lines make the actual API call to the CloudFlare AI model. Notably, the stream argument is set to true, indicating that the response should be returned as a `ReadableStream`.
+
+:::note
+As highlighted in the code, we're utilizing the _"@cf/meta/llama-3-8b-instruct-awq"_ from Meta. [Here](https://developers.cloudflare.com/workers-ai/models/) you have a list of all the models available and their documentation. Note that the _beta_ models are completely free to use.
+:::
+
+The last step consists of preprocess the data a bit before sending it back to the client:
+
+```ts
+// src/pages/api/chatbot.ts
+export async function POST({ request, locals }: APIContext) {
+	...
+	const response: ReadableStream = new ReadableStream({
+		start(controller) {
+			eventSourceStream.pipeTo(
+				new WritableStream({
+					write(chunk) {
+						const text = new TextDecoder().decode(chunk);
+						for (const line of text.split("\n")) {
+							if (!line.includes("data: ")) {
+								continue;
+							}
+							if (line.includes("[DONE]")) {
+								controller.close();
+								break;
+							}
+							try {
+								const data = JSON.parse(line.split("data: ")[1]);
+								controller.enqueue(new TextEncoder().encode(data.response));
+							} catch (err) {
+								console.error("Could not parse response", err);
+							}
+						}
+					},
+				})
+			);
+
+			request.signal.addEventListener("abort", () => {
+				controller.close();
+			});
+		},
+	});
+
+	return new Response(response, {
+		headers: {
+			"content-type": "text/event-stream",
+			"Cache-Control": "no-cache",
+			"Access-Control-Allow-Origin": "*",
+			"Connection": "keep-alive",
+		},
+	});
+}
+```
+
+Each `ReadableStream` chunk consists of a string formatted as data: `{"response": "Hello, how are you?", "p": "abcdeaf.."}`. The stream concludes with a `data: [DONE]` message. Our code extracts the _"response"_ field from each chunk, encodes it, and transmits it to the client.
+
+With this final data processing step, we've successfully completed the backend portion of our chatbot project.
+The next and final tutorial part will focus on creating the Astro component responsible for receiving the server response and displaying it within the browser.

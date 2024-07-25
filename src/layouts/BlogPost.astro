@@ -145,6 +145,7 @@ const { title, heroImage, imageAlt, pubDate, postId } = Astro.props;
 		:global(a) {
 			color: oklch(var(--clr-accent));
 			font-style: italic;
+			text-decoration: underline;
 			overflow-wrap: anywhere;
 		}
 
@@ -160,7 +161,8 @@ const { title, heroImage, imageAlt, pubDate, postId } = Astro.props;
 			color: oklch(var(--clr-accent));
 		}
 
-		:global(.text em) {
+		:global(em) {
+			color: oklch(var(--clr-accent));
 			font-style: italic;
 		}
 
@@ -215,6 +217,14 @@ const { title, heroImage, imageAlt, pubDate, postId } = Astro.props;
 			:global(.frame pre code) {
 				font-size: 1.4rem;
 			}
+		}
+
+		:global(code) {
+			font-size: 0.9em;
+			color: oklch(var(--clr-text) / 0.8);
+			background-color: oklch(var(--clr-accent) / 0.3);
+			padding-inline: 0.3em;
+			padding-block-end: 0.1em;
 		}
 	}
 </style>

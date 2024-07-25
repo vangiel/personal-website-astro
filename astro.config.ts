@@ -1,6 +1,7 @@
 import cloudflare from "@astrojs/cloudflare";
 import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 import rehypeMathJax from "rehype-mathjax";
@@ -13,7 +14,18 @@ export default defineConfig({
 		icon(),
 		starlight({
 			title: "Dr Daniel projects",
-			expressiveCode: { themes: ["dracula", "github-light"] },
+			expressiveCode: {
+				themes: ["dracula", "github-light"],
+				plugins: [pluginLineNumbers()],
+				defaultProps: {
+					showLineNumbers: false,
+					overridesByLang: {
+						"js,ts,html,css,scss,python": {
+							showLineNumbers: true,
+						},
+					},
+				},
+			},
 			components: {
 				SiteTitle: "./src/components/starlight/SiteTitle.astro",
 				SocialIcons: "./src/components/SocialIcons.astro",

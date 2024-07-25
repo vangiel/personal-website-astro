@@ -1,0 +1,164 @@
+---
+title: "Tutorial: Chatbot in AstroJS with CloudFlare Workers AI  (Part 3) - Creating the chatbot component in AstroJS"
+pubDate: "Jul 20 2024"
+heroImage: "@/images/blog/Tutorials/1_Chatbot/frontmatter.png"
+imageAlt: "Frontmatter of the page which consists of an AI generated image of a chatbot."
+tags: ["Tutorials", "Web Development", "AI"]
+slug: "tutorials/chatbot-part3"
+---
+
+import ChatBot from "@/components/ChatBot.astro";
+import { Image } from "astro:assets";
+
+<ChatBot />
+
+Finally we can create the chatbot client component using AstroJS that will communciate with our previously created endpoint.
+This page also showcase the final result. You can find a bubble chat icon like this on the top bottom part of the page to interact with the chat:
+
+import bubbleChatImg from "@/images/blog/Tutorials/1_Chatbot/bubbleChat.png";
+
+<Image style="text-align: center;" src={bubbleChatImg} alt="Bubble chat icon to open it" />
+
+First we create a new file in the `src/components` directory named `ChatBot.astro`.
+The html code includes two main elements, an ul with the list of messages and a form with the input field and the submit button.
+
+```html
+// src/components/ChatBot.astro
+<aside class="chat closed">
+	<header class="chat-header">
+		<h2>Chat with an AI</h2>
+	</header>
+	<ul id="messages">
+		<!-- Here are the history of messgaes -->
+	</ul>
+	<form id="chatForm">
+		<input id="message" type="text" autocomplete="off" />
+		<button id="submitButton" type="submit">Send</button>
+	</form>
+</aside>
+```
+
+As you can see, the HTML is very simple, containing only three elements:
+
+1. The header to add a title to the chat (optional).
+2. The ul element to display the messages history that will be dinamically filled with javascript.
+3. Aform with an input field and a submit button. The input field is used to enter the message that we want to send to the AI model. The submit button is used to send the message to the AI model.
+
+:::tip
+I havent show the styling of the chat in this tutorial, I leave to the reader to add the styling of their choice.
+You can find a example of styling in this very page using my chat, as you can see I added also some icos to open and close the chat.
+Additionaly, you can add the `autocomplete="off"` attribute to the input field to prevent the browser from autocompleting the message.
+:::
+
+Now we add the tricky part, the javascript code to handle the form submission and the event listeners to handle the messages from the server.
+Since the code is a bit long, I created a separated file called `chatbot_utils.ts` in the `src/lib` directory to keep the code clean and easy to read.
+In that file two funcitons are exported, one to initialize the chatbot (`initChat()`) and the other to send the message to the server (`sendMessage()`).
+
+We import this functions in our Astro component and use them like this:
+
+```ts
+// src/components/ChatBot.astro
+import { initChat, sendMessage } from "src/lib/chatbot_utils";
+
+document.addEventListener("DOMContentLoaded", () => {
+	initChat();
+	document.getElementById("chatForm")?.addEventListener("submit", async function (e) {
+		e.preventDefault();
+		await sendMessage();
+	});
+});
+```
+
+Now let's see what is inisde of the `chatbot_utils.ts` file, where all the magic is.
+Let's start with the `initChat()` function:
+
+```ts 
+// src/lib/chatbot_utils.ts
+
+export function initChat() {
+	const $messages = $("#messages") as HTMLUListElement;
+	const messages = retrieveMessages();
+	if (messages.length === 0) {
+		messages.push({
+			role: "assistant",
+			content:
+				"Hi, welcome to my chat! I am a friendly assistant. Go ahead and send me a message. 😄",
+		});
+		storeMessages(messages);
+	}
+	$messages.innerHTML = "";
+	for (const msg of messages) {
+		$messages.appendChild(createChatMessageElement(msg).chatElement);
+		$messages.scrollTop = $messages.scrollHeight;
+	}
+}
+
+```
+
+And the `sendMessage()` function:
+
+```ts  
+export async function sendMessage() {
+	const $input = $("#message") as HTMLInputElement;
+	const $messages = $("#messages") as HTMLUListElement;
+
+	// Create user message element
+	const userMsg: RoleScopedChatInput = { role: "user", content: $input.value };
+	$messages.appendChild(createChatMessageElement(userMsg).chatElement);
+
+	const messages = retrieveMessages();
+	messages.push(userMsg);
+	console.log(messages);
+
+	const payload = messages;
+	$input.value = "";
+
+	var assistantMsg: RoleScopedChatInput = { role: "assistant", content: "" };
+	const { chatElement, text } = createChatMessageElement(assistantMsg);
+	$messages.appendChild(chatElement);
+	const assistantResponse = text;
+	// Scroll to the latest message
+	$messages.scrollTop = $messages.scrollHeight;
+
+	const response = await fetch("/api/chatbot", {
+		method: "POST",
+		headers: {
+			"Content-Type": "text/event-stream",
+		},
+		body: JSON.stringify(payload),
+	});
+
+	if (response.body) {
+		const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+
+		while (true) {
+			const { value, done } = await reader.read();
+			if (done) {
+				break;
+			}
+
+			assistantMsg.content += value;
+			// Continually render the markdown => HTML
+			assistantResponse.innerHTML = marked.parse(assistantMsg.content) as string;
+			$messages.scrollTop = $messages.scrollHeight;
+		}
+	}
+	messages.push(assistantMsg);
+	storeMessages(messages);
+}
+```
+
+Finally to use your ChatBot in your AstroJS project, you can import it in your Astro component and use it like this:
+
+```astro 
+// src/pages/index.astro
+---
+import ChatBot from "@/components/ChatBot.astro";
+---
+
+<Layout>
+	<ChatBot />
+<Layout/ >
+```
+
+## Conclusion
