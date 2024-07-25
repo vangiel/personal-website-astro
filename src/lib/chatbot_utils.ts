@@ -31,7 +31,6 @@ export async function sendMessage() {
 
 	const messages = retrieveMessages();
 	messages.push(userMsg);
-	console.log(messages);
 
 	const payload = messages;
 	$input.value = "";
