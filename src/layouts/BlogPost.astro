@@ -12,9 +12,14 @@ import { type CollectionEntry } from "astro:content";
 
 type Props = CollectionEntry<"blog">["data"] & { postId: string };
 const { title, heroImage, imageAlt, pubDate, postId } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <Layout title={title}>
+	<meta slot="head" property="og:title" content={title} />
+	<meta slot="head" property="og:type" content="article" />
+	<meta slot="head" property="og:url" content={currentPath} />
+	<meta slot="head" property="og:image" content={heroImage.src} />
 	<header class="main-header">
 		<button class="back-button">
 			<a href="/blog">

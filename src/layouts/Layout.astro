@@ -36,96 +36,98 @@ const { title } = Astro.props;
 		<NavHeader />
 		<slot />
 		<Footer />
-	</body><style is:global>
-		:root {
-			/* Light mode */
-			&[data-theme="light"] {
-				color-scheme: light;
-				--clr-background: var(--clr-light);
-
-				--clr-text: var(--clr-neutral-800);
-				--clr-text-invert: var(--clr-light);
-
-				--clr-primary: var(--clr-yellow-300);
-				--clr-secondary: var(--clr-neutral-500);
-				--clr-accent: var(--clr-purple-500);
-
-				--bg-img-home: url(../images/home/light-bg.webp);
-				--chat-background: url(../icons/chat/background_light.svg)
-			}
-
-			/* Dark mode */
-			&[data-theme="dark"] {
-				color-scheme: dark;
-				--clr-background: var(--clr-neutral-800);
-
-				--clr-text: var(--clr-light);
-				--clr-text-invert: var(--clr-neutral-800);
-
-				--clr-primary: var(--clr-yellow-300);
-				--clr-secondary: var(--clr-neutral-500);
-				--clr-accent: var(--clr-purple-400);
-
-				--bg-img-home: url(../images/home/dark-bg.webp);
-				--chat-background: url(../icons/chat/background_dark.svg)
-			}
-
-			/* Font families */
-			--ff-base: "Roboto Flex Variable", sans-serif, system-ui;
-			--ff-accent: "merienda", cursive, serif;
-		}
-
-		html {
-			color-scheme: dark light;
-			/* accent-color: oklch(var(--clr-accent)); */
-			color: oklch(var(--clr-text));
-			font-family: var(--ff-base);
-			background-color: oklch(var(--clr-background));
-			scroll-behavior: smooth;
-
-			@media screen and (prefers-reduced-motion: reduce) {
-				scroll-behavior: auto;
-			}
-		}
-
-		body {
-			display: flex;
-			flex-direction: column;
-			footer {
-				margin-block-start: auto;
-			}
-		}
-
-		/* Utility classes: */
-		.visually-hidden:not(:focus):not(:active) {
-			clip: rect(0 0 0 0);
-			clip-path: inset(50%);
-			height: 1px;
-			overflow: hidden;
-			position: absolute;
-			white-space: nowrap;
-			width: 1px;
-		}
-
-		.overflow-hidden {
-			overflow: hidden;
-		}
-
-		/* Stop animations on resize */
-		.resize-animation-stopper * {
-			transition: none !important;
-			animation: none !important;
-		}
-	</style>
-
-	<script>
-		let resizeTimer: ReturnType<typeof setTimeout>;
-		window.addEventListener("resize", () => {
-			document.body.classList.add("resize-animation-stopper");
-			clearTimeout(resizeTimer);
-			resizeTimer = setTimeout(() => {
-				document.body.classList.remove("resize-animation-stopper");
-			}, 400);
-		});
-	</script>
+	</body>
 </html>
+
+<style is:global>
+	:root {
+		/* Light mode */
+		&[data-theme="light"] {
+			color-scheme: light;
+			--clr-background: var(--clr-light);
+
+			--clr-text: var(--clr-neutral-800);
+			--clr-text-invert: var(--clr-light);
+
+			--clr-primary: var(--clr-yellow-300);
+			--clr-secondary: var(--clr-neutral-500);
+			--clr-accent: var(--clr-purple-500);
+
+			--bg-img-home: url(../images/home/light-bg.webp);
+			--chat-background: url(../icons/chat/background_light.svg)
+		}
+
+		/* Dark mode */
+		&[data-theme="dark"] {
+			color-scheme: dark;
+			--clr-background: var(--clr-neutral-800);
+
+			--clr-text: var(--clr-light);
+			--clr-text-invert: var(--clr-neutral-800);
+
+			--clr-primary: var(--clr-yellow-300);
+			--clr-secondary: var(--clr-neutral-500);
+			--clr-accent: var(--clr-purple-400);
+
+			--bg-img-home: url(../images/home/dark-bg.webp);
+			--chat-background: url(../icons/chat/background_dark.svg)
+		}
+
+		/* Font families */
+		--ff-base: "Roboto Flex Variable", sans-serif, system-ui;
+		--ff-accent: "merienda", cursive, serif;
+	}
+
+	html {
+		color-scheme: dark light;
+		/* accent-color: oklch(var(--clr-accent)); */
+		color: oklch(var(--clr-text));
+		font-family: var(--ff-base);
+		background-color: oklch(var(--clr-background));
+		scroll-behavior: smooth;
+
+		@media screen and (prefers-reduced-motion: reduce) {
+			scroll-behavior: auto;
+		}
+	}
+
+	body {
+		display: flex;
+		flex-direction: column;
+		footer {
+			margin-block-start: auto;
+		}
+	}
+
+	/* Utility classes: */
+	.visually-hidden:not(:focus):not(:active) {
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		height: 1px;
+		overflow: hidden;
+		position: absolute;
+		white-space: nowrap;
+		width: 1px;
+	}
+
+	.overflow-hidden {
+		overflow: hidden;
+	}
+
+	/* Stop animations on resize */
+	.resize-animation-stopper * {
+		transition: none !important;
+		animation: none !important;
+	}
+</style>
+
+<script>
+	let resizeTimer: ReturnType<typeof setTimeout>;
+	window.addEventListener("resize", () => {
+		document.body.classList.add("resize-animation-stopper");
+		clearTimeout(resizeTimer);
+		resizeTimer = setTimeout(() => {
+			document.body.classList.remove("resize-animation-stopper");
+		}, 400);
+	});
+</script>
