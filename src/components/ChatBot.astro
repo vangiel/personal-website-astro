@@ -133,6 +133,17 @@ import { Icon } from "astro-icon/components";
 					:global(ul > li) {
 						margin: 0;
 					}
+					:global(code) {
+						background-color: oklch(var(--clr-purple-700));
+						color: oklch(var(--clr-light));
+						line-height: 2.4rem;
+					}
+					:global(pre code) {
+						display: block;
+						margin-block: 1em;
+						padding: 5px;
+						overflow-y: scroll;
+					}
 				}
 			}
 
