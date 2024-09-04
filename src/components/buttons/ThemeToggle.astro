@@ -46,10 +46,11 @@ import { Icon } from "astro-icon/components";
 		if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
 			return localStorage.getItem("theme");
 		}
-		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-			return "dark";
-		}
-		return "light";
+		// if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+		// 	return "dark";
+		// }
+		// return "light";
+		return "dark";
 	}
 
 	function handleToggleClick() {
