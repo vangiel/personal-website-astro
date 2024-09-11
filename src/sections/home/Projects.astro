@@ -1,23 +1,28 @@
 ---
 import Carousel from "@/components/Carousel.astro";
+import ChatBot from "@/components/ChatBot.astro";
 import Waves from "@/images/home/waves.astro";
 ---
 
 <section id="projects">
 	<h2 class="section__title">Just a peek at what I've been working on!</h2>
-	<Carousel />
+	<div class="main-content">
+		<ChatBot className="chatBot" title="Ask AI about Daniel" mode="rag" bubble={false} />
+		<div class="carousel-container">
+			<h3>My PhD projects</h3>
+			<Carousel />
+			<p class="side-note">
+				This is just a teaser of the main topics that I've been working on. To see more about my
+				projects, check out the <a href="/projects/">projects page</a>.
+			</p>
+		</div>
+	</div>
 	<Waves
 		className="waves"
 		colorTop="oklch(var(--clr-yellow-100))"
 		colorMid="oklch(var(--clr-yellow-200))"
 		colorBottom="oklch(var(--clr-primary))"
 	/>
-	<div class="side-note">
-		<p>
-			This is just a teaser of the main topics that I've been working on. To see more about my
-			projects, check out the <a href="/projects/">projects page</a>.
-		</p>
-	</div>
 </section>
 
 <style>
@@ -25,23 +30,59 @@ import Waves from "@/images/home/waves.astro";
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		align-items: center;
 
 		min-height: 100dvh;
+		overflow: hidden;
+		max-width: 100%;
 		position: relative;
 	}
 	.section__title {
-		margin-block: 2rem;
-		padding-inline: 2rem;
+		margin-block: 10rem;
 	}
 
-	.side-note {
-		text-align: center;
-		padding-block: 10rem;
+	.main-content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-block-end: 15rem;
+		gap: 2rem;
 
-		a {
-			cursor: pointer;
-			color: oklch(var(--clr-accent));
+		.carousel-container {
+			display: flex;
+			flex-direction: column;
+			min-height: 70rem;
+			gap: 2rem;
+			align-items: center;
+			justify-content: center;
+
+			h3 {
+				font-weight: var(--fw-bold);
+				color: oklch(var(--clr-accent));
+			}
+			:global(.swiper) {
+				max-width: 600px;
+			}
+			.side-note {
+				padding: 4rem;
+				text-align: center;
+				a {
+					cursor: pointer;
+					color: oklch(var(--clr-accent));
+				}
+			}
+		}
+
+		:global(.chatBot) {
+			margin-inline-start: 5rem;
+		}
+	}
+	@media (--media-tablet) {
+		.main-content {
+			flex-wrap: wrap;
+			:global(.chatBot) {
+				min-height: 60rem;
+				margin: 0;
+			}
 		}
 	}
 </style>

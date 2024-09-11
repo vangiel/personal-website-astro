@@ -1,17 +1,35 @@
 ---
 import { Icon } from "astro-icon/components";
+
+interface Props {
+	title: string;
+	mode: "general" | "rag";
+	bubble: boolean;
+	className?: string;
+}
+
+const { title, bubble, mode, className } = Astro.props;
 ---
 
-<aside class="chat closed">
-	<button id="openChat">
-		<Icon name="chat/chat-bubbles" />
-	</button>
+<aside class:list={["chat", className, { closed: bubble }, { bubble: bubble }]}>
+	{
+		bubble && (
+			<button id="openChat">
+				<Icon name="chat/chat-bubbles" />
+			</button>
+		)
+	}
+
 	<header class="chat-header">
 		<Icon name="chat/chat-bubbles" />
-		<h2>Chat with an AI</h2>
-		<button id="closeChat">
-			<Icon name="chat/close" />
-		</button>
+		<h2>{title}</h2>
+		{
+			bubble && (
+				<button id="closeChat">
+					<Icon name="chat/close" />
+				</button>
+			)
+		}
 	</header>
 	<ul id="messages">
 		<!-- Here are the history of messgaes -->
@@ -22,32 +40,46 @@ import { Icon } from "astro-icon/components";
 	</form>
 </aside>
 
-<script>
-	import { initChat, sendMessage } from "@/lib/chatbot_utils";
-	import { $ } from "@/lib/dom-selector";
+<script is:inline type="module" define:vars={{ mode, bubble }} data-astro-rerun>
+	import { initChat, sendMessage } from "/src/lib/chatbot_utils.ts";
+	import { $ } from "/src/lib/dom-selector.ts";
+	const $chatForm = $("#chatForm");
 
-	document.addEventListener("astro:page-load", () => {
-		initChat();
-		$("#chatForm")?.addEventListener("submit", async function (e) {
-			e.preventDefault();
-			await sendMessage();
-		});
+	function chatLogic() {
+		if ($chatForm != null) {
+			$chatForm.addEventListener("submit", async function (e) {
+				e.preventDefault();
+				await sendMessage(mode);
+			});
 
-		// Logic to open and close the chat
-		const $chat = $(".chat") as HTMLElement;
-		const $openChat = $("#openChat") as HTMLElement;
-		const $closeChat = $("#closeChat") as HTMLElement;
-		const $messages = $("#messages") as HTMLElement;
+			const $openChat = $("#openChat");
+			if (bubble && $openChat != null) {
+				// Logic to open and close the chat
+				const $chat = $(".chat");
+				const $closeChat = $("#closeChat");
+				const $messages = $("#messages");
 
-		$openChat.addEventListener("click", () => {
-			$chat.classList.remove("closed");
-			$messages.scrollTop = $messages.scrollHeight;
-		});
+				$openChat.addEventListener("click", () => {
+					$chat.classList.remove("closed");
+					$messages.scrollTop = $messages.scrollHeight;
+				});
 
-		$closeChat.addEventListener("click", () => {
-			$chat.classList.add("closed");
-		});
+				$closeChat.addEventListener("click", () => {
+					$chat.classList.add("closed");
+				});
+			}
+		}
+	}
+
+	document.addEventListener("astro:after-swap", () => {
+		if ($chatForm != null) {
+			initChat(mode);
+		}
 	});
+	if ($chatForm != null) {
+		initChat(mode);
+	}
+	chatLogic();
 </script>
 
 <style>
@@ -58,16 +90,19 @@ import { Icon } from "astro-icon/components";
 		margin: 0;
 	}
 
-	.chat {
+	.bubble {
 		position: fixed;
 		bottom: 10dvh;
 		right: 10dvw;
 		z-index: 20;
+	}
 
-		max-width: 40rem;
+	.chat {
 		border-radius: 5px;
 		overflow: hidden;
 		outline: 1px solid oklch(var(--clr-text));
+		width: 40rem;
+		min-width: 40rem;
 
 		transition: all 0.5s;
 
@@ -104,7 +139,7 @@ import { Icon } from "astro-icon/components";
 			}
 		}
 
-		:global(#messages) {
+		ul#messages {
 			display: flex;
 			flex-direction: column;
 			gap: 1rem;
@@ -228,6 +263,7 @@ import { Icon } from "astro-icon/components";
 	.chat:is(.closed) {
 		width: 70px;
 		height: 50px;
+		min-width: 0;
 		border-radius: 100%;
 		background-color: oklch(var(--clr-text));
 		box-shadow: oklch(var(--clr-text) / 0.35) 0px 5px 15px;
@@ -285,10 +321,7 @@ import { Icon } from "astro-icon/components";
 			inset: var(--navbar-height) 0 0 0;
 			margin: 10px;
 			max-width: none;
-
-			ul#messages {
-				height: calc(100% - 11rem);
-			}
+			min-width: 90%;
 		}
 
 		.chat:is(.closed) {

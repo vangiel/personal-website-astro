@@ -32,6 +32,7 @@ export class QdrantDatabase {
 		const collectionNames = response.collections.map((collection) => collection.name);
 
 		if (collectionNames.includes(this.collectionName)) {
+			// await this.client.deleteCollection(this.collectionName);
 			return;
 		}
 		await this.client.createCollection(this.collectionName, {

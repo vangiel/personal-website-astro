@@ -3,16 +3,26 @@ import { marked } from "marked";
 
 const date = new Date();
 
-export function initChat() {
+export function initChat(mode: "general" | "rag") {
 	const $messages = $("#messages") as HTMLUListElement;
-	const messages = retrieveMessages();
-	if (messages.length === 0) {
+	let [messages, storedMode] = retrieveMessages();
+	let initMessage: String;
+	if (messages.length === 0 || storedMode != mode) {
+		messages = [];
+		sessionStorage.removeItem("messages");
+		sessionStorage.removeItem("mode");
+		if (mode === "general") {
+			initMessage =
+				"Hi, welcome to my chat! I am a friendly assistant. Go ahead and send me a message. 😄";
+		} else {
+			initMessage = "Ask me anything about Daniel.";
+		}
+
 		messages.push({
 			role: "assistant",
-			content:
-				"Hi, welcome to my chat! I am a friendly assistant. Go ahead and send me a message. 😄",
+			content: initMessage,
 		});
-		storeMessages(messages);
+		storeMessages(messages, mode);
 	}
 	$messages.innerHTML = "";
 	for (const msg of messages) {
@@ -21,7 +31,7 @@ export function initChat() {
 	}
 }
 
-export async function sendMessage() {
+export async function sendMessage(mode: "general" | "rag") {
 	const $input = $("#message") as HTMLInputElement;
 	const $messages = $("#messages") as HTMLUListElement;
 
@@ -29,7 +39,7 @@ export async function sendMessage() {
 	const userMsg: RoleScopedChatInput = { role: "user", content: $input.value };
 	$messages.appendChild(createChatMessageElement(userMsg).chatElement);
 
-	const messages = retrieveMessages();
+	const [messages, storedMode] = retrieveMessages();
 	messages.push(userMsg);
 
 	const payload = messages;
@@ -42,7 +52,14 @@ export async function sendMessage() {
 	// Scroll to the latest message
 	$messages.scrollTop = $messages.scrollHeight;
 
-	const response = await fetch("/api/chatbot", {
+	let apiUrl = "";
+	if (mode === "general") {
+		apiUrl = "/api/chatbot";
+	} else {
+		apiUrl = "/api/chatbot-with-rag";
+	}
+
+	const response = await fetch(apiUrl, {
 		method: "POST",
 		headers: {
 			"Content-Type": "text/event-stream",
@@ -66,7 +83,7 @@ export async function sendMessage() {
 		}
 	}
 	messages.push(assistantMsg);
-	storeMessages(messages);
+	storeMessages(messages, mode);
 }
 
 // Based on the message format of `{role: "user", content: "Hi"}`
@@ -103,12 +120,14 @@ function createChatMessageElement(msg: RoleScopedChatInput) {
 
 function retrieveMessages() {
 	const msgJSON = sessionStorage.getItem("messages");
+	const mode = sessionStorage.getItem("mode");
 	if (!msgJSON) {
-		return [];
+		return [[], mode];
 	}
-	return JSON.parse(msgJSON);
+	return [JSON.parse(msgJSON), mode];
 }
 
-function storeMessages(msgs: RoleScopedChatInput[]) {
+function storeMessages(msgs: RoleScopedChatInput[], mode: "general" | "rag") {
 	sessionStorage.setItem("messages", JSON.stringify(msgs));
+	sessionStorage.setItem("mode", mode);
 }

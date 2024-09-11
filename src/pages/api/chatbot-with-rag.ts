@@ -27,14 +27,10 @@ export async function POST({ request, locals }: APIContext) {
 		if (results) notes = results.map((vec) => vec.text as String);
 	}
 
-	console.log(notes);
-
 	const contextMessage = notes.length
 		? `Context:\n${notes.map((note) => `- ${note}`).join("\n")}`
 		: "";
 
-	console.log(contextMessage);
-	// ############################################################
 	let messages: RoleScopedChatInput[] = [
 		{
 			...(notes.length ? [{ role: "system", content: contextMessage }] : []),

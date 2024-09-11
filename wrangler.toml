@@ -34,6 +34,7 @@ binding = "AI"
 binding = "DB"
 database_name = "notes_database"
 database_id = "1cfdf478-cbf6-4c5d-9cb8-2995e0b691e9"
+preview_database_id = "DB" 
 
 # Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
 # Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.

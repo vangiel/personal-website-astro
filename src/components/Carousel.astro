@@ -83,7 +83,6 @@ import "swiper/css/effect-coverflow";
 
 <style>
 	.swiper {
-		margin-block-start: var(--navbar-height);
 		max-width: min(90%, calc(var(--max-main-width) + 50rem));
 
 		.swiper-button-prev,
@@ -102,10 +101,15 @@ import "swiper/css/effect-coverflow";
 			background: oklch(var(--clr-text));
 			position: relative;
 
-			.slide__text .slide__title {
-				font-size: var(--fs-400);
-				font-weight: var(--fw-bold);
-				color: oklch(var(--clr-accent));
+			.slide__text {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				.slide__title {
+					font-size: var(--fs-500);
+					font-weight: var(--fw-bold);
+					color: oklch(var(--clr-accent));
+				}
 			}
 
 			.slide__img {

@@ -29,5 +29,6 @@
   "prettier.trailingComma": "all",
   "prettier.requireConfig": true,
   "mdx.server.enable": false,
-  "mdx.validate.ignoreLinks": ["$$"]
+  "mdx.validate.ignoreLinks": ["$$"],
+  "terminal.integrated.fontFamily": "MesloLGS NF"
 }
