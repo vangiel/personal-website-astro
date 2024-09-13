@@ -39,7 +39,7 @@ export async function sendMessage(mode: "general" | "rag") {
 	const userMsg: RoleScopedChatInput = { role: "user", content: $input.value };
 	$messages.appendChild(createChatMessageElement(userMsg).chatElement);
 
-	const [messages, storedMode] = retrieveMessages();
+	const [messages, _] = retrieveMessages();
 	messages.push(userMsg);
 
 	const payload = messages;
