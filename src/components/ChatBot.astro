@@ -11,7 +11,11 @@ interface Props {
 const { title, bubble, mode, className } = Astro.props;
 ---
 
-<aside class:list={["chat", className, { closed: bubble }, { bubble: bubble }]}>
+<chat-bot
+	data-bubble={bubble ? "true" : "false"}
+	data-mode={mode}
+	class:list={["chat", className, { closed: bubble }, { bubble: bubble }]}
+>
 	{
 		bubble && (
 			<button id="openChat">
@@ -38,48 +42,51 @@ const { title, bubble, mode, className } = Astro.props;
 		<input id="message" type="text" autocomplete="off" />
 		<button id="submitButton" type="submit">Send</button>
 	</form>
-</aside>
+</chat-bot>
 
-<script is:inline type="module" define:vars={{ mode, bubble }} data-astro-rerun>
-	import { initChat, sendMessage } from "/src/lib/chatbot_utils.ts";
-	import { $ } from "/src/lib/dom-selector.ts";
-	const $chatForm = $("#chatForm");
+<script>
+	import { initChat, sendMessage } from "@/lib/chatbot_utils";
+	import { $ } from "@/lib/dom-selector";
 
-	function chatLogic() {
-		if ($chatForm != null) {
+	class ChatBot extends HTMLElement {
+		connectedCallback() {
+			const bubble = this.dataset.bubble;
+			const mode = this.dataset.mode as "general" | "rag";
+
+			initChat(mode);
+			this.chatLogic(mode, bubble === "true");
+		}
+
+		private chatLogic(mode: "general" | "rag", bubble: boolean) {
+			const $chatForm = $("#chatForm");
+
 			$chatForm.addEventListener("submit", async function (e) {
 				e.preventDefault();
 				await sendMessage(mode);
 			});
 
-			const $openChat = $("#openChat");
-			if (bubble && $openChat != null) {
+			if (bubble) {
 				// Logic to open and close the chat
+				const $openChat = $("#openChat");
 				const $chat = $(".chat");
 				const $closeChat = $("#closeChat");
 				const $messages = $("#messages");
 
 				$openChat.addEventListener("click", () => {
-					$chat.classList.remove("closed");
-					$messages.scrollTop = $messages.scrollHeight;
+					$chat?.classList.remove("closed");
+					if ($messages) {
+						$messages.scrollTop = $messages.scrollHeight;
+					}
 				});
 
-				$closeChat.addEventListener("click", () => {
-					$chat.classList.add("closed");
+				$closeChat?.addEventListener("click", () => {
+					$chat?.classList.add("closed");
 				});
 			}
 		}
 	}
 
-	document.addEventListener("astro:after-swap", () => {
-		if ($chatForm != null) {
-			initChat(mode);
-		}
-	});
-	if ($chatForm != null) {
-		initChat(mode);
-	}
-	chatLogic();
+	customElements.define("chat-bot", ChatBot);
 </script>
 
 <style>
