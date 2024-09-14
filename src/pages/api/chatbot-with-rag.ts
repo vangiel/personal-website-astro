@@ -58,6 +58,7 @@ export async function POST({ request, locals }: APIContext) {
 	];
 
 	messages = messages.concat(payload);
+	console.log(messages);
 
 	let eventSourceStream: ReadableStream<Uint8Array> | undefined;
 	let retryCount = 0;
