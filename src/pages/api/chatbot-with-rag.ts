@@ -23,11 +23,9 @@ export async function POST({ request, locals }: APIContext) {
 	let notes: String[] = [];
 	if (vecIds) {
 		//Get each note from each id from the database
-		for (const vecId of vecIds) {
-			const query = "SELECT * FROM notes WHERE id = (?)";
-			const { results } = await DB.prepare(query).bind(vecId).all();
-			if (results) notes.push(...results.map((vec) => vec.text as String));
-		}
+		const query = "SELECT * FROM notes WHERE id = (?)";
+		const { results } = await DB.prepare(query).bind(vecIds[0]).all();
+		if (results) notes.push(...results.map((vec) => vec.text as String));
 	}
 
 	const contextMessage = notes.length
@@ -45,9 +43,15 @@ export async function POST({ request, locals }: APIContext) {
 			content:
 				"When answering the question or responding, use the context provided, if it is provided and relevant.",
 		},
+		{
+			role: "system" as const,
+			content:
+				"Don't make up answers that are not in the context and try to keep the answer as concise as possible.",
+		},
 	];
 
 	messages = messages.concat(payload);
+	console.log(messages);
 
 	let eventSourceStream: ReadableStream<Uint8Array> | undefined;
 	let retryCount = 0;
@@ -94,6 +98,8 @@ export async function POST({ request, locals }: APIContext) {
 								controller.enqueue(new TextEncoder().encode(data.response));
 							} catch (err) {
 								console.error("Could not parse response", err);
+								console.log(line);
+								console.log(line.split("data: ")[1]);
 							}
 						}
 					},
