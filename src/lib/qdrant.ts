@@ -21,8 +21,8 @@ export class QdrantDatabase {
 
 	private createClient() {
 		const client = new QdrantClient({
-			url: process.env.QDRANT_URL || import.meta.env.QDRANT_URL,
-			apiKey: process.env.QDRANT_API_KEY || import.meta.env.QDRANT_API_KEY,
+			url: import.meta.env.QDRANT_URL || process.env.QDRANT_URL,
+			apiKey: import.meta.env.QDRANT_API_KEY || process.env.QDRANT_API_KEY,
 		});
 		return client;
 	}
