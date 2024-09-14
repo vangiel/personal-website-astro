@@ -17,15 +17,22 @@ export async function POST({ request, locals }: APIContext) {
 	const vector = embeddings.data[0];
 
 	// Query the vector index for the most similar messages in the vectorized databse.
-	const vectorQuery = await Qdrant.search(vector, 2);
-	const vecIds = vectorQuery.map((vec) => vec.id);
+	let vecIds: number[] = [];
+	try {
+		const vectorQuery = await Qdrant.search(vector, 2);
+		vecIds = vectorQuery.map((vec) => vec.id as number);
+	} catch (error) {
+		console.error("Problem querying qdrant", error);
+	}
 
 	let notes: String[] = [];
 	if (vecIds) {
 		//Get each note from each id from the database
-		const query = "SELECT * FROM notes WHERE id = (?)";
-		const { results } = await DB.prepare(query).bind(vecIds[0]).all();
-		if (results) notes.push(...results.map((vec) => vec.text as String));
+		const query = DB.prepare("SELECT * FROM notes WHERE id = (?1)");
+		for (const vecId of vecIds) {
+			const { results } = await query.bind(vecId).all();
+			if (results) notes.push(...results.map((vec) => vec.text as String));
+		}
 	}
 
 	const contextMessage = notes.length
@@ -51,7 +58,6 @@ export async function POST({ request, locals }: APIContext) {
 	];
 
 	messages = messages.concat(payload);
-	console.log(messages);
 
 	let eventSourceStream: ReadableStream<Uint8Array> | undefined;
 	let retryCount = 0;
