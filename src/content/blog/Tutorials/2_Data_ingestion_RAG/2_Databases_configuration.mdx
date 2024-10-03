@@ -1,0 +1,195 @@
+---
+title: "Tutorial: First Step in a RAG pipeline, Data Ingestion (Part 2) - Databases Configuration."
+pubDate: "Oct 02 2024"
+heroImage: "@/images/blog/Tutorials/2_Data_ingestion_RAG/frontmatter.png"
+imageAlt: "Frontmatter of the page which consists of a scheme of the indexing part of a RAG  pipeline."
+tags: ["Tutorials", "Web Development", "AI"]
+slug: "tutorials/data-ingestion-part2"
+---
+
+import { Image } from "astro:assets";
+
+Before we can store our data, we need to set up the two databases we'll be using in this tutorial: the vector database hosted by Qdrant and the CloudFlare D1 database. As mentioned in the previous part of this tutorial, you must create an account for both of these platforms. Let's get started.
+
+## Creating a Qdrant Database
+
+The steps for creating a Qdrant database are straightforward. After creating your account, you need to create a cluster and then generate an API key to interact with the cluster from another application.
+
+A free-tier cluster includes a single node with the following resources:
+
+| Resource   | Value |
+| ---------- | ----- |
+| RAM        | 1 GB  |
+| vCPU       | 0.5   |
+| Disk space | 4 GB  |
+| Nodes      | 1     |
+
+This configuration supports serving about 1 M vectors of **$768$** dimensions. This will be more than enough for the needs of this tutorial. You can always upgrade to a standard cluster with more resources and features.
+
+:::caution
+If unused, free tier clusters are automatically suspended after 1 week, and deleted after 4 weeks of inactivity if not reactivated.
+:::
+
+The steps to create a Qdrant Cloud cluster are the following:
+
+1. Start in the **Clusters** section of the [Cloud Dashboard](https://cloud.qdrant.io/).
+2. Select **Clusters** and then click **+ Create**.
+3. In the **Create a cluster** screen select **Free**.
+4. When you’re ready, select **Create**. It takes some time to provision your cluster.
+
+After creating the cluster, the page will automatically guide you to the API key creation process. **Be sure to save this key in a secure location and avoid sharing it with anyone**, as we'll need it for later use.
+
+### Library to Manage Qdrant Database
+
+To streamline interactions with the Qdrant database, I've created a utility script in TypeScript named `qdrant.ts`. To begin using the Qdrant API, we must install the `@qdrant/js-client-rest` npm package:
+
+```bash
+npm install @qdrant/js-client-rest
+```
+
+Once installed, we can import the `QdrantClient` class into our script and define the data point type that will be stored in the database.
+
+```ts
+// qdrant.ts
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+export type Point = {
+	id: number;
+	vector: number[];
+	payload?: Record<string, unknown>;
+};
+```
+
+Finally, I've exported a utility class called `QdrantDatabase` containing all the necessary functions for managing our database.
+
+```ts
+// qdrant.ts
+export class QdrantDatabase {
+	readonly collectionName: string;
+	readonly vectorSize: number;
+	private client: QdrantClient;
+
+	constructor(collectionName: string, vectorSize: number) {
+		this.collectionName = collectionName;
+		this.vectorSize = vectorSize;
+		this.client = this.createClient();
+		this.createCollection();
+	}
+
+	private createClient() {
+		const client = new QdrantClient({
+			url: process.env.QDRANT_URL,
+			apiKey: process.env.QDRANT_API_KEY,
+		});
+		return client;
+	}
+
+	private async createCollection() {
+		const response = await this.client.getCollections();
+		const collectionNames = response.collections.map((collection) => collection.name);
+
+		if (collectionNames.includes(this.collectionName)) {
+		// await this.client.deleteCollection(this.collectionName);
+			return;
+		}
+
+		await this.client.createCollection(this.collectionName, {
+			vectors: {
+				size: this.vectorSize,
+				distance: "Cosine",
+			},
+			optimizers_config: {
+				default_segment_number: 2,
+			},
+			replication_factor: 2,
+		});
+	}
+	...
+}
+```
+
+The constructor of this class accepts the name of the collection to be created, allowing you to create multiple collections if needed. It also takes the size of the vector to be stored in that collection. We'll be using a vector size of **$768$**, but I've included it as a parameter for future flexibility. The constructor creates the client using the `createClient` method, which is used for all interactions with the vector database. To create the client, you'll need the API key and cluster URL provided during the creation process described in the previous section. The constructor also creates the collection to store the vectors if it doesn't already exist with the specified name, using the `createCollection` method.
+
+:::note
+I'm importing the URL and API key from a `.env` file. This is a best practice to avoid sharing sensitive information.
+:::
+
+Finally, the class includes two additional methods: `addPoints` for storing points in the database and `search` for conducting similarity searches for a query vector within the database:
+
+```ts
+// qdrant.ts
+export class QdrantDatabase {
+	...
+	async addPoints(inputPoints: Point[]) {
+		await this.client.upsert(this.collectionName, {
+			wait: true,
+			points: inputPoints,
+		});
+	}
+
+	async search(query: number[], resultsLimit: number) {
+		return await this.client.search(this.collectionName, {
+			vector: query,
+			limit: resultsLimit,
+		});
+	}
+
+}
+```
+
+## Create a CloudFlare D1 database and a table to store the text
+
+We'll use Node.js to create and configure our CloudFlare D1 database. Before we begin, you'll need to choose either a CloudFlare Worker or a CloudFlare Page for your project, depending on your specific needs.
+
+In this separate [tutorial](/blog/tutorials/chatbot-part1), I explain how to create a project with AstroJS and Cloudflare Pages: [link to AstroJS documentation](https://docs.astro.build/en/guides/integrations-guide/cloudflare/).
+
+Now, let's create a database within your project using the following command:
+
+```bash
+npx wrangler d1 create rag-database
+```
+
+**The first time you run this command, it will open your browser to prompt you to log in to your CloudFlare account.** I've named the database `rag-database`, but feel free to choose a different name if desired. This command will also generate the following lines in your terminal with a valid ID:
+
+```toml
+[[d1_databases]]
+binding = "DB" # available in your Worker on env.DB
+database_name = "prod-d1-tutorial"
+database_id = "<unique-ID-for-your-database>"
+```
+
+Copy these lines into your `wrangler.toml` configuration file, which was created when you initialised the project with Wrangler. We'll use the database ID to connect to the database later.
+
+:::note
+The `wrangler` command-line interface is Cloudflare’s tool for managing and deploying Workers applications and D1 databases in your terminal. It was installed when you used `npm create cloudflare@latest` to initialize your new project.
+:::
+
+Finally let's create a table. In this application, we’ll create a `notes` table in D1, which will allow us to store notes and later retrieve them with the ID field stored in Qdrant. To create this table, run a SQL command using `wrangler d1 execute`:
+
+```bash
+npx wrangler d1 execute rag-database --remote --command "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY, text TEXT NOT NULL)"
+```
+
+:::tip
+You can test if the command worked by going to your CloudFlare dashboard and under `Woekers & Pages` menu select the `D1 SQL Database` option. From there you can interact with your database manually. Create, delete and modify existing tables.
+:::
+
+Finally, you can also test the database by adding one entry to your table:
+
+```bash
+npx wrangler d1 execute rag-database --remote --command "INSERT INTO notes (text) VALUES ('The best pizza topping is pepperoni')"
+```
+
+### Generate a CloudFlare API token
+
+Before moving on to the next part, it's necessary to create an API token for making calls to the CloudFlare D1 and Workers AI APIs.
+
+To create the token, navigate to the "My Profile" page, which is located in the drop-down menu when you click on the user logo in the top right corner of the CloudFlare dashboard. Once there, go to "API Tokens" and select "Create Token." Assign a desired name to the token and add the following permissions:
+
+import CloudFlareTokenImg from "@/images/blog/Tutorials/2_Data_ingestion_RAG/Pasted image 20241002191051.png";
+
+<Image src={CloudFlareTokenImg} alt="Where the API token is located in the CloudFlare dashboard" />
+
+After completing the remaining steps, securely store the API token in a private location. We'll use it in the next part of the tutorial.
+
+Now that we've completed the setup, we're ready to start storing our processed data in both databases. Let's see how to do that in the next part of this tutorial.

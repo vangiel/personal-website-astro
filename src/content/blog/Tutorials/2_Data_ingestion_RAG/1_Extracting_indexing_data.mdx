@@ -1,0 +1,190 @@
+---
+title: "Tutorial: First Step in a RAG pipeline, Data Ingestion (Part 1) - Extracting and Indexing Data from Documents using LangChain."
+pubDate: "Oct 02 2024"
+heroImage: "@/images/blog/Tutorials/2_Data_ingestion_RAG/frontmatter.png"
+imageAlt: "Frontmatter of the page which consists of a scheme of the indexing part of a RAG  pipeline."
+tags: ["Tutorials", "Web Development", "AI"]
+slug: "tutorials/data-ingestion-part1"
+---
+
+import Caption from "@/components/starlight/Caption.astro";
+import { Image } from "astro:assets";
+
+This tutorial will guide you through the process of data loading and indexing which is the first part of a RAG pipeline. But first, what is a RAG pipeline? And what parts does it have? **RAG**, or **Retrieval Augmented Generation**, is a technique that enhances the capabilities of large language models (LLMs) by providing them with relevant information from external sources. The steps in a RAG pipeline are essentially the following two:
+
+1. **Document ingestion:** What we want to do in this step is to extract relevant information from documents in various formats (pdf, video, websites, markdown...) and pre-process it so it can be easily store in a vector database. Once stored, we can easily retrieve this information later using a similarity search for context to our LLM.
+2. **Retrieval of relevant information and response generation**: When a user query is received, the RAG pipeline searches through dataset created in the previous step to find the most pertinent information related to the query. For this, vector databases are key since they can do the search much faster using a vector embedded system. This retrieved information is then fed to the LLM as context. The LLM, now equipped with additional context, can generate a more comprehensive and relevant response to the user's query.
+
+As we discussed, this tutorial focuses on data ingestion, the first step in the RAG pipeline. This step can be further divided into four sub-steps, which are represented in [Fig. 1](#fig-1).
+
+import RAGWorkflowImg from "@/images/blog/Tutorials/2_Data_ingestion_RAG/RAGWorkflow.png";
+
+<Image src={RAGWorkflowImg} alt="Scheme of a RAG pipeline workflow." />
+<Caption number="1"> Complete scheme of a RAG pipeline. </Caption>
+
+In more detail the steps and the technologies used in each of them are as follows:
+
+1. **Data loading and data splitting**: We'll explore how to extract data from a PDF document and a website using [LangChain](https://www.langchain.com/). This powerful Python framework offers tools for data extraction from various sources (explore their website for more details). LangChain will then be used to split the data into semantic chunks suitable for the embedding model. This step, highlighted in red in the figure, is covered in the first part of the tutorial.
+2. **Data embedding**: We'll utilize a model to transform the preprocessed text from step 1 into vectors. Sentences with similar meanings will be mapped to vectors close together in the vector space. We'll leverage a model from [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/models/) to generate this vectors.
+3. **Data storing**: Finally, we'll store the generated vectors in a vector database (vector DB) for future retrieval. This tutorial utilises [Qdrant](https://qdrant.tech/), which offers a generous free tier that meets our needs. However, since Qdrant doesn't allow storing text alongside vectors, we'll also store the raw text in a [Cloudflare D1](https://developers.cloudflare.com/d1/) database for later retrieval.
+
+:::note[Info]
+You can find all the scripts and code of this tutorial in its [GitHub page.](https://github.com/vangiel/Tutorials/tree/main/Chabot-in-AstroJS)
+:::
+
+Great! Let's dive into the tutorial and explore the data ingestion process step-by-step.
+
+## Prerequisites
+
+Before starting this tutorial, ensure familiarity with Cloudflare Workers or Cloudflare Pages, including `wrangler` usage and installation. For a brief overview of deploying a Cloudflare Page with AstroJS, refer to the first part of [[Chatbot in AstroJS with CloudFlare Workers AI|my tutorial for creating a Chatbot in AstroJS]].
+Additionally, you'll need the following prerequisites:
+
+:::tip[Prerequisites]
+
+- Sing up for a [Cludflare account](https://dash.cloudflare.com/sign-up/workers-and-pages)
+- Sing up for a [Qdrant account](https://cloud.qdrant.io/login)
+- Install [npm](https://docs.npmjs.com/getting-started)
+- Install [Node.js](https://nodejs.org/en/)
+  :::
+
+As we'll be writing Python scripts for data loading and splitting, you'll need to install several Python packages.
+
+:::tip
+It's recommended to create a virtual environment (e.g., using `venv`) before installing the packages to avoid conflicts with other projects.
+:::
+
+Since we're using the LangChain framework, start by installing the core package:
+
+```bash
+python3 -m pip install langchain
+```
+
+In addition to the main package, we'll need to install some dependencies for our script to function properly:
+
+```txt
+// requirements.txt
+langchain-community==0.3.0
+pypdf==5.0.0
+bs4==0.0.2
+```
+
+You can save those on a `requirements.txt` file and run:
+
+```bash
+python3 -m pip install -r /path/to/requirements.txt
+```
+
+Or you can install them one by one.
+
+## Python Script for Data Loading and Data Splitting
+
+This section outlines the creation of a script to extract and index data from a PDF document or a website, marking the first step in the data ingestion phase of the RAG pipeline. I have named the script `read-document.py`.
+
+### Structure of the Script
+
+The script's structure is straightforward, incorporating an argument parser for cleaner and more user-friendly usage. The main function will include the following:
+
+```python
+// read-document.py
+import argparse
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Take the source type and the path to the source.')
+    parser.add_argument('source_path', type=str, help='The path to the source.')
+    parser.add_argument('-s', '--chunk_size', type=int, default=450, help='Chunk size for data splitting')
+    parser.add_argument('-o', '--overlap', type=int, default=20, help='Chunk overlap for data splitting')
+    parser.add_argument('-t', '--source_type', type=str, default='pdf', choices=['pdf', 'web'],
+                        help='The type of the source. The options are: pdf, web.')
+
+
+    args = parser.parse_args()
+    r_splitter = splitter(args.chunk_size, args.overlap)
+    split_text = []
+    if args.source_type == 'pdf':
+        pages = load_pdf_document(args.source_path)
+        split_text = r_splitter.split_documents(pages)
+    elif args.source_type == 'web':
+        docs = load_web_document(args.source_path)
+        split_text = r_splitter.split_documents(docs)
+
+    save_document(split_text)
+```
+
+This structure allows you to provide the source (PDF path or URL) and optionally specify the chunk size and the overlap for the data splitting. The functions `load_pdf_document`, `load_web_document`, `r_splitter`, and `save_document` are defined at the beginning of the document, and their functionalities are explained in the following sections. To execute the script, use the following command in your terminal:
+
+```bash
+python3 read-document.py [-h] [-s CHUNK_SIZE] [-o OVERLAP] [-t {pdf,web}] source_path
+```
+
+:::note
+Note that you must specify a path to a PDF file in your system if you select the PDF type or a URL if you select the web type. Also, don't forget to activate your virtual environment if you're using one.
+:::
+
+### Functions to Load the Data
+
+The `load_pdf_document` and `load_web_document` functions will load the raw data from the PDF document and the specified URL, respectively. They utilise the loader functions from LangChain:
+
+```python
+// read-document.py
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import WebBaseLoader
+
+
+def load_pdf_document(file_path):
+    document_loader = PyPDFLoader(file_path)
+    pages = document_loader.load()
+    return pages
+
+
+def load_web_document(url):
+    web_loader = WebBaseLoader(url)
+    docs = web_loader.load()
+    return docs
+```
+
+### Splitting the Text into Chunks
+
+After obtaining the raw data from the loaders, we need to split it into meaningful chunks that can be stored in a vector database. These chunks will then be retrieved and used as contexts for our LLM.
+
+To accomplish this, we'll employ another utility from LangChain called `RecursiveCharacterTextSplitter`:
+
+```python
+// read-document.py
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+def splitter(size, overlap):
+    # Initialize the text splitter
+    return RecursiveCharacterTextSplitter(
+        chunk_size=size,
+        chunk_overlap=overlap,
+        separators=["\n\n", "\n", " ", ""]
+    )
+```
+
+The `RecursiveCharacterTextSplitter` utilizes line breaks (`\n`) and spaces as separators. It prioritizes splitting on these characters first, aiming to keep paragraphs, sentences, and words together whenever possible. This approach ensures we maintain the strongest semantic relationships within the text chunks.
+
+:::tip
+You have more information about LagnChain text splitters on [their website](https://python.langchain.com/docs/concepts/#text-splitters)
+:::
+
+### Saving the Data in a JSON file
+
+Finally, once the text has been split into semantic chunks, it needs to be stored for later processing and storage in a vector database. I've chosen to save the text in a JSON file using the following function:
+
+```python
+// read-document.py
+import json
+
+
+def save_document(text_list):
+    text_chunks = []
+    for text in text_list:
+        # text_chunks.append([text.page_content, text.metadata])
+        text_chunks.append(text.page_content)
+    with open('data.json', 'w', encoding='utf-8') as file:
+        json.dump(text_chunks, file, ensure_ascii=False, indent=4)
+```
+
+As noted, we're only storing the text and discarding the metadata for this tutorial. This is because we're focusing on using plain text for information retrieval with the LLM. If desired, you can choose to save the metadata for future use.
+
+This concludes the first part of this tutorial. Let's move on to the next section to set up Qdrant and CloudFlare D1 databases.

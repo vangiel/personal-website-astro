@@ -5,7 +5,9 @@ import FormattedDate from "@/components/FormattedDate.astro";
 import Layout from "@/layouts/Layout.astro";
 import "@/styles/blog/blog-asides.css";
 import "@/styles/blog/blog-file-tree.css";
+import "@/styles/blog/blog-table.css";
 import "@/styles/starlight-styles.css";
+import "@fontsource/source-code-pro";
 import { Image } from "astro:assets";
 
 import { type CollectionEntry } from "astro:content";
@@ -229,11 +231,11 @@ const currentPath = Astro.url.pathname;
 		}
 
 		:global(code) {
-			font-size: 0.9em;
+			font-size: 0.75em;
 			color: oklch(var(--clr-text) / 0.8);
 			background-color: oklch(var(--clr-accent) / 0.3);
 			padding-inline: 0.3em;
-			padding-block-end: 0.1em;
+			font-family: "Source Code Pro";
 		}
 	}
 </style>

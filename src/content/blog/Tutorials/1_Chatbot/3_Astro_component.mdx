@@ -1,5 +1,5 @@
 ---
-title: "Tutorial: Chatbot in AstroJS with CloudFlare Workers AI  (Part 3) - Creating the chatbot component in AstroJS"
+title: "Tutorial: Chatbot in AstroJS with CloudFlare Workers AI  (Part 3) - Creating the Chatbot Component in AstroJS"
 pubDate: "Jul 20 2024"
 heroImage: "@/images/blog/Tutorials/1_Chatbot/frontmatter.png"
 imageAlt: "Frontmatter of the page which consists of an AI generated image of a chatbot."
@@ -10,7 +10,7 @@ slug: "tutorials/chatbot-part3"
 import ChatBot from "@/components/ChatBot.astro";
 import { Image } from "astro:assets";
 
-<ChatBot title="Chat with an AI" mode="general" bubble={true}/>
+<ChatBot title="Chat with an AI" mode="general" bubble={true} />
 
 Finally, let's build the chatbot client component using AstroJS to talk to our endpoint.
 This page also shows off the final result. You can find a chat bubble icon like this at the bottom of the page to start chatting:
@@ -21,9 +21,8 @@ import bubbleChatImg from "@/images/blog/Tutorials/1_Chatbot/bubbleChat.png";
 
 ## Setting up the Component
 
-First, create a new file named `ChatBot.astro` in the `src/components` directory. 
+First, create a new file named `ChatBot.astro` in the `src/components` directory.
 The HTML code will be very simple (you can add complexity depending on your needs):
-
 
 ```html
 // src/components/ChatBot.astro
@@ -40,24 +39,25 @@ The HTML code will be very simple (you can add complexity depending on your need
 	</form>
 </aside>
 ```
+
 As you can see, the HTML is pretty basic, using just three elements:
 
 1. A header to add a title to the chat (optional).
 2. An unordered list to show the message history. We'll fill this with JavaScript later.
-3. A form with an input field and a submit button. Type your message in the input field and hit submit to send it to the AI. 
+3. A form with an input field and a submit button. Type your message in the input field and hit submit to send it to the AI.
 
 Note that adding `autocomplete="off"` to the input field can prevent the browser from suggesting messages.
 
 :::tip
- I haven't included styling in this tutorial, so feel free to get creative! You can see an example of chat styling on this page – I even added icons to open and close the chat.
-You can find the code for this full project (including my styling) in the [GitHub repository](https://github.com/vangiel/Tutorials-chatbot-astro).
+I haven't included styling in this tutorial, so feel free to get creative! You can see an example of chat styling on this page – I even added icons to open and close the chat.
+You can find the code for this full project (including my styling) in the [GitHub repository](https://github.com/vangiel/Tutorials/tree/main/Chabot-in-AstroJS).
 :::
 
 The real magic happens in the JavaScript code.
 To keep things organized, I have created a separate file called `chatbot_utils.ts` in the `src/lib` directory for the logic.
 This file will export two functions: `initChat()` to set up the chatbot and `sendMessage()` to send messages to the server.
 
-Let's import these functions into our Astro component and use them like this: 
+Let's import these functions into our Astro component and use them like this:
 
 ```ts
 // src/components/ChatBot.astro
@@ -78,7 +78,7 @@ Let's dive into the `chatbot_utils.ts` file in the `src/lib` directory where the
 
 ### The `initChat()` Function
 
-First up, we'll explore the `initChat()` function, which sets everything up when the page loads. 
+First up, we'll explore the `initChat()` function, which sets everything up when the page loads.
 
 ```ts
 // src/lib/chatbot_utils.ts
@@ -101,10 +101,11 @@ export function initChat() {
 	}
 }
 ```
+
 **Improved Text:**
 
-This function starts by loading the previous conversation from session storage using the `retrieveMessages()` function (we'll cover that [here](#utility-functions)). 
-It then clears the message history display and either adds a welcome message if there's no saved conversation or repopulates the chat with the loaded messages. 
+This function starts by loading the previous conversation from session storage using the `retrieveMessages()` function (we'll cover that [here](#utility-functions)).
+It then clears the message history display and either adds a welcome message if there's no saved conversation or repopulates the chat with the loaded messages.
 
 ### The `sendMessage()` function
 
@@ -126,7 +127,7 @@ export async function sendMessage() {
 
 	const payload = messages;
 	$input.value = "";
-	... 
+	...
 }
 ```
 
@@ -136,9 +137,9 @@ We create a `RoleScopedChatInput` object using the input value and add it to the
 Then, we create an HTML list item for the user's message using `createChatMessageElement()` (we'll see that [later](#utility-functions)) and append it to the chat history.
 Finally, we clear the input field.
 
-Next, let's see how to generate and display the assistant's response: 
+Next, let's see how to generate and display the assistant's response:
 
-```ts 
+```ts
 // src/lib/chatbot_utils.ts
 import { marked } from "marked";
 
@@ -178,6 +179,7 @@ export async function sendMessage() {
 	storeMessages(messages);
 }
 ```
+
 We create the assistant message following the type `RoleScopedChatInput` as before and we append it to the chat history.
 Note that the content field is empty, we are going to fill it later with the response from the AI model.
 The `createChatMessageElement()` also return the text element in this case to be able to append the response to the message.
@@ -186,21 +188,20 @@ We use the `$messages.scrollTop = $messages.scrollHeight;` line to scroll to the
 Following this, the function sends a fetch request to the `/api/chatbot` endpoint, including the current message history.
 As the endpoint yields a stream of response data, the function processes each chunk by appending it to the assistant's message and converting any Markdown formatting using the [marked](https://marked.js.org/) library.
 Once the full response is received, the completed assistant message element is added to the chat history, and the updated message history is stored in session storage.
- 
-:::caution
-It's important to consider adding error handling mechanisms to manage potential issues and enhance the user experience with features like typing indicators. 
-:::
 
+:::caution
+It's important to consider adding error handling mechanisms to manage potential issues and enhance the user experience with features like typing indicators.
+:::
 
 ### Utility functions
 
-We've used three helper functions so far: `retrieveMessages()`, `storeMessages()`, and `createChatMessageElement()`. 
-Let's break down the first two, which are pretty straightforward. They handle storing and retrieving the conversation history in session storage. 
+We've used three helper functions so far: `retrieveMessages()`, `storeMessages()`, and `createChatMessageElement()`.
+Let's break down the first two, which are pretty straightforward. They handle storing and retrieving the conversation history in session storage.
 
-To store the messages, we convert the list of `RoleScopedChatInput` objects into a string using `JSON.stringify()`. 
+To store the messages, we convert the list of `RoleScopedChatInput` objects into a string using `JSON.stringify()`.
 For retrieval, we parse the stored string back into a list of objects using `JSON.parse()`:
 
-```ts 
+```ts
 // src/lib/chatbot_utils.ts
 function retrieveMessages() {
 	const msgJSON = sessionStorage.getItem("messages");
@@ -213,14 +214,12 @@ function retrieveMessages() {
 function storeMessages(msgs: RoleScopedChatInput[]) {
 	sessionStorage.setItem("messages", JSON.stringify(msgs));
 }
-
 ```
 
 The last piece of the puzzle is the `createChatMessageElement()` function.
 This function takes a `RoleScopedChatInput` object as input and creates an HTML list item (`li`) element to represent the message.
 Inside the list item, it creates a text element (`div`) to hold the actual message content.
-This function is crucial for building the visual representation of the chat conversation. 
-
+This function is crucial for building the visual representation of the chat conversation.
 
 ```ts
 const date = new Date();
@@ -264,33 +263,28 @@ The `createChatMessageElement()` function determines whether the message is from
 For assistant messages, an optional loading indicator (`span` with the class `loader`) can be added to display while the response is being processed.
 You can style this `loader` to show a loading animation.
 
-To display timestamps, a `Date` object is created, and its timestamp is extracted. 
+To display timestamps, a `Date` object is created, and its timestamp is extracted.
 his timestamp is then included in the message header. You can see an example of this in the chat on this page.
-
 
 ## Using the chatbot component in Astro
 
 Finally, to use your chatbot in your AstroJS project, import it into your Astro page and initialize it:
 
 ```astro
-// src/pages/index.astro
----
-import ChatBot from "@/components/ChatBot.astro";
----
+// src/pages/index.astro import ChatBot from "@/components/ChatBot.astro";
 
 <Layout>
 	<ChatBot />
-<Layout />
+	<Layout /></Layout
+>
 ```
 
-## Conclusion 
+## Conclusion
 
-This tutorial has guided you through building a basic chatbot component using AstroJS. The complete code can be found in the [GitHub repository](https://github.com/vangiel/Tutorials-chatbot-astro).
+This tutorial has guided you through building a basic chatbot component using AstroJS. The complete code can be found in the [GitHub repository](https://github.com/vangiel/Tutorials/tree/main/Chabot-in-AstroJS).
 
 While you acknowledge there's room for improvement in the code, it serves as a solid foundation for understanding chatbot development in AstroJS using CloudFlare AI models.
 Feel free to leave comments with feedback or suggestions for further improvement.
-Additionally, the discussion section is open for any questions you may have about specific parts of the tutorial.  
+Additionally, the discussion section is open for any questions you may have about specific parts of the tutorial.
 
 I hope you found this tutorial helpful!
-
-
