@@ -14,7 +14,7 @@ const normalizedPathName =
 
 const pages = [
 	{ name: "Home", href: "/" },
-	{ name: "Projects", href: "/projects" },
+	{ name: "PhD Projects", href: "/projects" },
 	{ name: "Publications", href: "/publications" },
 	{ name: "Blog", href: "/blog", active: normalizedPathName.startsWith("/blog") },
 	{ name: "Contact me", href: "/contact-me" },
@@ -41,7 +41,7 @@ const pages = [
 				pages.map(({ name, href, active }) => (
 					<li role="none">
 						<a class:list={["menu-item", { "current-page": active }]} href={href} role="menuitem">
-							<Icon name={`nav-icons/${name.split(" ")[0].toLowerCase()}`} />
+							<Icon name={`nav-icons/${name.split(" ").join("").toLowerCase()}`} />
 							{name}
 						</a>
 					</li>

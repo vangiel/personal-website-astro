@@ -7,6 +7,12 @@ import FormattedDate from "@/components/FormattedDate.astro";
 type Props = CollectionEntry<"blog">["data"] & { slug: string };
 
 const { title, pubDate: date, tags, heroImage, imageAlt, slug } = Astro.props;
+
+// Change the title of the tutorials posts that have more than one part.
+let newTitle: string = title;
+if (title.includes("(Part ")) {
+	newTitle = title.split("(Part ")[0];
+}
 ---
 
 <article transition:name={title}>
@@ -14,7 +20,7 @@ const { title, pubDate: date, tags, heroImage, imageAlt, slug } = Astro.props;
 		<div class="card-wrapper">
 			<Image class="image" src={heroImage} alt={imageAlt as string} />
 			<div class="copy">
-				<h3 class="title">{title}</h3>
+				<h3 class="title">{newTitle}</h3>
 				<div class="tags">
 					{tags.map((tag) => <span>{tag}</span>)}
 				</div>
