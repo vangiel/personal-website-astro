@@ -33,6 +33,10 @@ export async function POST({ request, locals }: APIContext) {
 			const { results } = await query.bind(vecId).all();
 			if (results) notes.push(...results.map((vec) => vec.text as String));
 		}
+	} else {
+		notes.push(
+			"There was a problem querying the vector database. Therefore there is no context for the chatbot."
+		);
 	}
 
 	const contextMessage = notes.length
