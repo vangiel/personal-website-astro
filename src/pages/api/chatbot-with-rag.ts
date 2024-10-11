@@ -56,7 +56,7 @@ export async function POST({ request, locals }: APIContext) {
 		{
 			role: "system" as const,
 			content:
-				"Don't make up answers that are not in the context and try to keep the answer as concise as possible.",
+				"Don't make up answers that are not in the context and try to keep the answer as concise as possible. If you don't know the answer, say you don't know.",
 		},
 	];
 
