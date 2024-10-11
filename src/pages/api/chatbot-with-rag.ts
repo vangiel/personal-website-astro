@@ -2,9 +2,10 @@ import { QdrantDatabase } from "@/lib/qdrant";
 import type { APIContext } from "astro";
 export const prerender = false;
 
+// Connect to Qdrant Cloud
+const Qdrant = new QdrantDatabase("daniel-info", 768);
+
 export async function POST({ request, locals }: APIContext) {
-	// Connect to Qdrant Cloud
-	const Qdrant = new QdrantDatabase("daniel-info", 768);
 	// Get the bindings for Cloudflare Workers AI and D1 database
 	const { AI, DB } = locals.runtime.env;
 	// Get the request body from the user
@@ -33,11 +34,9 @@ export async function POST({ request, locals }: APIContext) {
 			const { results } = await query.bind(vecId).all();
 			if (results) notes.push(...results.map((vec) => vec.text as String));
 		}
-	} else {
-		notes.push(
-			"There was a problem querying the vector database. Therefore there is no context for the chatbot."
-		);
 	}
+
+	// console.log("Notes: ", notes);
 
 	const contextMessage = notes.length
 		? `Context:\n${notes.map((note) => `- ${note}`).join("\n")}`
@@ -62,7 +61,7 @@ export async function POST({ request, locals }: APIContext) {
 	];
 
 	messages = messages.concat(payload);
-	console.log(messages);
+	// console.log(messages);
 
 	let eventSourceStream: ReadableStream<Uint8Array> | undefined;
 	let retryCount = 0;
