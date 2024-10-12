@@ -11,7 +11,9 @@ import remarkMath from "remark-math";
 export default defineConfig({
 	site: "https://danielrodriguezcriado.es",
 	integrations: [
-		icon(),
+		icon({
+			include: {},
+		}),
 		starlight({
 			title: "Dr Daniel projects",
 			expressiveCode: {
@@ -70,6 +72,10 @@ export default defineConfig({
 	markdown: {
 		remarkPlugins: [remarkMath],
 		rehypePlugins: [rehypeMathJax],
+	},
+	i18n: {
+		defaultLocale: "en",
+		locales: ["en"],
 	},
 	vite: {
 		ssr: {
